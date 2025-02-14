@@ -6,6 +6,7 @@ import { buttonVariantsConfig } from "@/components/core/Button/variants";
 
 // Extract variant options directly from the config
 const variantOptions = Object.keys(buttonVariantsConfig.variants.variant);
+const colorOptions = Object.keys(buttonVariantsConfig.variants.color);
 const sizeOptions = Object.keys(buttonVariantsConfig.variants.size);
 
 const meta = {
@@ -16,7 +17,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A versatile button component that supports different variants, sizes, and states.",
+          "A versatile button component that supports different variants, sizes, colors, and states.",
       },
     },
   },
@@ -30,44 +31,44 @@ const meta = {
         defaultValue: { summary: buttonVariantsConfig.defaultVariants.variant },
       },
     },
+    color: {
+      description: "Color scheme of the button",
+      options: colorOptions,
+      control: { type: "select" },
+      table: {
+        defaultValue: { summary: buttonVariantsConfig.defaultVariants.color },
+      },
+    },
     size: {
       description: "Size of the button",
       options: sizeOptions,
       control: { type: "select" },
+    },
+    loading: {
+      description: "Loading state of the button",
+      control: "boolean",
+    },
+    loadingPosition: {
+      description: "Position of the loading indicator",
+      options: ["start", "center", "end"],
+      control: { type: "select" },
       table: {
-        defaultValue: { summary: buttonVariantsConfig.defaultVariants.size },
+        defaultValue: { summary: "center" },
       },
+    },
+    disableElevation: {
+      description: "Disable elevation (shadow)",
+      control: "boolean",
     },
     fullWidth: {
       description: "Whether the button should take full width",
       control: "boolean",
-      table: {
-        defaultValue: {
-          summary: String(buttonVariantsConfig.defaultVariants.fullWidth),
-        },
-      },
     },
-    isLoading: {
-      description: "Loading state of the button",
-      control: "boolean",
-    },
-    disabled: {
-      description: "Disabled state of the button",
-      control: "boolean",
-    },
-    children: {
-      description: "Button content",
-      control: "text",
-    },
-    leftIcon: {
+    startIcon: {
       description: "Icon element to show before the button text",
     },
-    rightIcon: {
+    endIcon: {
       description: "Icon element to show after the button text",
-    },
-    className: {
-      description: "Additional CSS classes",
-      control: "text",
     },
   },
   args: {
@@ -83,70 +84,154 @@ type ButtonLinkStory = StoryObj<typeof Button> & {
   args: ComponentProps<"a"> & Partial<typeof Button>;
 };
 
-export const Primary: Story = {
+// Basic variants
+export const Contained: Story = {
   args: {
-    variant: "primary",
+    variant: "contained",
+    color: "primary",
   },
 };
 
-export const Secondary: Story = {
+export const Text: Story = {
   args: {
-    variant: "secondary",
+    variant: "text",
+    color: "primary",
   },
 };
 
-export const Outline: Story = {
+export const Outlined: Story = {
   args: {
-    variant: "outline",
+    variant: "outlined",
+    color: "primary",
   },
 };
 
-export const Ghost: Story = {
+// Color variants
+export const Success: Story = {
   args: {
-    variant: "ghost",
+    color: "success",
   },
 };
 
+export const Error: Story = {
+  args: {
+    color: "error",
+  },
+};
+
+export const Warning: Story = {
+  args: {
+    color: "warning",
+  },
+};
+
+export const Info: Story = {
+  args: {
+    color: "info",
+  },
+};
+
+// Sizes
 export const Small: Story = {
   args: {
-    size: "sm",
+    size: "small",
   },
 };
 
 export const Medium: Story = {
   args: {
-    size: "md",
+    size: "medium",
   },
 };
 
 export const Large: Story = {
   args: {
-    size: "lg",
+    size: "large",
   },
 };
 
-export const FullWidth: Story = {
-  args: {
-    fullWidth: true,
-  },
-};
-
+// States
 export const Loading: Story = {
   args: {
-    isLoading: true,
+    loading: true,
+    children: "Loading",
   },
 };
 
-export const Disabled: Story = {
+export const LoadingStart: Story = {
   args: {
-    disabled: true,
+    loading: true,
+    loadingPosition: "start",
+    children: "Loading",
   },
+};
+
+export const LoadingEnd: Story = {
+  args: {
+    loading: true,
+    loadingPosition: "end",
+    children: "Loading",
+  },
+};
+
+// Example showing all variants together
+export const ColorShowcase: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-4">
+        <Button color="primary">Primary</Button>
+        <Button color="secondary">Secondary</Button>
+        <Button color="success">Success</Button>
+        <Button color="error">Error</Button>
+        <Button color="warning">Warning</Button>
+        <Button color="info">Info</Button>
+      </div>
+      <div className="flex gap-4">
+        <Button variant="outlined" color="primary">
+          Primary
+        </Button>
+        <Button variant="outlined" color="success">
+          Success
+        </Button>
+        <Button variant="outlined" color="error">
+          Error
+        </Button>
+      </div>
+      <div className="flex gap-4">
+        <Button variant="text" color="primary">
+          Primary
+        </Button>
+        <Button variant="text" color="success">
+          Success
+        </Button>
+        <Button variant="text" color="error">
+          Error
+        </Button>
+      </div>
+    </div>
+  ),
+};
+
+export const LoadingStates: Story = {
+  render: () => (
+    <div className="flex gap-4">
+      <Button loading loadingPosition="start">
+        Start
+      </Button>
+      <Button loading loadingPosition="center">
+        Center
+      </Button>
+      <Button loading loadingPosition="end">
+        End
+      </Button>
+    </div>
+  ),
 };
 
 export const WithIcons: Story = {
   args: {
-    leftIcon: "👈",
-    rightIcon: "👉",
+    startIcon: "👈",
+    endIcon: "👉",
     children: "With Icons",
   },
 };
@@ -154,7 +239,7 @@ export const WithIcons: Story = {
 // Example of using as a different element
 export const AsLink: ButtonLinkStory = {
   args: {
-    as: "a",
+    component: "a",
     href: "#",
     children: "Link Button",
   },
@@ -162,27 +247,8 @@ export const AsLink: ButtonLinkStory = {
 
 export const AsCustomElement: ButtonStory = {
   args: {
-    as: "div",
+    component: "div",
     role: "button",
     children: "Custom Element Button",
   },
-};
-
-// Example showing all variants together
-export const AllVariants: Story = {
-  render: () => (
-    <div className="flex flex-col gap-4">
-      <div className="flex gap-4">
-        <Button variant="primary">Primary</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="outline">Outline</Button>
-        <Button variant="ghost">Ghost</Button>
-      </div>
-      <div className="flex gap-4">
-        <Button size="sm">Small</Button>
-        <Button size="md">Medium</Button>
-        <Button size="lg">Large</Button>
-      </div>
-    </div>
-  ),
 };
