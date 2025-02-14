@@ -13,3 +13,7 @@
  test-results
  junit.xml
  docs
+ .hygen
+ .github
+ .changeset
+ ./pnpm-lock.yaml
