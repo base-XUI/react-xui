@@ -4,9 +4,14 @@ import { cn } from "@/utils";
 import { buttonVariants } from "./variants";
 
 type ButtonBaseProps = {
-  isLoading?: boolean;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
+  loading?: boolean;
+  loadingPosition?: "start" | "center" | "end";
+  loadingIndicator?: React.ReactNode;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
+  disableFocusRipple?: boolean;
+  disableRipple?: boolean;
+  href?: string;
   type?: "button" | "submit" | "reset";
   component?: React.ElementType;
 } & VariantProps<typeof buttonVariants>;
@@ -20,37 +25,78 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       component,
       className,
       variant,
+      color,
       size,
       fullWidth,
-      isLoading,
-      leftIcon,
-      rightIcon,
+      disableElevation,
+      loading,
+      loadingPosition = "center",
+      loadingIndicator = <span className="h-4 w-4 animate-spin">⌛</span>,
+      startIcon,
+      endIcon,
       children,
       disabled,
+      href,
       type = "button",
       ...rest
     },
-    ref
+    ref,
   ) => {
-    const Component = component || "button";
-    const isDisabled = disabled || isLoading;
+    const Component = href ? "a" : component || "button";
+    const isDisabled = disabled || loading;
+
+    const renderLoadingIndicator = () => (
+      <span
+        className={cn(
+          "inline-flex items-center",
+          loadingPosition === "start" && "mr-2",
+          loadingPosition === "end" && "ml-2",
+        )}
+      >
+        {loadingIndicator}
+      </span>
+    );
+
+    const content = (
+      <>
+        {loading && loadingPosition === "start" && renderLoadingIndicator()}
+        {!loading && startIcon && <span className="mr-2">{startIcon}</span>}
+        {loading && loadingPosition === "center" ? (
+          <span className="flex items-center gap-2">
+            {renderLoadingIndicator()}
+            {children}
+          </span>
+        ) : (
+          children
+        )}
+        {!loading && endIcon && <span className="ml-2">{endIcon}</span>}
+        {loading && loadingPosition === "end" && renderLoadingIndicator()}
+      </>
+    );
 
     return (
       <Component
         ref={ref}
-        className={cn(buttonVariants({ variant, size, fullWidth, className }))}
+        className={cn(
+          buttonVariants({
+            variant,
+            color,
+            size,
+            fullWidth,
+            disableElevation,
+            className,
+          }),
+        )}
         {...rest}
         {...(Component === "button"
           ? { type, disabled: isDisabled }
           : { role: "button", "aria-disabled": isDisabled })}
+        {...(href && { href })}
       >
-        {isLoading && <span className="mr-2 h-4 w-4 animate-spin">⌛</span>}
-        {leftIcon && <span className="mr-2">{leftIcon}</span>}
-        {children}
-        {rightIcon && <span className="ml-2">{rightIcon}</span>}
+        {content}
       </Component>
     );
-  }
+  },
 ) as React.ForwardRefExoticComponent<
   ButtonProps<React.ElementType> & React.RefAttributes<unknown>
 >;
