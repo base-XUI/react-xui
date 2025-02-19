@@ -4,10 +4,12 @@ import {
   TYPOGRAPHY_VARIANTS,
   TYPOGRAPHY_COLORS,
   TYPOGRAPHY_ALIGNMENTS,
-  type TypographyVariant,
-  type TypographyColor,
-  type TypographyAlignment,
 } from "./variants";
+import {
+  TypographyAlignment,
+  TypographyColor,
+  type TypographyVariant,
+} from "./Typography.types";
 
 // Type-safe options
 const variantOptions = Object.keys(TYPOGRAPHY_VARIANTS) as TypographyVariant[];

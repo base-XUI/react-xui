@@ -42,10 +42,6 @@ export const TYPOGRAPHY_ALIGNMENTS = {
   end: "text-end",
 } as const;
 
-export type TypographyVariant = keyof typeof TYPOGRAPHY_VARIANTS;
-export type TypographyColor = keyof typeof TYPOGRAPHY_COLORS;
-export type TypographyAlignment = keyof typeof TYPOGRAPHY_ALIGNMENTS;
-
 export const typographyVariants = cva("whitespace-pre-line", {
   variants: {
     variant: TYPOGRAPHY_VARIANTS,
