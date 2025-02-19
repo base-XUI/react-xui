@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Typography } from "@/components/core/Typography";
+import { Typography } from "./Typography";
 import {
   TYPOGRAPHY_VARIANTS,
   TYPOGRAPHY_COLORS,
@@ -7,17 +7,17 @@ import {
   type TypographyVariant,
   type TypographyColor,
   type TypographyAlignment,
-} from "@/components/core/Typography/variants";
+} from "./variants";
 
 // Type-safe options
 const variantOptions = Object.keys(TYPOGRAPHY_VARIANTS) as TypographyVariant[];
 const colorOptions = Object.keys(TYPOGRAPHY_COLORS) as TypographyColor[];
 const alignOptions = Object.keys(
-  TYPOGRAPHY_ALIGNMENTS
+  TYPOGRAPHY_ALIGNMENTS,
 ) as TypographyAlignment[];
 
 const meta = {
-  title: "Core/Typography",
+  title: "System Design/Typography",
   component: Typography,
   parameters: {
     layout: "centered",
@@ -152,7 +152,7 @@ export const AllColors: Story = {
 // Example showing different alignments
 export const Alignments: Story = {
   render: () => (
-    <div className="flex flex-col gap-4 w-[400px]">
+    <div className="flex w-[400px] flex-col gap-4">
       {alignOptions.map((align) => (
         <Typography key={align} align={align}>
           {align} aligned text

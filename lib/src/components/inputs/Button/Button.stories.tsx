@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { Button } from "@/components/core/Button";
-import type { ComponentProps } from "@/types/polymorphic";
-import { buttonVariantsConfig } from "@/components/core/Button/variants";
+import { Button } from "./Button";
+import { buttonVariantsConfig } from "./variants";
 
 // Extract variant options directly from the config
 const variantOptions = Object.keys(buttonVariantsConfig.variants.variant);
@@ -10,7 +9,7 @@ const colorOptions = Object.keys(buttonVariantsConfig.variants.color);
 const sizeOptions = Object.keys(buttonVariantsConfig.variants.size);
 
 const meta = {
-  title: "Core/Button",
+  title: "Inputs/Button",
   component: Button,
   parameters: {
     layout: "centered",
@@ -80,9 +79,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 type ButtonStory = StoryObj<typeof Button>;
-type ButtonLinkStory = StoryObj<typeof Button> & {
-  args: ComponentProps<"a"> & Partial<typeof Button>;
-};
+type ButtonLinkStory = StoryObj<typeof Button>;
 
 // Basic variants
 export const Contained: Story = {

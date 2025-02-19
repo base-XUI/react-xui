@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cn } from "@/utils";
+import { cn } from "@/utils/cn";
 import type { VariantProps } from "class-variance-authority";
 import { typographyVariants } from "./variants";
 
@@ -55,7 +55,7 @@ const Typography = React.forwardRef<HTMLElement, TypographyProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const Tag =
       component || (variant && !paragraph ? HTML_MAPPINGS[variant] : "p");
@@ -72,14 +72,14 @@ const Typography = React.forwardRef<HTMLElement, TypographyProps>(
           gutterBottom && "mb-2",
           paragraph && "mb-4",
           fontClass,
-          className
+          className,
         )}
         {...props}
       >
         {children}
       </Tag>
     );
-  }
+  },
 );
 
 Typography.displayName = "Typography";
