@@ -6,6 +6,7 @@ export type ButtonBaseProps = {
   loading?: boolean;
   loadingPosition?: "start" | "center" | "end";
   loadingIndicator?: React.ReactNode;
+  disabled?: boolean;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   disableFocusRipple?: boolean;
