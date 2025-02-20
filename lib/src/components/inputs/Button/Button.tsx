@@ -2,7 +2,7 @@ import React from "react";
 import { buttonVariants } from "./variants";
 import type { ButtonProps, ButtonComponent } from "./Button.types";
 import { cn } from "@/utils/cn";
-import { Slot } from "../../core/Slot";
+import { Slot } from "../../core/Slot/Slot";
 
 const ButtonComponent = React.forwardRef(function Button(
   {
