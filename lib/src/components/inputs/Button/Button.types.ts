@@ -11,11 +11,29 @@ export type ButtonBaseProps = {
   endIcon?: React.ReactNode;
   disableFocusRipple?: boolean;
   disableRipple?: boolean;
-  href?: string;
   type?: "button" | "submit" | "reset";
-  component?: React.ElementType;
 } & VariantProps<typeof buttonVariants>;
 
+type AsProp<C extends React.ElementType> = {
+  component?: C;
+};
+
+type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
+
+export type PolymorphicComponentProp<
+  C extends React.ElementType,
+  Props = object,
+> = React.PropsWithChildren<Props & AsProp<C>> &
+  Omit<React.ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
+
 export type ButtonProps<C extends React.ElementType = "button"> =
-  ButtonBaseProps &
-    Omit<React.ComponentPropsWithoutRef<C>, keyof ButtonBaseProps>;
+  PolymorphicComponentProp<C, ButtonBaseProps>;
+
+export type PolymorphicRef<C extends React.ElementType> =
+  React.ComponentPropsWithRef<C>["ref"];
+
+export type ButtonComponent = (<C extends React.ElementType = "button">(
+  props: ButtonProps<C> & { ref?: PolymorphicRef<C> },
+) => React.ReactElement | null) & {
+  displayName: string;
+};
