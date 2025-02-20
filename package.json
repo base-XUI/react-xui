@@ -4,15 +4,15 @@
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/umd/react-xui.umd.js",
-  "module": "./dist/es/main.js",
-  "types": "./dist/types/main.d.ts",
+  "module": "./dist/es/src/index.js",
+  "types": "./dist/types/index.d.ts",
   "files": [
     "dist"
   ],
   "exports": {
     ".": {
-      "types": "./dist/types/main.d.ts",
-      "import": "./dist/es/main.js",
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/es/src/index.js",
       "require": "./dist/umd/react-xui.umd.js"
     },
     "./style.css": "./dist/style.css"
