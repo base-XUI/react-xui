@@ -176,7 +176,9 @@ export const ColorShowcase: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <Button color="primary">Primary</Button>
+        <Button component="a" target="_blank" color="primary">
+          Primary
+        </Button>
         <Button color="secondary">Secondary</Button>
         <Button color="success">Success</Button>
         <Button color="error">Error</Button>

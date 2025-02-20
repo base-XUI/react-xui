@@ -1,90 +1,54 @@
 import React from "react";
-import { cn } from "@/utils/cn";
 import { buttonVariants } from "./variants";
-import { type ButtonProps } from "./Button.types";
+import type { ButtonBaseProps } from "./Button.types";
+import { cn } from "@/utils/cn";
+import { createPolymorphic } from "@/utils/createPolymorphic";
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      component,
-      className,
-      variant,
-      color,
-      size,
-      fullWidth,
-      disableElevation,
-      loading,
-      loadingPosition = "center",
-      loadingIndicator = <span className="h-4 w-4 animate-spin">⌛</span>,
-      startIcon,
-      endIcon,
-      children,
-      disabled,
-      href,
-      type = "button",
-      ...rest
-    },
-    ref,
-  ) => {
-    const Component = href ? "a" : component || "button";
-    const isDisabled = disabled || loading;
-
-    const renderLoadingIndicator = () => (
-      <span
-        className={cn(
-          "inline-flex items-center",
-          loadingPosition === "start" && "mr-2",
-          loadingPosition === "end" && "ml-2",
-        )}
-      >
-        {loadingIndicator}
-      </span>
-    );
-
+export const Button = createPolymorphic<"button", ButtonBaseProps>(
+  "button",
+  "Button",
+  ({
+    className,
+    variant = "contained",
+    color = "primary",
+    size = "medium",
+    disabled = false,
+    loading = false,
+    loadingPosition = "center",
+    loadingIndicator = <span className="animate-spin">⚪</span>,
+    startIcon,
+    endIcon,
+    fullWidth = false,
+    disableElevation = false,
+    type = "button",
+    children,
+    ...restProps
+  }) => {
     const content = (
       <>
-        {loading && loadingPosition === "start" && renderLoadingIndicator()}
-        {!loading && startIcon && <span className="mr-2">{startIcon}</span>}
-        {loading && loadingPosition === "center" ? (
-          <span className="flex items-center gap-2">
-            {renderLoadingIndicator()}
-            {children}
-          </span>
-        ) : (
-          children
+        {!loading && startIcon && (
+          <span className="mr-2 -ml-0.5">{startIcon}</span>
         )}
-        {!loading && endIcon && <span className="ml-2">{endIcon}</span>}
-        {loading && loadingPosition === "end" && renderLoadingIndicator()}
+        {loading && loadingPosition === "start" && (
+          <span className="mr-2 -ml-0.5">{loadingIndicator}</span>
+        )}
+        {loading && loadingPosition === "center" ? loadingIndicator : children}
+        {!loading && endIcon && <span className="-mr-0.5 ml-2">{endIcon}</span>}
+        {loading && loadingPosition === "end" && (
+          <span className="-mr-0.5 ml-2">{loadingIndicator}</span>
+        )}
       </>
     );
 
-    return (
-      <Component
-        ref={ref}
-        className={cn(
-          buttonVariants({
-            variant,
-            color,
-            size,
-            fullWidth,
-            disableElevation,
-            className,
-          }),
-        )}
-        {...rest}
-        {...(Component === "button"
-          ? { type, disabled: isDisabled }
-          : { role: "button", "aria-disabled": isDisabled })}
-        {...(href && { href })}
-      >
-        {content}
-      </Component>
-    );
+    return React.createElement("button", {
+      className: cn(
+        buttonVariants({ variant, color, size, fullWidth, disableElevation }),
+        className,
+      ),
+      disabled: disabled || loading,
+      type,
+      children: content,
+      ...restProps,
+    });
   },
-) as React.ForwardRefExoticComponent<
-  ButtonProps<React.ElementType> & React.RefAttributes<unknown>
->;
-
-Button.displayName = "Button";
-
-export { Button, type ButtonProps };
+);
