@@ -27,7 +27,8 @@
     "esModuleInterop": true,
     "composite": true,
     "incremental": true,
-    "rootDir": "./lib/src"
+    "rootDir": "./lib/src",
+    "declarationMap": true
   },
   "include": ["lib/src/**/*"],
   "exclude": [

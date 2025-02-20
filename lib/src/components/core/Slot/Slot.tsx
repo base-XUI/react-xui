@@ -1,38 +1,55 @@
 import React from "react";
 
-type SlotProps<T extends React.ElementType> = {
-  children: React.ReactElement<React.ComponentProps<T>, T>;
-} & React.HTMLAttributes<HTMLElement>;
+interface SlotProps
+  extends Omit<React.HTMLAttributes<HTMLElement>, "ref" | "children"> {
+  children: React.ReactElement;
+}
 
-export const Slot = React.forwardRef(
-  <T extends React.ElementType = "div">(
-    { children, ...props }: SlotProps<T>,
-    ref: React.ForwardedRef<HTMLElement>,
-  ) => {
-    if (!React.isValidElement(children)) {
-      return null;
-    }
+function setRef<T>(
+  ref: React.ForwardedRef<T> | undefined,
+  instance: T | null,
+): void {
+  if (typeof ref === "function") {
+    ref(instance);
+  } else if (ref !== null && ref !== undefined) {
+    // Only set current if ref object exists
+    ref.current = instance;
+  }
+}
 
-    const childProps = children.props as React.ComponentPropsWithRef<T>;
-    const childRef = (
-      children as React.ReactElement<React.ComponentPropsWithRef<T>> & {
-        ref?: React.Ref<HTMLElement>;
+export const Slot = React.forwardRef<HTMLElement, SlotProps>(function Slot(
+  { children, ...props },
+  forwardedRef,
+) {
+  const refCallback = React.useCallback(
+    (element: HTMLElement | null) => {
+      // Handle forwarded ref
+      setRef(forwardedRef, element);
+
+      // Handle children's ref
+      const childrenRef = React.isValidElement(children)
+        ? (children as unknown as { ref?: React.ForwardedRef<HTMLElement> }).ref
+        : undefined;
+
+      if (childrenRef) {
+        setRef(childrenRef, element);
       }
-    ).ref;
+    },
+    [children, forwardedRef],
+  );
 
-    return React.cloneElement(children, {
-      ...props,
-      ...childProps,
-      ref: ref
-        ? (mergedRef: HTMLElement) => {
-            if (typeof ref === "function") ref(mergedRef);
-            else if (ref) ref.current = mergedRef;
-            if (typeof childRef === "function") childRef(mergedRef);
-            else if (childRef) childRef.current = mergedRef;
-          }
-        : childRef,
-    });
-  },
-);
+  if (!React.isValidElement(children)) {
+    return null;
+  }
+
+  const childProps = children.props as Record<string, unknown>;
+  const combinedProps = {
+    ...childProps,
+    ...props,
+    ref: refCallback,
+  };
+
+  return React.cloneElement(children, combinedProps);
+});
 
 Slot.displayName = "Slot";

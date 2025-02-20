@@ -71,21 +71,19 @@ export default defineConfig(() => {
         ],
         rollupTypes: true,
         outDir: "dist/types",
-        beforeWriteFile: (filePath, content) => {
-          if (filePath.includes("index.d.ts")) {
-            return {
-              filePath,
-              content: content.replaceAll("../src/", "./"),
-            };
-          }
-          return { filePath, content };
-        },
+        beforeWriteFile: (filePath, content) => ({
+          filePath,
+          content: content.replaceAll("../src/", "./"),
+        }),
         compilerOptions: {
           baseUrl: ".",
           paths: {
             "@/*": [`${libFilesPath}/*`],
           },
+          emitDeclarationOnly: true,
+          noEmit: false,
         },
+        insertTypesEntry: true,
       }),
     ],
   };
