@@ -24,11 +24,7 @@
     "outDir": "./dist",
     "emitDeclarationOnly": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "composite": true,
-    "incremental": true,
-    "rootDir": "./lib/src",
-    "declarationMap": true
+    "esModuleInterop": true
   },
   "include": ["lib/src/**/*"],
   "exclude": [
