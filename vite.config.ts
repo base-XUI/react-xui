@@ -1,10 +1,15 @@
-import { defineConfig } from "vite";
+import { defineConfig, UserConfig } from "vite";
+import { InlineConfig } from "vitest/node";
 import { resolve } from "path";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 
-export default defineConfig(() => {
+type ViteConfig = UserConfig & {
+  test: InlineConfig;
+};
+
+export default defineConfig((): ViteConfig => {
   const libFilesPath = "lib/src";
 
   return {
@@ -79,5 +84,12 @@ export default defineConfig(() => {
         },
       }),
     ],
+    test: {
+      environment: "jsdom",
+      setupFiles: "./lib/test/setup.ts",
+      globals: true,
+      watch: false,
+      include: ["lib/**/*.test.ts", "lib/**/*.test.tsx"],
+    },
   };
 });

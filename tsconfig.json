@@ -9,6 +9,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./lib/src/*"]
-    }
+    },
+    "types": ["vitest/globals"]
   }
 }
