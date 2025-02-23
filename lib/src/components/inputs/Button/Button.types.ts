@@ -1,6 +1,6 @@
 import React from "react";
-import type { VariantProps } from "class-variance-authority";
-import type { PolymorphicComponent } from "@/types/polymorphic";
+import { VariantProps } from "class-variance-authority";
+import { PolymorphicComponent } from "@/types/polymorphic";
 import { buttonVariants } from "./variants";
 
 export type ButtonBaseProps = {
@@ -10,8 +10,6 @@ export type ButtonBaseProps = {
   disabled?: boolean;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
-  disableFocusRipple?: boolean;
-  disableRipple?: boolean;
   type?: "button" | "submit" | "reset";
 } & VariantProps<typeof buttonVariants>;
 

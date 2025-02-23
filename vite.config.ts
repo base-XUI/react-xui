@@ -61,7 +61,7 @@ export default defineConfig(() => {
       react(),
       tailwindcss(),
       dts({
-        include: [`${libFilesPath}/**/*`],
+        include: [libFilesPath],
         exclude: [
           "**/*.stories.tsx",
           "**/*.test.tsx",
@@ -71,19 +71,12 @@ export default defineConfig(() => {
         ],
         rollupTypes: true,
         outDir: "dist/types",
-        beforeWriteFile: (filePath, content) => ({
-          filePath,
-          content: content.replaceAll("../src/", "./"),
-        }),
         compilerOptions: {
           baseUrl: ".",
           paths: {
-            "@/*": [`${libFilesPath}/*`],
+            "@/*": [`./${libFilesPath}/*`],
           },
-          emitDeclarationOnly: true,
-          noEmit: false,
         },
-        insertTypesEntry: true,
       }),
     ],
   };
