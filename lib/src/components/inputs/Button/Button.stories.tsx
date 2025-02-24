@@ -69,6 +69,13 @@ const meta = {
     endIcon: {
       description: "Icon element to show after the button text",
     },
+    disabled: {
+      description: "Disables the button",
+      control: "boolean",
+      table: {
+        defaultValue: { summary: "false" },
+      },
+    },
   },
   args: {
     onClick: fn(),
@@ -250,4 +257,27 @@ export const AsCustomElement: ButtonStory = {
     role: "button",
     children: "Custom Element Button",
   },
+};
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    children: "Disabled Button",
+  },
+};
+
+export const DisabledStates: Story = {
+  render: () => (
+    <div className="flex gap-4">
+      <Button disabled variant="contained">
+        Contained
+      </Button>
+      <Button disabled variant="outlined">
+        Outlined
+      </Button>
+      <Button disabled variant="text">
+        Text
+      </Button>
+    </div>
+  ),
 };
