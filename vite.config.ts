@@ -60,6 +60,10 @@ export default defineConfig((): ViteConfig => {
     resolve: {
       alias: [
         { find: "@", replacement: resolve(__dirname, `./${libFilesPath}`) },
+        {
+          find: "@tests",
+          replacement: resolve(__dirname, "./lib/tests"),
+        },
       ],
     },
     plugins: [
@@ -86,7 +90,7 @@ export default defineConfig((): ViteConfig => {
     ],
     test: {
       environment: "jsdom",
-      setupFiles: "./lib/test/setup.ts",
+      setupFiles: "./lib/tests/setup.ts",
       globals: true,
       watch: false,
       include: ["lib/**/*.test.ts", "lib/**/*.test.tsx"],
