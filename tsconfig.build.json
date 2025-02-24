@@ -17,7 +17,8 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./lib/src/*"]
+      "@/*": ["./lib/src/*"],
+      "@tests/*": ["./lib/tests/*"]
     },
     "declaration": true,
     "declarationDir": "./dist/types",
