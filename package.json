@@ -30,7 +30,8 @@
     "format": "prettier --write .",
     "clean": "rimraf dist",
     "test": "vitest",
-    "test:watch": "vitest --watch"
+    "test:watch": "vitest --watch",
+    "test:ci": "vitest run"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.6",
@@ -90,7 +91,8 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "eslint --fix",
-      "prettier --write"
+      "prettier --write",
+      "vitest related --run"
     ],
     "*.{json,css,md}": [
       "prettier --write"
