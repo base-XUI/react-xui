@@ -49,6 +49,7 @@
     "@commitlint/cli": "^19.2.0",
     "@commitlint/config-conventional": "^19.1.0",
     "@eslint/js": "^9.19.0",
+    "@playwright/test": "^1.50.1",
     "@storybook/addon-essentials": "8.5.4",
     "@storybook/addon-interactions": "8.5.4",
     "@storybook/addon-onboarding": "8.5.4",
