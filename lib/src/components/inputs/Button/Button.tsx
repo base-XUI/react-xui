@@ -73,7 +73,7 @@ const Button = React.forwardRef(function Button<
       )}
       {...rest}
       {...(Component === "button"
-        ? { disabled: isDisabled }
+        ? { disabled: isDisabled, "aria-disabled": isDisabled }
         : { role: "button", "aria-disabled": isDisabled })}
     >
       {content}
