@@ -1,12 +1,18 @@
+import React from "react";
 import { cn } from "@/utils/cn";
-import { typographyVariants } from "./variants";
-import { type TypographyProps } from "./Typography.types";
-import { createPolymorphic } from "@/utils/createPolymorphic";
+import {
+  typographyVariants,
+  HTML_MAPPINGS,
+  TYPOGRAPHY_VARIANTS,
+} from "./variants";
+import { TypographyTypeMap, type TypographyProps } from "./Typography.types";
+import { PolymorphicComponent } from "@/utils/PolymorphicComponent";
 
-export const Typography = createPolymorphic<"p", TypographyProps>(
-  "p",
-  "Typography",
-  ({
+const Typography = React.forwardRef(function Typography<
+  RootComponentType extends React.ElementType,
+>(
+  {
+    component,
     align,
     variant = "body1",
     color,
@@ -17,24 +23,31 @@ export const Typography = createPolymorphic<"p", TypographyProps>(
     fontFamily = "primary",
     inherit = false,
     children,
-    ...props
-  }) => {
-    const fontClass = `font-${fontFamily}`;
+    ...rest
+  }: TypographyProps<RootComponentType>,
+  ref: React.ComponentPropsWithRef<RootComponentType>["ref"],
+) {
+  const validVariant =
+    variant && variant in TYPOGRAPHY_VARIANTS ? variant : "body1";
+  const Component = component || HTML_MAPPINGS[validVariant] || "p";
+  const fontClass = `font-${fontFamily}`;
 
-    return (
-      <div
-        className={cn(
-          inherit ? "" : typographyVariants({ variant, align, color }),
-          noWrap && "whitespace-nowrap",
-          gutterBottom && "mb-2",
-          paragraph && "mb-4",
-          fontClass,
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </div>
-    );
-  },
-);
+  return (
+    <Component
+      ref={ref}
+      className={cn(
+        inherit ? "" : typographyVariants({ variant, align, color }),
+        noWrap && "whitespace-nowrap",
+        gutterBottom && "mb-2",
+        paragraph && "mb-4",
+        fontClass,
+        className,
+      )}
+      {...rest}
+    >
+      {children}
+    </Component>
+  );
+}) as PolymorphicComponent<TypographyTypeMap>;
+
+export { Typography };

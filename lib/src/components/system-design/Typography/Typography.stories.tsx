@@ -72,6 +72,15 @@ const meta = {
       description: "Text content",
       control: "text",
     },
+    component: {
+      description:
+        "The component used for the root node. Can be any valid HTML element or React component.",
+      control: "text",
+      table: {
+        type: { summary: "ElementType" },
+        defaultValue: { summary: "p" },
+      },
+    },
   },
   args: {
     children: "The quick brown fox jumps over the lazy dog",
@@ -160,6 +169,44 @@ export const Alignments: Story = {
           {align} aligned text
         </Typography>
       ))}
+    </div>
+  ),
+};
+
+// Add new story to demonstrate component prop
+export const CustomComponent: Story = {
+  args: {
+    component: "span",
+    children: "This typography uses a span element",
+  },
+};
+
+// Add new story to demonstrate semantic HTML
+export const SemanticHTML: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <Typography component="h1" variant="h1">
+        h1 with semantic HTML
+      </Typography>
+      <Typography component="span" variant="h1">
+        h1 style in span element
+      </Typography>
+      <Typography component="div" variant="body1">
+        body1 style in div element
+      </Typography>
+    </div>
+  ),
+};
+
+// Update CustomComponent story to show more examples
+export const CustomElements: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <Typography component="article">Using article element</Typography>
+      <Typography component="pre">Using pre element</Typography>
+      <Typography component="code">Using code element</Typography>
+      <Typography component="blockquote">Using blockquote element</Typography>
+      <Typography component="label">Using label element</Typography>
     </div>
   ),
 };
