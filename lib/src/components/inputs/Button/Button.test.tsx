@@ -41,41 +41,41 @@ describe("Button Component", () => {
     expect(screen.getByRole("button", { name: /error/i })).toBeInTheDocument();
   });
 
-  // it("renders with loading state", () => {
-  //   const { rerender } = render(<Button loading>Loading</Button>);
-  //   const button = screen.getByRole("button");
-  //   expect(button).toBeDisabled();
-  //   expect(screen.getByText("⚪")).toBeInTheDocument();
+  it("renders with loading state", () => {
+    const { rerender } = render(<Button loading>Loading</Button>);
+    const button = screen.getByRole("button");
+    expect(button).toBeDisabled();
+    expect(screen.getByText("⌛")).toBeInTheDocument();
 
-  //   // Verify disabled state separately
-  //   rerender(<Button disabled>Disabled</Button>);
-  //   expect(screen.getByRole("button")).toBeDisabled();
-  // });
+    // Verify disabled state separately
+    rerender(<Button disabled>Disabled</Button>);
+    expect(screen.getByRole("button")).toBeDisabled();
+  });
 
-  // it("handles disabled state properly", () => {
-  //   const { rerender } = render(<Button disabled>Disabled Button</Button>);
-  //   const button = screen.getByRole("button", { name: /disabled button/i });
-  //   expect(button).toBeDisabled();
-  //   expect(button).toHaveAttribute("aria-disabled", "true");
+  it("handles disabled state properly", () => {
+    const { rerender } = render(<Button disabled>Disabled Button</Button>);
+    const button = screen.getByRole("button", { name: /disabled button/i });
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute("aria-disabled", "true");
 
-  //   // Test disabled state with custom component
-  //   rerender(
-  //     <Button component="span" disabled>
-  //       Disabled Span Button
-  //     </Button>,
-  //   );
-  //   const spanButton = screen.getByRole("button", {
-  //     name: /disabled span button/i,
-  //   });
-  //   expect(spanButton).toHaveAttribute("aria-disabled", "true");
-  // });
+    // Test disabled state with custom component
+    rerender(
+      <Button component="span" disabled>
+        Disabled Span Button
+      </Button>,
+    );
+    const spanButton = screen.getByRole("button", {
+      name: /disabled span button/i,
+    });
+    expect(spanButton).toHaveAttribute("aria-disabled", "true");
+  });
 
-  // it("is disabled when loading", () => {
-  //   render(<Button loading>Loading Button</Button>);
-  //   const button = screen.getByRole("button");
-  //   expect(button).toBeDisabled();
-  //   expect(button).toHaveAttribute("aria-disabled", "true");
-  // });
+  it("is disabled when loading", () => {
+    render(<Button loading>Loading Button</Button>);
+    const button = screen.getByRole("button");
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute("aria-disabled", "true");
+  });
 
   it("renders with icons", () => {
     render(
