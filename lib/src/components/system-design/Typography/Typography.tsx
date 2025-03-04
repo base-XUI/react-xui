@@ -5,32 +5,39 @@ import {
   HTML_MAPPINGS,
   TYPOGRAPHY_VARIANTS,
 } from "./variants";
-import { TypographyTypeMap, type TypographyProps } from "./Typography.types";
-import { PolymorphicComponent } from "@/utils/PolymorphicComponent";
+import { type TypographyProps } from "./Typography.types";
+import { adaptPropsForA11y } from "@/utils/a11y";
 
-const Typography = React.forwardRef(function Typography<
-  RootComponentType extends React.ElementType,
->(
-  {
-    component,
-    align,
-    variant = "body1",
-    color,
-    noWrap = false,
-    gutterBottom = false,
-    paragraph = false,
-    className = "",
-    fontFamily = "primary",
-    inherit = false,
-    children,
-    ...rest
-  }: TypographyProps<RootComponentType>,
-  ref: React.ComponentPropsWithRef<RootComponentType>["ref"],
-) {
+/**
+ * Typography component that supports polymorphic rendering and accessibility features
+ * Compatible with React 19's direct ref handling
+ */
+const Typography = <C extends React.ElementType = "p">({
+  component,
+  align,
+  variant = "body1",
+  color,
+  noWrap = false,
+  gutterBottom = false,
+  paragraph = false,
+  className = "",
+  fontFamily = "primary",
+  inherit = false,
+  children,
+  ref, // React 19 direct ref handling
+  ...rest
+}: TypographyProps<C>) => {
+  // Determine the correct HTML element based on variant or specified component
   const validVariant =
     variant && variant in TYPOGRAPHY_VARIANTS ? variant : "body1";
   const Component = component || HTML_MAPPINGS[validVariant] || "p";
   const fontClass = `font-${fontFamily}`;
+
+  // Apply a11y props - mostly for semantic correctness
+  const a11yProps = adaptPropsForA11y(
+    { ...rest },
+    typeof Component === "string" ? Component : "div",
+  );
 
   return (
     <Component
@@ -43,11 +50,13 @@ const Typography = React.forwardRef(function Typography<
         fontClass,
         className,
       )}
-      {...rest}
+      {...a11yProps}
     >
       {children}
     </Component>
   );
-}) as PolymorphicComponent<TypographyTypeMap>;
+};
+
+Typography.displayName = "Typography";
 
 export { Typography };
