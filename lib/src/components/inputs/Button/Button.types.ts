@@ -1,60 +1,50 @@
 import React from "react";
 import type { VariantProps } from "class-variance-authority";
 import { buttonVariants } from "./variants";
-import { PolymorphicProps } from "@/utils/PolymorphicComponent";
+import type {
+  PolymorphicComponentProp,
+  PolymorphicComponent,
+} from "@/utils/polymorphic";
 
-// export interface UseButtonParameters {
-//   /**
-//    * If `true`, the component is disabled.
-//    * @default false
-//    */
-//   disabled?: boolean;
-//   /**
-//    * If `true`, allows a disabled button to receive focus.
-//    * @default false
-//    */
-//   focusableWhenDisabled?: boolean;
-//   href?: string;
-//   onFocusVisible?: React.FocusEventHandler;
-//   rootRef?: React.Ref<Element>;
-//   tabIndex?: NonNullable<React.HTMLAttributes<any>["tabIndex"]>;
-//   to?: string;
-//   /**
-//    * Type attribute applied when the `component` is `button`.
-//    * @default 'button'
-//    */
-//   type?: React.ButtonHTMLAttributes<HTMLButtonElement>["type"];
-//   /**
-//    * The HTML element, e.g.'button', 'a' etc
-//    * @default ''
-//    */
-//   rootElementName?: keyof HTMLElementTagNameMap;
-// }
-
-export interface ButtonTypeMap<
-  AdditionalProps = object,
-  RootComponentType extends React.ElementType = "button",
-> {
-  props: ButtonOwnProps & AdditionalProps;
-  defaultComponent: RootComponentType;
-}
-
-export type ButtonOwnProps<
-  RootComponentType extends React.ElementType = "button",
-> = {
+/**
+ * Base props for the Button component
+ */
+export type ButtonBaseProps = {
+  /**
+   * If true, the button will show a loading indicator.
+   */
   loading?: boolean;
+  /**
+   * The position of the loading indicator.
+   */
   loadingPosition?: "start" | "center" | "end";
+  /**
+   * Element displayed when the button is in loading state.
+   */
   loadingIndicator?: React.ReactNode;
+  /**
+   * Element placed before the children.
+   */
   startIcon?: React.ReactNode;
+  /**
+   * Element placed after the children.
+   */
   endIcon?: React.ReactNode;
-  rootElementName?: keyof HTMLElementTagNameMap;
-  component?: RootComponentType;
+  /**
+   * If true, the button will be disabled.
+   * This is handled differently based on component type.
+   */
+  disabled?: boolean;
 } & VariantProps<typeof buttonVariants>;
 
-export type ButtonProps<
-  RootComponentType extends
-    React.ElementType = ButtonTypeMap["defaultComponent"],
-> = PolymorphicProps<
-  ButtonTypeMap<object, RootComponentType>,
-  RootComponentType
->;
+/**
+ * Props for the Button component including the ref
+ * Compatible with React 19's new ref handling
+ */
+export type ButtonProps<C extends React.ElementType = "button"> =
+  PolymorphicComponentProp<C, ButtonBaseProps>;
+
+/**
+ * Button component type
+ */
+export type ButtonComponent = PolymorphicComponent<ButtonBaseProps, "button">;

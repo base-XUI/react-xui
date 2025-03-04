@@ -1,31 +1,27 @@
 import React from "react";
 import { cn } from "@/utils/cn";
 import { buttonVariants } from "./variants";
-import { ButtonTypeMap, type ButtonProps } from "./Button.types";
-import { PolymorphicComponent } from "@/utils/PolymorphicComponent";
+import { type ButtonProps } from "./Button.types";
+import { adaptPropsForA11y } from "@/utils/a11y";
 
-const Button = React.forwardRef(function Button<
-  RootComponentType extends React.ElementType,
->(
-  {
-    component,
-    className,
-    variant,
-    color,
-    size,
-    fullWidth,
-    disableElevation,
-    loading,
-    loadingPosition = "center",
-    loadingIndicator = <span className="h-4 w-4 animate-spin">⌛</span>,
-    startIcon,
-    endIcon,
-    children,
-    disabled,
-    ...rest
-  }: ButtonProps<RootComponentType>,
-  ref: React.ComponentPropsWithRef<RootComponentType>["ref"],
-) {
+const Button = <C extends React.ElementType = "button">({
+  component,
+  className,
+  variant,
+  color,
+  size,
+  fullWidth,
+  disableElevation,
+  loading,
+  loadingPosition = "center",
+  loadingIndicator = <span className="h-4 w-4 animate-spin">⌛</span>,
+  startIcon,
+  endIcon,
+  children,
+  disabled,
+  ref,
+  ...rest
+}: ButtonProps<C>) => {
   const Component = component || "button";
   const isDisabled = disabled || loading;
 
@@ -58,6 +54,12 @@ const Button = React.forwardRef(function Button<
     </>
   );
 
+  // Use a11y utility to handle accessibility attributes
+  const a11yProps = adaptPropsForA11y(
+    { disabled: isDisabled, ...rest },
+    typeof Component === "string" ? Component : "div",
+  );
+
   return (
     <Component
       ref={ref}
@@ -71,14 +73,13 @@ const Button = React.forwardRef(function Button<
           className,
         }),
       )}
-      {...rest}
-      {...(Component === "button"
-        ? { disabled: isDisabled, "aria-disabled": isDisabled }
-        : { role: "button", "aria-disabled": isDisabled })}
+      {...a11yProps}
     >
       {content}
     </Component>
   );
-}) as PolymorphicComponent<ButtonTypeMap>;
+};
+
+Button.displayName = "Button";
 
 export { Button };

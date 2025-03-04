@@ -58,16 +58,26 @@ describe("Button Component", () => {
     expect(button).toBeDisabled();
     expect(button).toHaveAttribute("aria-disabled", "true");
 
-    // Test disabled state with custom component
+    // Test disabled state with custom component using role query instead of testid
     rerender(
       <Button component="span" disabled>
         Disabled Span Button
       </Button>,
     );
+
+    // Get the element by its role and text
     const spanButton = screen.getByRole("button", {
-      name: /disabled span button/i,
+      name: "Disabled Span Button",
     });
+
+    // Check correct ARIA attribute is present
     expect(spanButton).toHaveAttribute("aria-disabled", "true");
+
+    // Verify the role is applied
+    expect(spanButton).toHaveAttribute("role", "button");
+
+    // Make sure we didn't erroneously add the disabled attribute to span
+    expect(spanButton).not.toHaveAttribute("disabled");
   });
 
   it("is disabled when loading", () => {
