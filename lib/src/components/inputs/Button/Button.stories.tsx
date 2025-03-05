@@ -76,6 +76,20 @@ const meta = {
         defaultValue: { summary: "false" },
       },
     },
+    as: {
+      description: "The component used for the root node",
+      control: { type: "text" },
+      table: {
+        defaultValue: { summary: "button" },
+      },
+    },
+    component: {
+      description: "The component used for the root node",
+      control: { type: "text" },
+      table: {
+        defaultValue: { summary: "button" },
+      },
+    },
   },
   args: {
     onClick: fn(),
@@ -86,7 +100,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 type ButtonStory = StoryObj<typeof Button>;
-type ButtonLinkStory = StoryObj<typeof Button>;
 
 // Basic variants
 export const Contained: Story = {
@@ -243,11 +256,27 @@ export const WithIcons: Story = {
 };
 
 // Example of using as a different element
-export const AsLink: ButtonLinkStory = {
+export const AsLink: StoryObj<typeof Button> = {
   args: {
     component: "a",
     href: "#",
     children: "Link Button",
+  },
+};
+
+export const CustomElementDisabled: StoryObj<typeof Button> = {
+  args: {
+    component: "div",
+    disabled: true,
+    children: "Disabled Div Button",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Non-button elements get aria-disabled but not the disabled attribute",
+      },
+    },
   },
 };
 
