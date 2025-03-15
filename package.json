@@ -1,17 +1,18 @@
 {
   "name": "react-xui",
-  "private": false,
+  "private": true,
   "version": "0.1.0",
+  "description": "React XUI Component Library",
   "type": "module",
   "main": "./dist/umd/react-xui.umd.js",
   "module": "./dist/es/src/index.js",
-  "types": "./dist/types/src/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "files": [
     "dist"
   ],
   "exports": {
     ".": {
-      "types": "./dist/types/src/index.d.ts",
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/es/src/index.js",
       "require": "./dist/umd/react-xui.umd.js"
     },
@@ -34,6 +35,10 @@
     "test:ci": "vitest run",
     "build:watch": "vite build --watch --mode package",
     "link:local": "yalc publish --no-scripts"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.6",
