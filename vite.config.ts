@@ -4,6 +4,7 @@ import { resolve } from "path";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
+import { libInjectCss } from "vite-plugin-lib-inject-css";
 
 type ViteConfig = UserConfig & {
   test: InlineConfig;
@@ -69,6 +70,7 @@ export default defineConfig((): ViteConfig => {
     plugins: [
       react(),
       tailwindcss(),
+      libInjectCss(),
       dts({
         include: [libFilesPath],
         exclude: [
