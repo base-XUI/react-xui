@@ -1,7 +1,7 @@
 {
   "name": "@base-xui/react-xui",
   "private": false,
-  "version": "0.2.2",
+  "version": "0.2.0",
   "description": "React XUI Component Library",
   "type": "module",
   "main": "./dist/umd/react-xui.umd.js",
