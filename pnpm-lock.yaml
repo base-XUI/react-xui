@@ -35,6 +35,9 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@4.0.6)
     devDependencies:
+      "@changesets/changelog-github":
+        specifier: ^0.5.0
+        version: 0.5.1
       "@changesets/cli":
         specifier: ^2.27.1
         version: 2.27.12
@@ -425,6 +428,12 @@ packages:
         integrity: sha512-bHOx97iFI4OClIT35Lok3sJAwM31VbUM++gnMBV16fdbtBhgYu4dxsphBF/0AZZsyAHMrnM0yFcj5gZM1py6uQ==,
       }
 
+  "@changesets/changelog-github@0.5.1":
+    resolution:
+      {
+        integrity: sha512-BVuHtF+hrhUScSoHnJwTELB4/INQxVFc+P/Qdt20BLiBFIHFJDDUaGsZw+8fQeJTRP5hJZrzpt3oZWh0G19rAQ==,
+      }
+
   "@changesets/cli@2.27.12":
     resolution:
       {
@@ -448,6 +457,12 @@ packages:
     resolution:
       {
         integrity: sha512-sgcHRkiBY9i4zWYBwlVyAjEM9sAzs4wYVwJUdnbDLnVG3QwAaia1Mk5P8M7kraTOZN+vBET7n8KyB0YXCbFRLQ==,
+      }
+
+  "@changesets/get-github-info@0.6.0":
+    resolution:
+      {
+        integrity: sha512-v/TSnFVXI8vzX9/w3DU2Ol+UlTZcu3m0kXTjTT4KlAdwSvwutcByYwyYn9hwerPWfPkT2JfpoX0KgvCEi8Q/SA==,
       }
 
   "@changesets/get-release-plan@4.0.6":
@@ -508,6 +523,12 @@ packages:
     resolution:
       {
         integrity: sha512-b1UkfNulgKoWfqyHtzKS5fOZYSJO+77adgL7DLRDr+/7jhChN+QcHnbjiQVOz/U+Ts3PGNySq7diAItzDgugfQ==,
+      }
+
+  "@changesets/types@6.1.0":
+    resolution:
+      {
+        integrity: sha512-rKQcJ+o1nKNgeoYRHKOS07tAMNd3YSN0uHaJOZYjBAgxfV7TUE7JE+z4BzZdQwb5hKaYbayKN5KrYV7ODb2rAA==,
       }
 
   "@changesets/write@0.3.2":
@@ -2977,6 +2998,12 @@ packages:
       }
     engines: { node: ">=18" }
 
+  dataloader@1.4.0:
+    resolution:
+      {
+        integrity: sha512-68s5jYdlvasItOJnCuI2Q9s4q98g0pCyL3HrcKJu8KNugUl8ahgmZYg38ysLTgQjjXX3H8CJLkAvWrclWfcalw==,
+      }
+
   de-indent@1.0.2:
     resolution:
       {
@@ -3116,6 +3143,13 @@ packages:
         integrity: sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==,
       }
     engines: { node: ">=8" }
+
+  dotenv@8.6.0:
+    resolution:
+      {
+        integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==,
+      }
+    engines: { node: ">=10" }
 
   dunder-proto@1.0.1:
     resolution:
@@ -4841,6 +4875,18 @@ packages:
         integrity: sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==,
       }
 
+  node-fetch@2.7.0:
+    resolution:
+      {
+        integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==,
+      }
+    engines: { node: 4.x || >=6.0.0 }
+    peerDependencies:
+      encoding: ^0.1.0
+    peerDependenciesMeta:
+      encoding:
+        optional: true
+
   node-releases@2.0.19:
     resolution:
       {
@@ -5973,6 +6019,12 @@ packages:
       }
     engines: { node: ">=16" }
 
+  tr46@0.0.3:
+    resolution:
+      {
+        integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==,
+      }
+
   tr46@5.0.0:
     resolution:
       {
@@ -6268,6 +6320,12 @@ packages:
         integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==,
       }
 
+  webidl-conversions@3.0.1:
+    resolution:
+      {
+        integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==,
+      }
+
   webidl-conversions@7.0.0:
     resolution:
       {
@@ -6301,6 +6359,12 @@ packages:
         integrity: sha512-mDGf9diDad/giZ/Sm9Xi2YcyzaFpbdLpJPr+E9fSkyQ7KpQD4SdFcugkRQYzhmfI4KeV4Qpnn2sKPdo+kmsgRQ==,
       }
     engines: { node: ">=18" }
+
+  whatwg-url@5.0.0:
+    resolution:
+      {
+        integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==,
+      }
 
   which-typed-array@1.1.18:
     resolution:
@@ -6662,6 +6726,14 @@ snapshots:
     dependencies:
       "@changesets/types": 6.0.0
 
+  "@changesets/changelog-github@0.5.1":
+    dependencies:
+      "@changesets/get-github-info": 0.6.0
+      "@changesets/types": 6.1.0
+      dotenv: 8.6.0
+    transitivePeerDependencies:
+      - encoding
+
   "@changesets/cli@2.27.12":
     dependencies:
       "@changesets/apply-release-plan": 7.0.8
@@ -6713,6 +6785,13 @@ snapshots:
       "@manypkg/get-packages": 1.1.3
       picocolors: 1.1.1
       semver: 7.7.1
+
+  "@changesets/get-github-info@0.6.0":
+    dependencies:
+      dataloader: 1.4.0
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
 
   "@changesets/get-release-plan@4.0.6":
     dependencies:
@@ -6767,6 +6846,8 @@ snapshots:
   "@changesets/types@4.1.0": {}
 
   "@changesets/types@6.0.0": {}
+
+  "@changesets/types@6.1.0": {}
 
   "@changesets/write@0.3.2":
     dependencies:
@@ -8332,6 +8413,8 @@ snapshots:
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.1.1
 
+  dataloader@1.4.0: {}
+
   de-indent@1.0.2: {}
 
   debug@4.4.0:
@@ -8387,6 +8470,8 @@ snapshots:
   dot-prop@5.3.0:
     dependencies:
       is-obj: 2.0.0
+
+  dotenv@8.6.0: {}
 
   dunder-proto@1.0.1:
     dependencies:
@@ -9374,6 +9459,10 @@ snapshots:
 
   node-addon-api@7.1.1: {}
 
+  node-fetch@2.7.0:
+    dependencies:
+      whatwg-url: 5.0.0
+
   node-releases@2.0.19: {}
 
   npm-bundled@1.1.2:
@@ -9950,6 +10039,8 @@ snapshots:
     dependencies:
       tldts: 6.1.78
 
+  tr46@0.0.3: {}
+
   tr46@5.0.0:
     dependencies:
       punycode: 2.3.1
@@ -10143,6 +10234,8 @@ snapshots:
     dependencies:
       defaults: 1.0.4
 
+  webidl-conversions@3.0.1: {}
+
   webidl-conversions@7.0.0: {}
 
   webpack-virtual-modules@0.6.2: {}
@@ -10157,6 +10250,11 @@ snapshots:
     dependencies:
       tr46: 5.0.0
       webidl-conversions: 7.0.0
+
+  whatwg-url@5.0.0:
+    dependencies:
+      tr46: 0.0.3
+      webidl-conversions: 3.0.1
 
   which-typed-array@1.1.18:
     dependencies:
