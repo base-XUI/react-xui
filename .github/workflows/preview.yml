@@ -18,6 +18,10 @@ jobs:
     runs-on: ubuntu-latest
     # Skip running on dependabot PRs
     if: github.actor != 'dependabot[bot]'
+    permissions:
+      id-token: write # Required for deploy-pages action
+      contents: read # For checkout
+      pull-requests: write # For commenting on PRs
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
