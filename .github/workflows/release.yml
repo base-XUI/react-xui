@@ -35,17 +35,26 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "github-actions@github.com"
 
+      # Fix: Install pnpm before Node.js setup
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: false
+
+      # Verify pnpm installation
+      - name: Verify pnpm installation
+        run: |
+          pnpm --version
+          which pnpm
+          echo $PATH
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
           cache: "pnpm"
           registry-url: "https://registry.npmjs.org"
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
