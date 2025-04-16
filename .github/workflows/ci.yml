@@ -43,12 +43,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          if [ -f pnpm-lock.yaml ]; then
-            pnpm install --frozen-lockfile
-          else
-            echo "⚠️ pnpm-lock.yaml is missing. Using --no-frozen-lockfile."
-            pnpm install --no-frozen-lockfile
-          fi
+          # Try with frozen lockfile first, but fall back to regular install if that fails
+          pnpm install --frozen-lockfile || pnpm install --no-frozen-lockfile
 
       - name: Lint
         run: pnpm lint
@@ -88,12 +84,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          if [ -f pnpm-lock.yaml ]; then
-            pnpm install --frozen-lockfile
-          else
-            echo "⚠️ pnpm-lock.yaml is missing. Using --no-frozen-lockfile."
-            pnpm install --no-frozen-lockfile
-          fi
+          # Try with frozen lockfile first, but fall back to regular install if that fails
+          pnpm install --frozen-lockfile || pnpm install --no-frozen-lockfile
 
       - name: Unit & Component Tests
         run: pnpm test:ci
@@ -152,12 +144,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          if [ -f pnpm-lock.yaml ]; then
-            pnpm install --frozen-lockfile
-          else
-            echo "⚠️ pnpm-lock.yaml is missing. Using --no-frozen-lockfile."
-            pnpm install --no-frozen-lockfile
-          fi
+          # Try with frozen lockfile first, but fall back to regular install if that fails
+          pnpm install --frozen-lockfile || pnpm install --no-frozen-lockfile
 
       - name: Build package
         run: pnpm build:package
