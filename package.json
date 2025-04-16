@@ -1,6 +1,6 @@
 {
-  "name": "react-xui",
-  "private": true,
+  "name": "@base-xui/react-xui",
+  "private": false,
   "version": "0.1.0",
   "description": "React XUI Component Library",
   "type": "module",
@@ -17,6 +17,10 @@
       "require": "./dist/umd/react-xui.umd.js"
     },
     "./style.css": "./dist/style.css"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "build:package": "pnpm clean && tsc -p tsconfig.build.json && vite build && pnpm build:css --mode package",
