@@ -28,7 +28,7 @@ jobs:
           # Full history for proper versioning with changesets
           fetch-depth: 0
           # This is required for the changesets action to push to the repo
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.XUI_GITHUB_TOKEN }}
 
       - name: Setup git user
         run: |
@@ -91,7 +91,7 @@ jobs:
           title: "chore: version packages"
           createGithubReleases: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.XUI_GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -100,7 +100,7 @@ jobs:
         if: steps.release-info.outputs.IS_MAIN != 'true'
         run: ${{ steps.release-info.outputs.PUBLISH_COMMAND }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.XUI_GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
