@@ -21,10 +21,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Fix: Install pnpm with proper setup
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
           version: 8
+          run_install: false
+
+      # Verify pnpm installation
+      - name: Verify pnpm installation
+        run: |
+          pnpm --version
+          which pnpm
+          echo $PATH
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -51,10 +60,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Fix: Install pnpm with proper setup
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
           version: 8
+          run_install: false
+
+      # Verify pnpm installation
+      - name: Verify pnpm installation
+        run: |
+          pnpm --version
+          which pnpm
+          echo $PATH
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -100,10 +118,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Fix: Install pnpm with proper setup
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
           version: 8
+          run_install: false
+
+      # Verify pnpm installation
+      - name: Verify pnpm installation
+        run: |
+          pnpm --version
+          which pnpm
+          echo $PATH
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
