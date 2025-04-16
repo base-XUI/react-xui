@@ -71,12 +71,29 @@ jobs:
           BRANCH_NAME=${GITHUB_REF#refs/heads/}
           echo "Branch: $BRANCH_NAME"
 
+          # Check if there are any unreleased changesets
+          if [[ -d .changeset ]] && [[ "$(find .changeset -name "*.md" | grep -v README | wc -l)" -gt 0 ]]; then
+            HAS_CHANGESETS="true"
+            echo "Found unreleased changesets"
+          else
+            HAS_CHANGESETS="false"
+            echo "No unreleased changesets found"
+          fi
+
           if [[ $BRANCH_NAME == "main" ]]; then
-            echo "PUBLISH_COMMAND=pnpm release" >> $GITHUB_OUTPUT
+            if [[ $HAS_CHANGESETS == "true" ]]; then
+              echo "PUBLISH_COMMAND=pnpm release" >> $GITHUB_OUTPUT
+            else
+              echo "PUBLISH_COMMAND=pnpm build:package && pnpm changeset publish" >> $GITHUB_OUTPUT
+            fi
             echo "IS_MAIN=true" >> $GITHUB_OUTPUT
           elif [[ $BRANCH_NAME == release/* || $BRANCH_NAME == hotfix/* ]]; then
             echo "Running on release/hotfix branch"
-            echo "PUBLISH_COMMAND=pnpm changeset version && pnpm build && pnpm changeset publish" >> $GITHUB_OUTPUT
+            if [[ $HAS_CHANGESETS == "true" ]]; then
+              echo "PUBLISH_COMMAND=pnpm version-packages && pnpm build:package && pnpm changeset publish" >> $GITHUB_OUTPUT
+            else
+              echo "PUBLISH_COMMAND=pnpm build:package && pnpm changeset publish" >> $GITHUB_OUTPUT
+            fi
             echo "IS_MAIN=false" >> $GITHUB_OUTPUT
           else
             echo "Not a publishing branch"
