@@ -1,7 +1,7 @@
 {
   "name": "@base-xui/react-xui",
   "private": false,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React XUI Component Library",
   "type": "module",
   "main": "./dist/umd/react-xui.umd.js",
@@ -22,19 +22,29 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/base-xui/react-xui.git"
+  },
+  "changelog": [
+    "@changesets/changelog-github",
+    {
+      "repo": "base-xui/react-xui"
+    }
+  ],
   "scripts": {
     "build:package": "pnpm clean && tsc -p tsconfig.build.json && vite build && pnpm build:css --mode package",
     "build:storybook": "storybook build",
     "build:css": "pnpm dlx @tailwindcss/cli -i lib/src/main.css -o dist/styles.css --minify",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "release": "pnpm build:package && changeset publish",
+    "release": "pnpm build:package && dotenv -- changeset publish",
     "prepare": "husky",
-    "changeset": "changeset",
-    "version-packages": "changeset version",
-    "prerelease": "changeset pre",
-    "prerelease:enter": "changeset pre enter",
-    "prerelease:exit": "changeset pre exit",
+    "changeset": "dotenv -- changeset",
+    "version-packages": "dotenv -- changeset version",
+    "prerelease": "dotenv -- changeset pre",
+    "prerelease:enter": "dotenv -- changeset pre enter",
+    "prerelease:exit": "dotenv -- changeset pre exit",
     "lint": "eslint .",
     "format": "prettier --write .",
     "clean": "rimraf dist",
@@ -83,6 +93,7 @@
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "dotenv-cli": "^8.0.0",
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
