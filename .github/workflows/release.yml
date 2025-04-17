@@ -17,6 +17,7 @@ jobs:
       contents: write
       # For npm provenance
       id-token: write
+      pages: write
       # For PR comments
       pull-requests: write
       # For issue comments
