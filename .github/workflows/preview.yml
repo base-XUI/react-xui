@@ -39,10 +39,12 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
+        working-directory: .
 
       - name: Build Storybook
         run: pnpm build:storybook
+        working-directory: .
 
       # You can use any static site hosting service you prefer
       # This example uses GitHub Pages via actions/deploy-pages
