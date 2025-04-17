@@ -1,50 +1,115 @@
-# React + TypeScript + Vite
+# React XUI Component Library
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React component library built with Vite, TypeScript, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm install react-xui
+# or
+yarn add react-xui
+# or
+pnpm add react-xui
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Usage
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```jsx
+import { Button } from "react-xui";
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+function App() {
+  return <Button variant="primary">Click me</Button>;
+}
 ```
+
+## Local Development
+
+### Building the Package
+
+To build the library locally:
+
+```bash
+pnpm build:package
+```
+
+### Testing Locally with yalc
+
+For testing the package in another local project without publishing to npm:
+
+1. Install yalc globally (if not already installed):
+
+   ```bash
+   npm install -g yalc
+   # or
+   pnpm install -g yalc
+   ```
+
+2. Build and publish the package locally:
+
+   ```bash
+   # In react-xui directory
+   pnpm build:package
+   yalc publish
+   ```
+
+3. In your test application:
+
+   ```bash
+   # In your test app directory
+   yalc add react-xui
+   npm install # or pnpm install
+   ```
+
+4. When you make changes to the library:
+
+   ```bash
+   # In react-xui directory
+   pnpm build:package
+   yalc push
+   ```
+
+   Or use watch mode for continuous updates:
+
+   ```bash
+   pnpm build:watch
+   ```
+
+   And in another terminal:
+
+   ```bash
+   yalc push --watch
+   ```
+
+5. To remove the yalc link:
+
+   ```bash
+   # In your test app directory
+   yalc remove react-xui
+   npm install # or pnpm install
+   ```
+
+## Development
+
+### Available Scripts
+
+- `pnpm storybook` - Start Storybook for component development
+- `pnpm build:storybook` - Build Storybook for deployment
+- `pnpm test` - Run tests
+- `pnpm lint` - Lint code
+- `pnpm format` - Format code
+- `pnpm build:watch` - Build in watch mode for development
+
+### Project Structure
+
+- `lib/src/` - Component source code
+- `lib/src/components/` - UI components
+- `lib/src/utils/` - Utility functions
+- `lib/tests/` - Test utilities
+
+## Contributing
+
+Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed information about our development workflow, branching strategy, and release process.
+
+## License
+
+[MIT License](./LICENSE)

@@ -69,6 +69,27 @@ const meta = {
     endIcon: {
       description: "Icon element to show after the button text",
     },
+    disabled: {
+      description: "Disables the button",
+      control: "boolean",
+      table: {
+        defaultValue: { summary: "false" },
+      },
+    },
+    as: {
+      description: "The component used for the root node",
+      control: { type: "text" },
+      table: {
+        defaultValue: { summary: "button" },
+      },
+    },
+    component: {
+      description: "The component used for the root node",
+      control: { type: "text" },
+      table: {
+        defaultValue: { summary: "button" },
+      },
+    },
   },
   args: {
     onClick: fn(),
@@ -79,7 +100,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 type ButtonStory = StoryObj<typeof Button>;
-type ButtonLinkStory = StoryObj<typeof Button>;
 
 // Basic variants
 export const Contained: Story = {
@@ -176,7 +196,9 @@ export const ColorShowcase: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <Button color="primary">Primary</Button>
+        <Button component="a" target="_blank" color="primary">
+          Primary
+        </Button>
         <Button color="secondary">Secondary</Button>
         <Button color="success">Success</Button>
         <Button color="error">Error</Button>
@@ -234,11 +256,27 @@ export const WithIcons: Story = {
 };
 
 // Example of using as a different element
-export const AsLink: ButtonLinkStory = {
+export const AsLink: StoryObj<typeof Button> = {
   args: {
     component: "a",
     href: "#",
     children: "Link Button",
+  },
+};
+
+export const CustomElementDisabled: StoryObj<typeof Button> = {
+  args: {
+    component: "div",
+    disabled: true,
+    children: "Disabled Div Button",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Non-button elements get aria-disabled but not the disabled attribute",
+      },
+    },
   },
 };
 
@@ -248,4 +286,27 @@ export const AsCustomElement: ButtonStory = {
     role: "button",
     children: "Custom Element Button",
   },
+};
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    children: "Disabled Button",
+  },
+};
+
+export const DisabledStates: Story = {
+  render: () => (
+    <div className="flex gap-4">
+      <Button disabled variant="contained">
+        Contained
+      </Button>
+      <Button disabled variant="outlined">
+        Outlined
+      </Button>
+      <Button disabled variant="text">
+        Text
+      </Button>
+    </div>
+  ),
 };

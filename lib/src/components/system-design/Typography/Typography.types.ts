@@ -1,6 +1,10 @@
 import * as React from "react";
 import type { VariantProps } from "class-variance-authority";
 import { typographyVariants } from "./variants";
+import type {
+  PolymorphicComponentProp,
+  PolymorphicComponent,
+} from "@/utils/polymorphic";
 
 export type TypographyVariant = NonNullable<
   VariantProps<typeof typographyVariants>["variant"]
@@ -17,29 +21,51 @@ export const FONT_FAMILIES = {
   secondary: "",
 } as const;
 
-export const HTML_MAPPINGS: Record<TypographyVariant, React.ElementType> = {
-  h1: "h1",
-  h2: "h2",
-  h3: "h3",
-  h4: "h4",
-  h5: "h5",
-  h6: "h6",
-  subtitle1: "p",
-  subtitle2: "p",
-  body1: "p",
-  body2: "p",
-  body3: "p",
-  caption: "p",
-};
+/**
+ * Base props for Typography component
+ */
+export type TypographyBaseProps = Omit<
+  React.HTMLAttributes<HTMLElement>,
+  "color"
+> &
+  VariantProps<typeof typographyVariants> & {
+    /**
+     * If true, the text will not wrap, but instead will truncate with a text overflow ellipsis.
+     */
+    noWrap?: boolean;
+    /**
+     * If true, the text will have a bottom margin.
+     */
+    gutterBottom?: boolean;
+    /**
+     * If true, the text will have a bottom margin applied to create paragraph spacing.
+     */
+    paragraph?: boolean;
+    /**
+     * The font family to use.
+     */
+    fontFamily?: keyof typeof FONT_FAMILIES | string;
+    /**
+     * The content of the component.
+     */
+    children?: React.ReactNode;
+    /**
+     * If true, the typography will inherit styles from its parent.
+     */
+    inherit?: boolean;
+  };
 
-export interface TypographyProps
-  extends Omit<React.HTMLAttributes<HTMLElement>, "color">,
-    VariantProps<typeof typographyVariants> {
-  component?: React.ElementType;
-  noWrap?: boolean;
-  gutterBottom?: boolean;
-  paragraph?: boolean;
-  fontFamily?: keyof typeof FONT_FAMILIES | string;
-  children: React.ReactNode;
-  inherit?: boolean;
-}
+/**
+ * Props for the Typography component including the ref
+ * Compatible with React 19's new ref handling
+ */
+export type TypographyProps<C extends React.ElementType = "p"> =
+  PolymorphicComponentProp<C, TypographyBaseProps>;
+
+/**
+ * Typography component type
+ */
+export type TypographyComponent = PolymorphicComponent<
+  TypographyBaseProps,
+  "p"
+>;

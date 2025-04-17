@@ -8,7 +8,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./lib/src/*"]
-    }
+      "@/*": ["./lib/src/*"],
+      "@test/*": ["./lib/test/*"]
+    },
+    "types": ["vitest/globals"]
   }
 }

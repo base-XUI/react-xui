@@ -1,36 +1,57 @@
 {
-  "name": "react-xui",
-  "private": true,
+  "name": "@base-xui/react-xui",
+  "private": false,
   "version": "0.1.0",
+  "description": "React XUI Component Library",
   "type": "module",
   "main": "./dist/umd/react-xui.umd.js",
-  "module": "./dist/es/main.js",
-  "types": "./dist/types/main.d.ts",
+  "module": "./dist/es/src/index.js",
+  "types": "./dist/types/index.d.ts",
   "files": [
     "dist"
   ],
   "exports": {
     ".": {
-      "types": "./dist/types/main.d.ts",
-      "import": "./dist/es/main.js",
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/es/src/index.js",
       "require": "./dist/umd/react-xui.umd.js"
     },
     "./style.css": "./dist/style.css"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
-    "build:package": "pnpm clean && tsc -p tsconfig.build.json && vite build --mode package",
+    "build:package": "pnpm clean && tsc -p tsconfig.build.json && vite build && pnpm build:css --mode package",
     "build:storybook": "storybook build",
+    "build:css": "pnpm dlx @tailwindcss/cli -i lib/src/main.css -o dist/styles.css --minify",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "release": "npm run build && changeset publish",
+    "release": "pnpm build:package && changeset publish",
     "prepare": "husky",
     "changeset": "changeset",
     "version-packages": "changeset version",
+    "prerelease": "changeset pre",
+    "prerelease:enter": "changeset pre enter",
+    "prerelease:exit": "changeset pre exit",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:ci": "vitest run",
+    "test:e2e": "playwright test",
+    "build:watch": "vite build --watch --mode package",
+    "link:local": "yalc publish --no-scripts",
+    "prepublishOnly": "pnpm lint && pnpm test:ci && pnpm build:package"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "dependencies": {
+    "@tailwindcss/cli": "^4.0.14",
     "@tailwindcss/vite": "^4.0.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -41,11 +62,13 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
     "@chromatic-com/storybook": "3.2.4",
     "@commitlint/cli": "^19.2.0",
     "@commitlint/config-conventional": "^19.1.0",
     "@eslint/js": "^9.19.0",
+    "@playwright/test": "^1.50.1",
     "@storybook/addon-essentials": "8.5.4",
     "@storybook/addon-interactions": "8.5.4",
     "@storybook/addon-onboarding": "8.5.4",
@@ -53,6 +76,9 @@
     "@storybook/react": "8.5.4",
     "@storybook/react-vite": "8.5.4",
     "@storybook/test": "8.5.4",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^22.12.0",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
@@ -64,15 +90,20 @@
     "globals": "^15.14.0",
     "husky": "^9.1.7",
     "hygen": "^6.2.11",
+    "jsdom": "^26.0.0",
     "lint-staged": "^15.2.2",
     "prettier": "3.5.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
+    "react-router-dom": "^7.2.0",
     "rimraf": "^5.0.10",
     "storybook": "8.5.4",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.22.0",
     "vite": "^6.1.0",
-    "vite-plugin-dts": "^4.5.0"
+    "vite-plugin-dts": "^4.5.0",
+    "vite-plugin-lib-inject-css": "^2.2.1",
+    "vitest": "^3.0.6",
+    "yalc": "^1.0.0-pre.53"
   },
   "eslintConfig": {
     "extends": [
@@ -82,7 +113,8 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "eslint --fix",
-      "prettier --write"
+      "prettier --write",
+      "vitest related --run"
     ],
     "*.{json,css,md}": [
       "prettier --write"
