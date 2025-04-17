@@ -22,6 +22,16 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/base-XUI/react-xui.git"
+  },
+  "changelog": [
+    "@changesets/changelog-github",
+    {
+      "repo": "base-XUI/react-xui"
+    }
+  ],
   "scripts": {
     "build:package": "pnpm clean && tsc -p tsconfig.build.json && vite build && pnpm build:css --mode package",
     "build:storybook": "storybook build",
