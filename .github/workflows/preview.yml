@@ -24,22 +24,27 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Verify pnpm installation
+        run: pnpm --version
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
           cache: "pnpm"
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8
-
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
+        working-directory: .
 
       - name: Build Storybook
         run: pnpm build:storybook
+        working-directory: .
 
       # You can use any static site hosting service you prefer
       # This example uses GitHub Pages via actions/deploy-pages

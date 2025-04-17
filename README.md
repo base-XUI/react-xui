@@ -108,65 +108,7 @@ For testing the package in another local project without publishing to npm:
 
 ## Contributing
 
-### Development Workflow
-
-1. Create a new branch from `development`:
-
-   ```bash
-   git checkout development
-   git pull
-   git checkout -b feature/my-feature
-   ```
-
-2. Make your changes and commit them using conventional commits:
-
-   ```bash
-   git commit -m "feat: add new button variant"
-   ```
-
-3. Add a changeset to document your changes:
-
-   ```bash
-   pnpm changeset
-   ```
-
-   - This will prompt you to:
-     - Select which packages to include in the changeset
-     - Choose the type of change (major, minor, patch)
-     - Write a summary of the changes
-
-4. Commit the generated changeset file:
-
-   ```bash
-   git add .changeset/*.md
-   git commit -m "chore: add changeset"
-   ```
-
-5. Push your branch and create a PR against the `development` branch:
-   ```bash
-   git push -u origin feature/my-feature
-   ```
-
-### Release Process
-
-When changes are merged to the `main` branch:
-
-1. The CI workflow will run tests and build the package
-2. The release workflow will:
-   - Version the packages based on changesets
-   - Update changelogs
-   - Publish the package to npm
-
-If there are changesets on the `development` branch, when you merge to `main`:
-
-- A release PR will be created automatically
-- Merging this PR will trigger the version bump and publish
-
-### Working with Changesets
-
-- `pnpm changeset` - Create a new changeset
-- `pnpm version-packages` - Bump versions and update changelogs locally
-- `pnpm release` - Publish packages to npm (only runs in CI)
+Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed information about our development workflow, branching strategy, and release process.
 
 ## License
 

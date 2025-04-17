@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-      - "release/*"
       - "hotfix/*"
 
 jobs:
@@ -35,6 +34,14 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "github-actions@github.com"
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Verify pnpm installation
+        run: pnpm --version
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -42,13 +49,8 @@ jobs:
           cache: "pnpm"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8
-
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build package
         run: pnpm build:package
@@ -61,18 +63,26 @@ jobs:
           echo "Branch: $BRANCH_NAME"
 
           if [[ $BRANCH_NAME == "main" ]]; then
-            echo "PUBLISH_COMMAND=pnpm release" >> $GITHUB_OUTPUT
+            if [[ $HAS_CHANGESETS == "true" ]]; then
+              echo "PUBLISH_COMMAND=pnpm version-packages && pnpm build:package && pnpm changeset publish" >> $GITHUB_OUTPUT
+            else
+              echo "PUBLISH_COMMAND=pnpm build:package && pnpm changeset publish" >> $GITHUB_OUTPUT
+            fi
             echo "IS_MAIN=true" >> $GITHUB_OUTPUT
-          elif [[ $BRANCH_NAME == release/* || $BRANCH_NAME == hotfix/* ]]; then
-            echo "Running on release/hotfix branch"
-            echo "PUBLISH_COMMAND=pnpm changeset version && pnpm build && pnpm changeset publish" >> $GITHUB_OUTPUT
+          elif [[ $BRANCH_NAME == hotfix/* ]]; then
+            echo "Running on hotfix branch"
+            if [[ $HAS_CHANGESETS == "true" ]]; then
+              echo "PUBLISH_COMMAND=pnpm version-packages && pnpm build:package && pnpm changeset publish" >> $GITHUB_OUTPUT
+            else
+              echo "PUBLISH_COMMAND=pnpm build:package && pnpm changeset publish" >> $GITHUB_OUTPUT
+            fi
             echo "IS_MAIN=false" >> $GITHUB_OUTPUT
           else
             echo "Not a publishing branch"
             exit 0
           fi
 
-      # Main branch: Create PR or publish with changesets
+      # Main branch: Apply changesets and publish directly
       - name: Release on main branch
         if: steps.release-info.outputs.IS_MAIN == 'true'
         uses: changesets/action@v1
@@ -86,8 +96,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # Release/hotfix branches: Direct publish
-      - name: Release on release/hotfix branch
+      # Hotfix branches: Direct publish
+      - name: Release on hotfix branch
         if: steps.release-info.outputs.IS_MAIN != 'true'
         run: ${{ steps.release-info.outputs.PUBLISH_COMMAND }}
         env:
