@@ -12,6 +12,13 @@ on:
       - ".storybook/**"
       - "vite.config.ts"
 
+# Add permissions required for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  pull-requests: write
+
 jobs:
   build-storybook:
     name: Build and Deploy Storybook Preview
