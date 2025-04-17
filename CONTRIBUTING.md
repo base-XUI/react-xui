@@ -6,11 +6,10 @@ This document outlines our branching strategy, development workflow, and release
 
 We follow a modified GitFlow workflow:
 
-- `main` - Production-ready code. Only merged from release branches or hotfixes.
+- `main` - Production-ready code. Feature and bug fix branches are merged to the development branch first.
 - `development` - Main development branch. All feature branches merge here.
 - `feature/*` - New features or enhancements (e.g., `feature/button-component`)
 - `fix/*` - Bug fixes (e.g., `fix/button-focus-issue`)
-- `release/*` - Release preparation branches (e.g., `release/1.0.0`)
 - `hotfix/*` - Emergency fixes for production (e.g., `hotfix/critical-bug`)
 
 ## Development Workflow
@@ -58,45 +57,25 @@ We follow a modified GitFlow workflow:
 
 When ready to release:
 
-1. **Create a release branch from development**:
+1. **Create a PR from development to main**:
 
    ```bash
-   git checkout development
-   git pull origin development
-   git checkout -b release/x.y.z
+   # No need to create a separate release branch anymore
+   # Simply create a PR from development to main
    ```
 
-2. **Version packages** (this should be done on the release branch):
+2. **Review and merge the PR**:
 
-   ```bash
-   pnpm changeset version
-   ```
+   - Once the PR is approved, merge it to main
+   - The GitHub Actions workflow will:
+     - Automatically version packages based on changesets
+     - Update the CHANGELOG.md
+     - Build and publish the package to npm
+     - Create a GitHub release
 
-   This command will:
-
-   - Update package versions based on the changesets
-   - Update the CHANGELOG.md file
-   - Remove the changeset files
-
-3. **Commit the version changes**:
-
-   ```bash
-   git add .
-   git commit -m "chore: version packages for release"
-   ```
-
-4. **Open a PR from the release branch to main**:
-
-   - This is a final review opportunity
-   - When merged, the CI will automatically publish to npm
-
-5. **After the release**:
-   - Merge the release branch back to development:
-   ```bash
-   git checkout development
-   git merge --no-ff release/x.y.z
-   git push origin development
-   ```
+3. **After the release**:
+   - All versioning is handled automatically
+   - The changesets are consumed and removed during the process
 
 ## Hotfix Process
 
@@ -112,22 +91,25 @@ For urgent production fixes:
 
 2. **Make your fix and create a changeset**
 
-3. **Version the package** directly on the hotfix branch:
+3. **Push your branch and open a PR directly to main**:
 
    ```bash
-   pnpm changeset version
-   git add .
-   git commit -m "chore: version packages for hotfix"
+   git push -u origin hotfix/critical-issue
    ```
 
-4. **Open a PR to main**:
+4. **Review and merge the PR**:
 
-   - When merged, the fix will be published
+   - Once approved, merge to main
+   - The GitHub Actions workflow will:
+     - Version the package based on the changeset
+     - Build and publish the hotfix to npm
+     - Create a GitHub release
 
-5. **Merge the hotfix back to development**:
+5. **Sync back to development**:
    ```bash
    git checkout development
-   git merge --no-ff hotfix/critical-issue
+   git pull origin development
+   git merge origin/main
    git push origin development
    ```
 
@@ -135,32 +117,34 @@ For urgent production fixes:
 
 For beta/alpha versions:
 
-1. **Create a pre-release branch**:
+1. **Set pre-release status on development**:
 
    ```bash
    git checkout development
-   git checkout -b release/x.y.z-beta
-   ```
-
-2. **Set pre-release status**:
-
-   ```bash
    pnpm changeset pre enter beta
+   git add .changeset/
+   git commit -m "chore: enter pre-release mode (beta)"
+   git push origin development
    ```
 
-3. **Create and commit changesets as normal**
+2. **Create and commit changesets as normal on feature branches**
 
-4. **Version the package**:
+3. **When ready to publish a pre-release version**:
 
+   - Merge feature branches to development as usual
+   - Create a PR from development to main
+   - When merged, the pre-release will be published with the beta tag
+
+4. **When ready to exit pre-release mode**:
    ```bash
-   pnpm changeset version
-   ```
-
-5. **When ready to finalize**:
-   ```bash
+   git checkout development
    pnpm changeset pre exit
-   pnpm changeset version
+   git add .changeset/
+   git commit -m "chore: exit pre-release mode"
+   git push origin development
    ```
+   - Create a PR from development to main
+   - When merged, the stable version will be published
 
 ## Documentation
 
