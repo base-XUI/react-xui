@@ -71,7 +71,7 @@ For testing the package in another local project without publishing to npm:
    Or use watch mode for continuous updates:
 
    ```bash
-   pnpm build:watch
+   pnpm build:package --watch
    ```
 
    And in another terminal:
@@ -94,7 +94,7 @@ For testing the package in another local project without publishing to npm:
 
 - `pnpm storybook` - Start Storybook for component development
 - `pnpm build:storybook` - Build Storybook for deployment
-- `pnpm test` - Run tests
+- `pnpm test:watch` - Run tests
 - `pnpm lint` - Lint code
 - `pnpm format` - Format code
 - `pnpm build:watch` - Build in watch mode for development
