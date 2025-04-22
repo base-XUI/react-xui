@@ -47,7 +47,6 @@
     "test:e2e": "cypress run",
     "test:e2e:open": "cypress open",
     "test:ci": "cypress run --component",
-    "build:watch": "vite build --watch --mode package",
     "prepublishOnly": "pnpm lint && pnpm test:ci && pnpm build:package"
   },
   "peerDependencies": {

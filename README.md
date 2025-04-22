@@ -99,14 +99,12 @@ For testing the package in another local project without publishing to npm:
 - `pnpm test:watch` - Open Visualized test interface
 - `pnpm lint` - Lint code
 - `pnpm format` - Format code
-- `pnpm build:watch` - Build in watch mode for development
 
 ### Project Structure
 
 - `lib/src/` - Component source code
 - `lib/src/components/` - UI components
 - `lib/src/utils/` - Utility functions
-- `lib/tests/` - Test utilities
 
 ## Contributing
 
