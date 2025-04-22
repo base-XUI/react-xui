@@ -5,17 +5,17 @@ A modern React component library built with Vite, TypeScript, and Tailwind CSS.
 ## Installation
 
 ```bash
-npm install react-xui
+npm install @base-xui/react-xui
 # or
-yarn add react-xui
+yarn add @base-xui/react-xui
 # or
-pnpm add react-xui
+pnpm add @base-xui/react-xui
 ```
 
 ## Usage
 
 ```jsx
-import { Button } from "react-xui";
+import { Button } from "@base-xui/react-xui";
 
 function App() {
   return <Button variant="primary">Click me</Button>;
@@ -80,11 +80,19 @@ For testing the package in another local project without publishing to npm:
    yalc push --watch
    ```
 
-5. To remove the yalc link:
+5. Link package to local react app:
 
    ```bash
    # In your test app directory
-   yalc remove react-xui
+   yalc add @base-xui/react-xui
+   pnpm install # or npm install
+   ```
+
+6. To remove the yalc link:
+
+   ```bash
+   # In your test app directory
+   yalc remove @base-xui/react-xui
    npm install # or pnpm install
    ```
 
