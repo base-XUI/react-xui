@@ -94,7 +94,9 @@ For testing the package in another local project without publishing to npm:
 
 - `pnpm storybook` - Start Storybook for component development
 - `pnpm build:storybook` - Build Storybook for deployment
-- `pnpm test:watch` - Run tests
+- `pnpm test` - Run components test (unit test)
+- `pnpm test:e2e` - Run end to end tests
+- `pnpm test:watch` - Open Visualized test interface
 - `pnpm lint` - Lint code
 - `pnpm format` - Format code
 - `pnpm build:watch` - Build in watch mode for development

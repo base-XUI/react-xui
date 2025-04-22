@@ -3,7 +3,6 @@
   "private": false,
   "version": "0.2.0",
   "description": "React XUI Component Library",
-  "type": "module",
   "main": "./dist/umd/react-xui.umd.js",
   "module": "./dist/es/src/index.js",
   "types": "./dist/types/index.d.ts",
@@ -43,9 +42,11 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "clean": "rimraf dist",
-    "test:watch": "vitest",
-    "test:ci": "vitest run",
-    "test:e2e": "playwright test",
+    "test": "cypress run --component",
+    "test:watch": "cypress open --component",
+    "test:e2e": "cypress run",
+    "test:e2e:open": "cypress open",
+    "test:ci": "cypress run --component",
     "build:watch": "vite build --watch --mode package",
     "prepublishOnly": "pnpm lint && pnpm test:ci && pnpm build:package"
   },
@@ -70,22 +71,21 @@
     "@chromatic-com/storybook": "3.2.4",
     "@commitlint/cli": "^19.2.0",
     "@commitlint/config-conventional": "^19.1.0",
+    "@cypress/vite-dev-server": "^6.0.3",
     "@eslint/js": "^9.19.0",
     "@playwright/test": "^1.50.1",
     "@storybook/addon-essentials": "8.5.4",
-    "@storybook/addon-interactions": "8.5.4",
-    "@storybook/addon-onboarding": "8.5.4",
     "@storybook/blocks": "8.5.4",
     "@storybook/react": "8.5.4",
     "@storybook/react-vite": "8.5.4",
     "@storybook/test": "8.5.4",
-    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/node": "^22.12.0",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "cypress": "^14.3.1",
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
@@ -93,7 +93,6 @@
     "globals": "^15.14.0",
     "husky": "^9.1.7",
     "hygen": "^6.2.11",
-    "jsdom": "^26.0.0",
     "lint-staged": "^15.2.2",
     "prettier": "3.5.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
@@ -105,7 +104,6 @@
     "vite": "^6.1.0",
     "vite-plugin-dts": "^4.5.0",
     "vite-plugin-lib-inject-css": "^2.2.1",
-    "vitest": "^3.0.6",
     "yalc": "^1.0.0-pre.53"
   },
   "eslintConfig": {
@@ -116,8 +114,11 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "eslint --fix",
-      "prettier --write",
-      "vitest related --run"
+      "prettier --write"
+    ],
+    "*.cy.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
     ],
     "*.{json,css,md}": [
       "prettier --write"
