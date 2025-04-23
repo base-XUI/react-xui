@@ -1,16 +1,11 @@
 import { defineConfig, UserConfig } from "vite";
-import { InlineConfig } from "vitest/node";
 import { resolve } from "path";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import { libInjectCss } from "vite-plugin-lib-inject-css";
 
-type ViteConfig = UserConfig & {
-  test: InlineConfig;
-};
-
-export default defineConfig((): ViteConfig => {
+export default defineConfig((): UserConfig => {
   const libFilesPath = "lib/src";
 
   return {
@@ -63,7 +58,7 @@ export default defineConfig((): ViteConfig => {
         { find: "@", replacement: resolve(__dirname, `./${libFilesPath}`) },
         {
           find: "@tests",
-          replacement: resolve(__dirname, "./lib/tests"),
+          replacement: resolve(__dirname, "./cypress"),
         },
       ],
     },
@@ -73,13 +68,7 @@ export default defineConfig((): ViteConfig => {
       libInjectCss(),
       dts({
         include: [libFilesPath],
-        exclude: [
-          "**/*.stories.tsx",
-          "**/*.test.tsx",
-          "**/*.test.ts",
-          "**/*.spec.tsx",
-          "**/*.spec.ts",
-        ],
+        exclude: ["**/*.stories.tsx", "**/*.cy.tsx", "**/*.cy.ts"],
         rollupTypes: true,
         outDir: "dist/types",
         compilerOptions: {
@@ -90,12 +79,5 @@ export default defineConfig((): ViteConfig => {
         },
       }),
     ],
-    test: {
-      environment: "jsdom",
-      setupFiles: "./lib/tests/setup.ts",
-      globals: true,
-      watch: false,
-      include: ["lib/**/*.test.ts", "lib/**/*.test.tsx"],
-    },
   };
 });

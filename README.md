@@ -5,17 +5,17 @@ A modern React component library built with Vite, TypeScript, and Tailwind CSS.
 ## Installation
 
 ```bash
-npm install react-xui
+npm install @base-xui/react-xui
 # or
-yarn add react-xui
+yarn add @base-xui/react-xui
 # or
-pnpm add react-xui
+pnpm add @base-xui/react-xui
 ```
 
 ## Usage
 
 ```jsx
-import { Button } from "react-xui";
+import { Button } from "@base-xui/react-xui";
 
 function App() {
   return <Button variant="primary">Click me</Button>;
@@ -80,11 +80,19 @@ For testing the package in another local project without publishing to npm:
    yalc push --watch
    ```
 
-5. To remove the yalc link:
+5. Link package to local react app:
 
    ```bash
    # In your test app directory
-   yalc remove react-xui
+   yalc add @base-xui/react-xui
+   pnpm install # or npm install
+   ```
+
+6. To remove the yalc link:
+
+   ```bash
+   # In your test app directory
+   yalc remove @base-xui/react-xui
    npm install # or pnpm install
    ```
 
@@ -94,17 +102,17 @@ For testing the package in another local project without publishing to npm:
 
 - `pnpm storybook` - Start Storybook for component development
 - `pnpm build:storybook` - Build Storybook for deployment
-- `pnpm test:watch` - Run tests
+- `pnpm test` - Run components test (unit test)
+- `pnpm test:e2e` - Run end to end tests
+- `pnpm test:watch` - Open Visualized test interface
 - `pnpm lint` - Lint code
 - `pnpm format` - Format code
-- `pnpm build:watch` - Build in watch mode for development
 
 ### Project Structure
 
 - `lib/src/` - Component source code
 - `lib/src/components/` - UI components
 - `lib/src/utils/` - Utility functions
-- `lib/tests/` - Test utilities
 
 ## Contributing
 
