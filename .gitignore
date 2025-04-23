@@ -28,5 +28,4 @@ storybook-static
 
 *storybook.log
 
-# Playwright
 /cypress/screenshots
