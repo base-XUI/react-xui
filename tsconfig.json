@@ -9,8 +9,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./lib/src/*"],
-      "@test/*": ["./lib/test/*"]
-    },
-    "types": ["vitest/globals"]
+      "@test/*": ["./cypress/*"]
+    }
   }
 }

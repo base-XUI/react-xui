@@ -17,8 +17,7 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./lib/src/*"],
-      "@tests/*": ["./lib/tests/*"]
+      "@/*": ["./lib/src/*"]
     },
     "declaration": true,
     "declarationDir": "./dist/types",
@@ -31,11 +30,10 @@
   "exclude": [
     "node_modules",
     "**/*.stories.tsx",
-    "**/*.test.tsx",
-    "**/*.test.ts",
-    "**/*.spec.tsx",
-    "**/*.spec.ts",
+    "**/*.cy.tsx",
+    "**/*.cy.ts",
     ".storybook",
+    "cypress",
     "dist"
   ]
 }
