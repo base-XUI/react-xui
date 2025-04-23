@@ -83,7 +83,7 @@ jobs:
         run: pnpm exec cypress install
 
       - name: Unit & Component Tests
-        run: pnpm test:ci
+        run: pnpm test:unit
 
       - name: E2E Tests
         run: pnpm test:e2e || { echo "No E2E tests found, continuing..."; exit 0; }
