@@ -44,23 +44,7 @@ For testing the package in another local project without publishing to npm:
    pnpm install -g yalc
    ```
 
-2. Build and publish the package locally:
-
-   ```bash
-   # In react-xui directory
-   pnpm build:package
-   yalc publish
-   ```
-
-3. In your test application:
-
-   ```bash
-   # In your test app directory
-   yalc add react-xui
-   npm install # or pnpm install
-   ```
-
-4. When you make changes to the library:
+2. When you make changes to the library:
 
    ```bash
    # In react-xui directory
@@ -80,7 +64,7 @@ For testing the package in another local project without publishing to npm:
    yalc push --watch
    ```
 
-5. Link package to local react app:
+3. Link package to local react app:
 
    ```bash
    # In your test app directory
@@ -88,7 +72,7 @@ For testing the package in another local project without publishing to npm:
    pnpm install # or npm install
    ```
 
-6. To remove the yalc link:
+4. To remove the yalc link:
 
    ```bash
    # In your test app directory
