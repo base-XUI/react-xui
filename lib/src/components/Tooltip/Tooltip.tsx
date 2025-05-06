@@ -31,15 +31,13 @@ export const Tooltip = (
             (callback?: (event: React.SyntheticEvent) => void) =>
                 (event: React.SyntheticEvent) =>
                     callback?.(event);
-        console.log("Tooltip rendered", { open });
-
-        function openTooltip() {
+        function openTooltip(event: React.SyntheticEvent) {
             setopen(true)
             onOpen?.(event)
         }
         function closeTooltip(event: React.SyntheticEvent) {
             setopen(false)
-            onClose?.()
+            onClose?.(event)
         }
 
         return (

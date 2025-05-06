@@ -9,6 +9,8 @@ const placementOptions = Object.keys(tooltipVariantsConfig.variants.placement);
 const colorOptions = Object.keys(tooltipVariantsConfig.variants.color);
 const arrowOptions = Object.keys(tooltipVariantsConfig.variants.arrow);
 
+// type PlacementOption = keyof typeof tooltipVariantsConfig.variants.placement;
+
 const meta = {
     title: "Inputs/Tooltip",
     component: Tooltip,
@@ -42,7 +44,7 @@ const meta = {
         arrow: {
             description: "Whether the tooltip includes an arrow",
             options: arrowOptions,
-            control: { type: "boolean" },
+            control: { type: "select" },
             table: {
                 defaultValue: { summary: String(tooltipVariantsConfig.defaultVariants.arrow) },
             },
@@ -120,21 +122,23 @@ export const Basic: Story = {
     },
 };
 
-export const AllPlacements: Story = {
-    render: () => (
-        <div className="grid grid-cols-3 gap-4">
-            {placementOptions.map((placeOption) => (
-                <Tooltip key={placeOption} title={`Placement: ${placeOption}`} placement={placeOption}>
-                    <span className="border p-2">{placeOption}</span>
-                </Tooltip>
-            ))}
-        </div>
-    ),
-};
+// export const AllPlacements: Story = {
+//     render: () => (
+//         <div className="grid grid-cols-3 gap-4">
+//             {placementOptions.map((placeOption) => (
+//                 <Tooltip key={placeOption} title={placeOption} placement={placeOption as PlacementOption}
+//                 >
+//                     <span className="border p-2">{placeOption}</span>
+//                 </Tooltip>
+//             ))}
+//         </div>
+//     ),
+// };
+
 export const GoodToolTip: Story = {
     render: () => (
         <div className="grid grid-cols-3 gap-4">
-            <Tooltip title={`Placement: The title`} onOpen={(event) => console.log(event.target)} onClose={() => console.log("3ady33333")}>
+            <Tooltip title="Placement: The title" onOpen={(event) => (event.target)} >
                 <span className="border p-2">{"inside the tooltip"}</span>
             </Tooltip>
         </div>
