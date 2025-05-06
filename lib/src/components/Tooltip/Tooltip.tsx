@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { tooltipVariants } from "./variants";
 import { TooltipProps } from "./Tooltip.types";
 
-export const Tooltip = React.forwardRef(
+export const Tooltip = (
     <C extends React.ElementType = "span">(
         {
             as,
@@ -10,7 +10,7 @@ export const Tooltip = React.forwardRef(
             title,
             arrow = false,
             placement = "bottom",
-            open,
+            // open,
             onOpen,
             onClose,
             disableHoverListener = false,
@@ -23,7 +23,7 @@ export const Tooltip = React.forwardRef(
         }: TooltipProps<C>,
         ref: React.Ref<Element>
     ) => {
-
+        const [open, setopen] = useState(false)
         const Component = (as || "span") as React.ElementType;
         const tooltipId = id || `tooltip-${Math.random().toString(36).slice(2, 8)}`;
 
@@ -31,12 +31,22 @@ export const Tooltip = React.forwardRef(
             (callback?: (event: React.SyntheticEvent) => void) =>
                 (event: React.SyntheticEvent) =>
                     callback?.(event);
+        console.log("Tooltip rendered", { open });
+
+        function openTooltip() {
+            setopen(true)
+            onOpen?.(event)
+        }
+        function closeTooltip(event: React.SyntheticEvent) {
+            setopen(false)
+            onClose?.()
+        }
 
         return (
             <Component
                 ref={ref}
-                onMouseEnter={!disableHoverListener ? handleEvent(onOpen) : undefined}
-                onMouseLeave={!disableHoverListener ? handleEvent(onClose) : undefined}
+                onMouseEnter={!disableHoverListener ? handleEvent(openTooltip) : undefined}
+                onMouseLeave={!disableHoverListener ? handleEvent(closeTooltip) : undefined}
                 onFocus={!disableFocusListener ? handleEvent(onOpen) : undefined}
                 onBlur={!disableFocusListener ? handleEvent(onClose) : undefined}
                 aria-describedby={!describeChild ? tooltipId : undefined}
