@@ -23,7 +23,8 @@ export const Tooltip = React.forwardRef(
         }: TooltipProps<C>,
         ref: React.Ref<Element>
     ) => {
-        const Component = as || "span";
+
+        const Component = (as || "span") as React.ElementType;
         const tooltipId = id || `tooltip-${Math.random().toString(36).slice(2, 8)}`;
 
         const handleEvent =
