@@ -29,7 +29,6 @@ describe("TabList Component", () => {
 
     cy.get('[role="tablist"]').should("have.class", "flex-col");
 
-    // Test horizontal orientation
     cy.mount(
       <Tabs defaultValue={0} orientation="horizontal">
         <TabList>
