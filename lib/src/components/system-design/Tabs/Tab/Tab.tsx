@@ -27,12 +27,7 @@ export const Tab: TabComponent = <C extends React.ElementType = "button">({
   className,
   ...props
 }: TabProps<C>) => {
-  const {
-    value: selectedValue,
-    setValue,
-    textColor,
-    indicatorColor,
-  } = useTabsContext();
+  const { value: selectedValue, setValue } = useTabsContext();
   const isSelected = value === selectedValue;
 
   return (
@@ -44,11 +39,6 @@ export const Tab: TabComponent = <C extends React.ElementType = "button">({
       className={clsx(
         "flex items-center justify-center px-4 py-2 transition-colors outline-none",
         "hover:bg-gray-100 focus:bg-gray-100",
-        isSelected && [
-          `text-${textColor === "inherit" ? indicatorColor : textColor}`,
-          "border-b-2",
-          `border-${indicatorColor}`,
-        ],
         disabled && "cursor-not-allowed opacity-50",
         className,
       )}

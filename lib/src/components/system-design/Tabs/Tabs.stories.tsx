@@ -47,13 +47,13 @@ export const Basic: Story = {
   render: () => (
     <Tabs defaultValue={0}>
       <TabList>
-        <Tab value={0}>Tab 1</Tab>
-        <Tab value={1}>Tab 2</Tab>
-        <Tab value={2}>Tab 3</Tab>
+        <Tab value={0}>ITEM ONE</Tab>
+        <Tab value={1}>ITEM TWO</Tab>
+        <Tab value={2}>ITEM THREE</Tab>
       </TabList>
-      <TabPanel value={0}>Content 1</TabPanel>
-      <TabPanel value={1}>Content 2</TabPanel>
-      <TabPanel value={2}>Content 3</TabPanel>
+      <TabPanel value={0}>ITEM ONE</TabPanel>
+      <TabPanel value={1}>ITEM TWO</TabPanel>
+      <TabPanel value={2}>ITEM THREE</TabPanel>
     </Tabs>
   ),
 };
@@ -62,13 +62,13 @@ export const Vertical: Story = {
   render: () => (
     <Tabs defaultValue={0} orientation="vertical">
       <TabList>
-        <Tab value={0}>Tab 1</Tab>
-        <Tab value={1}>Tab 2</Tab>
-        <Tab value={2}>Tab 3</Tab>
+        <Tab value={0}>ITEM ONE</Tab>
+        <Tab value={1}>ITEM TWO</Tab>
+        <Tab value={2}>ITEM THREE</Tab>
       </TabList>
-      <TabPanel value={0}>Content 1</TabPanel>
-      <TabPanel value={1}>Content 2</TabPanel>
-      <TabPanel value={2}>Content 3</TabPanel>
+      <TabPanel value={0}>ITEM ONE</TabPanel>
+      <TabPanel value={1}>ITEM TWO</TabPanel>
+      <TabPanel value={2}>ITEM THREE</TabPanel>
     </Tabs>
   ),
 };
@@ -80,8 +80,8 @@ export const FullWidth: Story = {
         <Tab value={0}>Full Width Tab 1</Tab>
         <Tab value={1}>Full Width Tab 2</Tab>
       </TabList>
-      <TabPanel value={0}>Content 1</TabPanel>
-      <TabPanel value={1}>Content 2</TabPanel>
+      <TabPanel value={0}>Tab 1</TabPanel>
+      <TabPanel value={1}>Tab 2</TabPanel>
     </Tabs>
   ),
 };
@@ -93,13 +93,13 @@ export const Scrollable: Story = {
         <TabList>
           {[...Array(6)].map((_, i) => (
             <Tab key={i} value={i}>
-              Tab {i + 1}
+              PAGE {i + 1}
             </Tab>
           ))}
         </TabList>
         {[...Array(6)].map((_, i) => (
           <TabPanel key={i} value={i}>
-            Content {i + 1}
+            PAGE {i + 1}
           </TabPanel>
         ))}
       </Tabs>
@@ -120,9 +120,9 @@ export const TabVariants: Story = {
             Disabled
           </Tab>
         </TabList>
-        <TabPanel value={0}>Standard Tab Content</TabPanel>
-        <TabPanel value={1}>Icon Tab Content</TabPanel>
-        <TabPanel value={2}>Disabled Tab Content</TabPanel>
+        <TabPanel value={0}>Standard Tab</TabPanel>
+        <TabPanel value={1}>Icon Tab</TabPanel>
+        <TabPanel value={2}>Disabled Tab</TabPanel>
       </Tabs>
     </div>
   ),
@@ -134,19 +134,19 @@ export const TabListVariants: Story = {
       <Tabs defaultValue={0}>
         <TabList variant="standard">
           <Tab value={0}>Standard List</Tab>
-          <Tab value={1}>Tab 2</Tab>
+          <Tab value={1}>ITEM TWO</Tab>
         </TabList>
-        <TabPanel value={0}>Standard List Content</TabPanel>
-        <TabPanel value={1}>Content 2</TabPanel>
+        <TabPanel value={0}>Standard List</TabPanel>
+        <TabPanel value={1}>ITEM TWO</TabPanel>
       </Tabs>
 
       <Tabs defaultValue={0}>
         <TabList variant="contained" className="rounded-lg bg-gray-100 p-2">
           <Tab value={0}>Contained List</Tab>
-          <Tab value={1}>Tab 2</Tab>
+          <Tab value={1}>ITEM TWO</Tab>
         </TabList>
-        <TabPanel value={0}>Contained List Content</TabPanel>
-        <TabPanel value={1}>Content 2</TabPanel>
+        <TabPanel value={0}>Contained List</TabPanel>
+        <TabPanel value={1}>ITEM TWO</TabPanel>
       </Tabs>
     </div>
   ),
