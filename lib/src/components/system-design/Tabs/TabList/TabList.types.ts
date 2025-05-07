@@ -1,47 +1,40 @@
-import React from "react";
+import * as React from "react";
+import type {
+  PolymorphicComponentProp,
+  PolymorphicComponent,
+} from "@/utils/polymorphic";
 
-/**
- * Base props for the TabList component
- */
 export type TabListBaseProps = {
   /**
-   * The tabs to render inside the list.
+   * The content of the component.
    */
   children?: React.ReactNode;
-
   /**
-   * Accessibility label.
-   */
-  "aria-label"?: string;
-
-  /**
-   * Current selected value.
-   */
-  value?: any;
-
-  /**
-   * Callback fired when tab is clicked.
-   */
-  onChange?: (event: React.SyntheticEvent, value: any) => void;
-
-  /**
-   * Layout orientation of the tabs.
-   * @default "horizontal"
-   */
-  orientation?: "horizontal" | "vertical";
-
-  /**
-   * Optional variant (scrollable or standard)
-   */
-  variant?: "scrollable" | "standard";
-
-  /**
-   * Additional Tailwind class names
+   * Override or extend the styles applied to the component.
    */
   className?: string;
+  /**
+   * Callback fired when the value changes.
+   */
+  onChange?: (event: React.SyntheticEvent, value: any) => void;
+  /**
+   * The component orientation (layout flow direction).
+   * @default 'horizontal'
+   */
+  orientation?: "horizontal" | "vertical";
+  /**
+   * If true, the scrollbar is visible.
+   * @default false
+   */
+  visibleScrollbar?: boolean;
+  /**
+   * If true, the tabs will be centered.
+   * @default false
+   */
+  centered?: boolean;
 };
 
-/**
- * Props for TabList (No polymorphism, always renders as div)
- */
-export type TabListProps = TabListBaseProps;
+export type TabListProps<C extends React.ElementType = "div"> =
+  PolymorphicComponentProp<C, TabListBaseProps>;
+
+export type TabListComponent = PolymorphicComponent<TabListBaseProps, "div">;

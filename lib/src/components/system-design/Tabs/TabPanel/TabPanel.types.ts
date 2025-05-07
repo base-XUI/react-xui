@@ -1,36 +1,47 @@
-import React from "react";
+import * as React from "react";
+import type {
+  PolymorphicComponentProp,
+  PolymorphicComponent,
+} from "@/utils/polymorphic";
 
-/**
- * Base props for the TabPanel component
- */
 export type TabPanelBaseProps = {
   /**
-   * The content inside the panel.
+   * The content of the component.
    */
   children?: React.ReactNode;
-
   /**
-   * Value identifying the panel.
+   * The value of the corresponding tab. Must match the value of the tab in the tab list.
    */
-  value?: any;
-
+  value: any;
   /**
-   * The currently active value.
-   */
-  activeValue?: any;
-
-  /**
-   * If `true`, the panel is hidden.
-   */
-  hidden?: boolean;
-
-  /**
-   * Additional Tailwind class names.
+   * Override or extend the styles applied to the component.
    */
   className?: string;
+  /**
+   * The id of the tab panel.
+   */
+  id?: string;
+  /**
+   * Callback fired when the panel is visible.
+   */
+  onEnter?: () => void;
+  /**
+   * Callback fired when the panel is hidden.
+   */
+  onExit?: () => void;
+  /**
+   * If true, the panel will be displayed with a fade animation.
+   * @default true
+   */
+  animate?: boolean;
+  /**
+   * If true, the panel will be mounted when hidden.
+   * @default false
+   */
+  keepMounted?: boolean;
 };
 
-/**
- * Props for TabPanel (No polymorphism, always renders as div)
- */
-export type TabPanelProps = TabPanelBaseProps;
+export type TabPanelProps<C extends React.ElementType = "div"> =
+  PolymorphicComponentProp<C, TabPanelBaseProps>;
+
+export type TabPanelComponent = PolymorphicComponent<TabPanelBaseProps, "div">;

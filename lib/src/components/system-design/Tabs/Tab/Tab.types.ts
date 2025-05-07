@@ -1,51 +1,52 @@
-import React from "react";
+import * as React from "react";
+import type {
+  PolymorphicComponentProp,
+  PolymorphicComponent,
+} from "@/utils/polymorphic";
 
 export type TabBaseProps = {
   /**
-   * The content of the tab (label or element).
+   * The content of the component.
    */
-  label?: React.ReactNode;
-
+  children?: React.ReactNode;
   /**
-   * The icon to display in the tab.
-   */
-  icon?: React.ReactNode;
-
-  /**
-   * The position of the icon relative to the label.
-   * @default 'start'
-   */
-  iconPosition?: "start" | "end";
-
-  /**
-   * If `true`, the tab will be disabled.
+   * If true, the component is disabled.
+   * @default false
    */
   disabled?: boolean;
-
   /**
-   * A value identifying the tab. Used to match with TabPanel.
+   * The icon to display.
    */
-  value?: any;
-
+  icon?: React.ReactNode;
   /**
-   * If `true`, the tab is currently selected.
+   * The label for the tab.
    */
-  selected?: boolean;
-
+  label?: React.ReactNode;
+  /**
+   * You can provide your own value. Otherwise, we fallback to the child position index.
+   */
+  value: any;
   /**
    * Callback fired when the tab is clicked.
    */
-  onClick?: (event: React.SyntheticEvent) => void;
-
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   /**
-   * Content inside the tab (if not using `label`)
+   * If true, the tab will have a ripple effect when clicked.
+   * @default true
    */
-  children?: React.ReactNode;
-
+  disableRipple?: boolean;
   /**
-   * Additional class name or style support.
+   * Override or extend the styles applied to the component.
    */
   className?: string;
+  /**
+   * If true, the keyboard focus ripple is disabled.
+   * @default false
+   */
+  disableFocusRipple?: boolean;
 };
 
-export type TabProps = TabBaseProps;
+export type TabProps<C extends React.ElementType = "button"> =
+  PolymorphicComponentProp<C, TabBaseProps>;
+
+export type TabComponent = PolymorphicComponent<TabBaseProps, "button">;

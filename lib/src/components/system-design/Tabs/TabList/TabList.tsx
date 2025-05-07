@@ -1,46 +1,38 @@
-import React, { isValidElement } from "react";
-import { TabListProps } from "./TabList.types";
+import React from "react";
 import clsx from "clsx";
+import { useTabsContext } from "../Tabs";
+import type {
+  PolymorphicComponentProp,
+  PolymorphicComponent,
+} from "@/utils/polymorphic";
 
-type TabChildProps = {
-  value?: any;
-  onClick?: (e: React.SyntheticEvent) => void;
-  selected?: boolean;
+type TabListBaseProps = {
+  children?: React.ReactNode;
 };
 
-export const TabList = ({
+type TabListProps<C extends React.ElementType = "div"> =
+  PolymorphicComponentProp<C, TabListBaseProps>;
+type TabListComponent = PolymorphicComponent<TabListBaseProps, "div">;
+
+export const TabList: TabListComponent = <C extends React.ElementType = "div">({
   children,
-  value,
-  onChange,
-  orientation = "horizontal",
-  variant = "standard",
   className,
   ...props
-}: TabListProps) => {
-  const isHorizontal = orientation === "horizontal";
+}: TabListProps<C>) => {
+  const { orientation, variant } = useTabsContext();
 
   return (
     <div
-      role="tablist"
-      aria-orientation={orientation}
       className={clsx(
-        "flex",
-        isHorizontal ? "flex-row space-x-2" : "flex-col space-y-2",
-        variant === "scrollable" && "overflow-x-auto",
+        "relative flex",
+        orientation === "vertical" ? "flex-col" : "flex-row",
+        variant === "fullWidth" && "w-full",
         className,
       )}
+      role="tablist"
       {...props}
     >
-      {React.Children.map(children, (child) => {
-        if (!isValidElement<TabChildProps>(child)) return child;
-
-        const childValue = child.props.value;
-
-        return React.cloneElement(child, {
-          onClick: (e: React.SyntheticEvent) => onChange?.(e, childValue),
-          selected: childValue === value,
-        });
-      })}
+      {children}
     </div>
   );
 };

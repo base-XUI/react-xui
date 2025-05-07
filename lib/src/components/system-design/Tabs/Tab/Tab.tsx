@@ -1,50 +1,61 @@
 import React from "react";
 import clsx from "clsx";
-import { TabProps } from "./Tab.types";
 import { useTabsContext } from "../Tabs";
+import type {
+  PolymorphicComponentProp,
+  PolymorphicComponent,
+} from "@/utils/polymorphic";
 
-export const Tab = ({
+type TabBaseProps = {
+  value: any;
+  disabled?: boolean;
+  icon?: React.ReactNode;
+  label?: React.ReactNode;
+  children?: React.ReactNode;
+};
+
+type TabProps<C extends React.ElementType = "button"> =
+  PolymorphicComponentProp<C, TabBaseProps>;
+type TabComponent = PolymorphicComponent<TabBaseProps, "button">;
+
+export const Tab: TabComponent = <C extends React.ElementType = "button">({
   value,
-  label,
-  icon,
-  iconPosition = "start",
   disabled = false,
-  selected = false,
-  onClick,
+  icon,
+  label,
   children,
   className,
   ...props
-}: TabProps) => {
-  const { value: selectedValue, setValue } = useTabsContext();
-
-  const isSelected = selected || selectedValue === value;
-
-  const handleClick = (e: React.SyntheticEvent) => {
-    if (disabled) return;
-    setValue(value);
-    onClick?.(e);
-  };
+}: TabProps<C>) => {
+  const {
+    value: selectedValue,
+    setValue,
+    textColor,
+    indicatorColor,
+  } = useTabsContext();
+  const isSelected = value === selectedValue;
 
   return (
-    <div
+    <button
       role="tab"
       aria-selected={isSelected}
-      aria-disabled={disabled}
-      tabIndex={isSelected ? 0 : -1}
-      onClick={handleClick}
+      disabled={disabled}
+      onClick={() => setValue(value)}
       className={clsx(
-        "flex cursor-pointer items-center rounded-md px-4 py-2 text-sm font-medium",
-        isSelected
-          ? "bg-primary text-white"
-          : "bg-transparent text-gray-600 hover:bg-gray-100",
+        "flex items-center justify-center px-4 py-2 transition-colors outline-none",
+        "hover:bg-gray-100 focus:bg-gray-100",
+        isSelected && [
+          `text-${textColor === "inherit" ? indicatorColor : textColor}`,
+          "border-b-2",
+          `border-${indicatorColor}`,
+        ],
         disabled && "cursor-not-allowed opacity-50",
         className,
       )}
       {...props}
     >
-      {icon && iconPosition === "start" && <span className="mr-2">{icon}</span>}
+      {icon && <span className="mr-2">{icon}</span>}
       {label || children}
-      {icon && iconPosition === "end" && <span className="ml-2">{icon}</span>}
-    </div>
+    </button>
   );
 };
