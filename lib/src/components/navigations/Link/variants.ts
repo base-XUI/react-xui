@@ -18,6 +18,7 @@ export const linkVariantsConfig = {
   variants: {
     variant: {
       inherit: "inherit",
+      //typography variants from typography component
       h1:TYPOGRAPHY_VARIANTS.h1,
       h2: TYPOGRAPHY_VARIANTS.h2,
       h3: TYPOGRAPHY_VARIANTS.h3,

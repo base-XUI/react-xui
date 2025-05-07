@@ -32,7 +32,6 @@ const Link = <C extends React.ElementType = "a">({
   return (
     <Component
       ref={ref}
-      // href={Component !== "a" ? "href" : undefined}
       className={cn(
         LinkVariants({
           variant,

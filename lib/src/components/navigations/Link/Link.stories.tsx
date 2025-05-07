@@ -46,7 +46,6 @@ const meta = {
     underline: {
       description:
         "Controls when the link should have an underline.It can be set to 'always', 'hover', or 'none'.",
-      // description: "Controls when the link should have an underline.",
       options: underlineOption,
       control: { type: "select" },
       table: {
@@ -123,10 +122,11 @@ export const security: Story = {
   },
 };
 // Example of using as a different element
-export const AsButton: StoryObj<typeof Link> = {
+export const AsButton: StoryObj = {
   args: {
     component: "button",
     children: "Link Button",
-    onClick: () => console.log("Button clicked!"),
+    role: "button",
+    onClick: () => {},
   },
 };
