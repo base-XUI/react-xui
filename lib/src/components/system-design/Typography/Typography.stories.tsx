@@ -150,7 +150,7 @@ export const AllVariants: Story = {
 // Example showing all colors
 export const AllColors: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex gap-4">
       {colorOptions.map((color) => (
         <Typography key={color} color={color}>
           {color}: The quick brown fox jumps over the lazy dog
