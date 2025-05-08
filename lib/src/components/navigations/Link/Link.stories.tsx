@@ -52,39 +52,28 @@ const meta = {
         defaultValue: { summary: "always" },
       },
     },
-    as: {
+    component: {
       description: "The component used for the root node",
       control: { type: "text" },
-      table: {
-        defaultValue: { summary: "link" },
-      },
     },
-    // target: {
-    //   description: "Specifies where to open the linked document",
-    //   options: ["_self", "_blank"],
-    //   control: { type: "select" },
-    //   table: {
-    //     defaultValue: { summary: "_self" },
-    //   },
-    // },
-
-    // rel: {
-    //   description:
-    //     "Specifies the relationship between the current document and the linked document. Common values include noreferrer (prevents the browser from sending the HTTP referer header) and noopener (prevents the new page from accessing the window.opener property).",
-    //   options: ["noopener", "noreferrer"],
-    //   control: { type: "select" },
-    // },
-    component: {
-      description:
-        "The component used for the root node. Either a string to use a HTML element or a component.",
+    role: {
+      description: "The ARIA role of the component",
       control: { type: "text" },
-      // table: {
-      //   defaultValue: { summary: "a" },
-      // },
+    },
+    target: {
+      description: "Specifies where to open the linked document",
+      options: ["_self", "_blank"],
+      control: { type: "select" },
+    },
+
+    rel: {
+      description:
+        "Specifies the relationship between the current document and the linked document. Common values include noreferrer (prevents the browser from sending the HTTP referer header) and noopener (prevents the new page from accessing the window.opener property).",
+      options: ["noopener", "noreferrer"],
+      control: { type: "select" },
     },
   },
   args: {
-    href: "#",
     children: "Link",
   },
 } satisfies Meta<typeof Link>;
@@ -94,7 +83,7 @@ type Story = StoryObj<typeof Link>;
 // Basic variants
 export const Basic: Story = {
   args: {
-    href: "#",
+    children: "Link",
   },
 };
 // Basic variants
