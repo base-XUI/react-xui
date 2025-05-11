@@ -159,3 +159,18 @@ export const Positioned: Story = {
     );
   },
 };
+
+export const WithCustomStyle: Story = {
+  args: {
+    open: true,
+    anchorOrigin: {
+      vertical: "top", // top || bottom
+      horizontal: "center", // left || right || center
+    },
+    message: "Custom style snackbar",
+    style: { background: "black", color: "white" },
+  },
+  render: (args) => {
+    return <Snackbar {...args} />;
+  },
+};
