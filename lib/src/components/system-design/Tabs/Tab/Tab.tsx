@@ -27,21 +27,27 @@ export const Tab: TabComponent = <C extends React.ElementType = "button">({
   className,
   ...props
 }: TabProps<C>) => {
-  const { value: selectedValue, setValue } = useTabsContext();
+  const { value: selectedValue, setValue, orientation } = useTabsContext();
   const isSelected = value === selectedValue;
 
   return (
     <button
+      type="button"
       role="tab"
       aria-selected={isSelected}
       disabled={disabled}
       onClick={() => setValue(value)}
+      data-state={isSelected ? "active" : "inactive"}
+      data-orientation={orientation}
       className={clsx(
-        "flex items-center justify-center px-4 py-2 transition-colors outline-none",
-        "hover:bg-gray-100 focus:bg-gray-100",
-        disabled && "cursor-not-allowed opacity-50",
+        "ring-offset-background inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-all",
+        "focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+        "disabled:pointer-events-none disabled:opacity-50",
+        "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow",
+        orientation === "vertical" && "w-full justify-start",
         className,
       )}
+      tabIndex={isSelected ? 0 : -1}
       {...props}
     >
       {icon && <span className="mr-2">{icon}</span>}

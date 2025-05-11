@@ -136,23 +136,20 @@ export const Tabs: TabsComponent = <C extends React.ElementType = "div">({
 
   return (
     <TabsContext.Provider value={contextValue}>
-      <div className={clsx("flex flex-col", className)}>
-        <div
-          role="tablist"
-          aria-orientation={orientation}
-          aria-label={ariaLabel}
-          onKeyDown={handleKeyDown}
-          className={clsx(
-            "relative flex",
-            orientation === "vertical" ? "flex-row" : "flex-col",
-            variant === "scrollable" && "scrollbar-thin overflow-x-auto",
-            variant === "fullWidth" && "w-full",
-            centered && "justify-center",
-          )}
-          {...props}
-        >
-          {children}
-        </div>
+      <div
+        className={clsx(
+          "w-full",
+          orientation === "vertical" ? "flex" : "block",
+          className,
+        )}
+        role="tablist"
+        aria-orientation={orientation}
+        aria-label={ariaLabel}
+        onKeyDown={handleKeyDown}
+        data-orientation={orientation}
+        {...props}
+      >
+        {children}
       </div>
     </TabsContext.Provider>
   );

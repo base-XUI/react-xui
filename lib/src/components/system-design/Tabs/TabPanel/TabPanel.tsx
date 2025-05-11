@@ -32,7 +32,13 @@ export const TabPanel: TabPanelComponent = <
     <div
       role="tabpanel"
       aria-hidden={!isSelected}
-      className={clsx("p-4", className)}
+      data-state={isSelected ? "active" : "inactive"}
+      className={clsx(
+        "ring-offset-background data-[state=active]:animate-in data-[state=inactive]:animate-out data-[state=inactive]:fade-out data-[state=active]:fade-in mt-2",
+        "focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+        className,
+      )}
+      tabIndex={isSelected ? 0 : -1}
       {...props}
     >
       {children}

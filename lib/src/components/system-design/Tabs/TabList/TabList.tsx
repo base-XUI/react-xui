@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 import { useTabsContext } from "../Tabs";
 import type {
@@ -19,14 +19,8 @@ export const TabList: TabListComponent = <C extends React.ElementType = "div">({
   className,
   ...props
 }: TabListProps<C>) => {
-  const { orientation, variant, value } = useTabsContext();
+  const { orientation, value } = useTabsContext();
   const tabsRef = useRef<HTMLDivElement>(null);
-  const [indicatorStyle, setIndicatorStyle] = useState({
-    left: 0,
-    width: 0,
-    top: 0,
-    height: 0,
-  });
 
   useEffect(() => {
     if (!tabsRef.current) return;
@@ -47,25 +41,6 @@ export const TabList: TabListComponent = <C extends React.ElementType = "div">({
     });
 
     if (selectedIndex >= 0 && selectedIndex < tabs.length) {
-      const selectedTab = tabs[selectedIndex] as HTMLElement;
-      const tabRect = selectedTab.getBoundingClientRect();
-      const parentRect = tabsRef.current.getBoundingClientRect();
-
-      if (orientation === "vertical") {
-        setIndicatorStyle({
-          left: 0,
-          width: 2,
-          top: tabRect.top - parentRect.top,
-          height: tabRect.height,
-        });
-      } else {
-        setIndicatorStyle({
-          left: tabRect.left - parentRect.left,
-          width: tabRect.width,
-          top: 0,
-          height: 2,
-        });
-      }
     }
   }, [value, orientation]);
 
@@ -73,32 +48,18 @@ export const TabList: TabListComponent = <C extends React.ElementType = "div">({
     <div
       ref={tabsRef}
       className={clsx(
-        "relative flex",
-        orientation === "vertical" ? "flex-col" : "flex-row",
-        variant === "fullWidth" && "w-full",
+        "bg-muted inline-flex h-10 items-center justify-center rounded-md p-1",
+        orientation === "vertical"
+          ? "h-full flex-col rounded-md"
+          : "h-10 rounded-md",
         className,
       )}
       role="tablist"
+      aria-orientation={orientation}
+      data-orientation={orientation}
       {...props}
     >
       {children}
-      {orientation === "vertical" ? (
-        <span
-          className="bg-primary absolute left-0 w-0.5 transition-all duration-300"
-          style={{
-            top: `${indicatorStyle.top}px`,
-            height: `${indicatorStyle.height}px`,
-          }}
-        />
-      ) : (
-        <span
-          className="bg-primary absolute bottom-0 h-0.5 transition-all duration-300"
-          style={{
-            left: `${indicatorStyle.left}px`,
-            width: `${indicatorStyle.width}px`,
-          }}
-        />
-      )}
     </div>
   );
 };
