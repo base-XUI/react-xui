@@ -32,10 +32,13 @@
     }
   ],
   "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "dev:link": "pnpm build:package && yalc push",
+    "dev:publish": "pnpm build:package && yalc publish",
+    "dev:watch": "concurrently \"pnpm build:package --watch\" \"yalc push --watch\"",
     "build:package": "pnpm clean && tsc -p tsconfig.build.json && vite build && pnpm build:css --mode package",
     "build:storybook": "storybook build",
     "build:css": "pnpm dlx @tailwindcss/cli -i lib/src/main.css -o dist/styles.css --minify",
-    "storybook": "storybook dev -p 6006",
     "release": "pnpm build:package && changeset publish",
     "changeset": "changeset",
     "version-packages": "changeset version",
@@ -80,6 +83,7 @@
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
     "cypress": "^14.3.1",
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",
