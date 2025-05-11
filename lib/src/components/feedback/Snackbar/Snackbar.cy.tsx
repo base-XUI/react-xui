@@ -22,7 +22,14 @@ describe("Snackbar component", () => {
 
   it("calls onClose when auto-hide triggers", () => {
     const onClose = cy.stub().as("onClose");
-    cy.mount(<Snackbar open autoHideDuration={500} message="Close Test" onClose={onClose} />);
+    cy.mount(
+      <Snackbar
+        open
+        autoHideDuration={500}
+        message="Close Test"
+        onClose={onClose}
+      />,
+    );
     cy.wait(600);
     cy.get("@onClose").should("have.been.calledWith", undefined, "timeout");
   });
@@ -38,9 +45,19 @@ describe("Snackbar component", () => {
         open
         message="Top Left"
         anchorOrigin={{ vertical: "top", horizontal: "left" }}
-      />
+      />,
     );
-    cy.contains("Top Left").parent().should("have.class", "top-6");
-    cy.contains("Top Left").parent().should("have.class", "left-6");
+    cy.contains("Top Left").parent().parent().should("have.class", "top-6");
+    cy.contains("Top Left").parent().parent().should("have.class", "left-6");
+  });
+
+  it("renders children when message is not provided", () => {
+    cy.mount(
+      <Snackbar open>
+        <span data-cy="snackbar-children">Child Content</span>
+      </Snackbar>,
+    );
+    cy.get('[data-cy="snackbar-children"]').should("exist");
+    cy.contains("Child Content").should("exist");
   });
 });

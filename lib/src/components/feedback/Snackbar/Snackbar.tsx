@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import type { SnackbarProps, SnackbarOrigin } from "./Snackbar.types";
 import clsx from "clsx";
 
@@ -31,18 +31,25 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   children,
 }) => {
   const timer = useRef<NodeJS.Timeout | null>(null);
+  const [internalOpen, setInternalOpen] = useState(open);
+
+  useEffect(() => {
+    setInternalOpen(open);
+  }, [open]);
 
   const handleClose = useCallback(
     (event?: React.SyntheticEvent | Event, reason?: string) => {
       if (onClose) {
         onClose(event, reason);
+      } else {
+        setInternalOpen(false);
       }
     },
     [onClose],
   );
 
   useEffect(() => {
-    if (open && autoHideDuration != null) {
+    if ((onClose ? open : internalOpen) && autoHideDuration != null) {
       timer.current = setTimeout(() => {
         handleClose(undefined, "timeout");
       }, autoHideDuration);
@@ -51,9 +58,9 @@ export const Snackbar: React.FC<SnackbarProps> = ({
       };
     }
     return undefined;
-  }, [open, autoHideDuration, handleClose]);
+  }, [open, internalOpen, autoHideDuration, handleClose, onClose]);
 
-  if (!open) return null;
+  if (!(onClose ? open : internalOpen)) return null;
 
   const content = (
     <div
