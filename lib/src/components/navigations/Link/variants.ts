@@ -19,18 +19,7 @@ export const linkVariantsConfig = {
     variant: {
       inherit: "inherit",
       //typography variants from typography component
-      h1:TYPOGRAPHY_VARIANTS.h1,
-      h2: TYPOGRAPHY_VARIANTS.h2,
-      h3: TYPOGRAPHY_VARIANTS.h3,
-      h4: TYPOGRAPHY_VARIANTS.h4,
-      h5: TYPOGRAPHY_VARIANTS.h5,
-      h6: TYPOGRAPHY_VARIANTS.h6,
-      subtitle1: TYPOGRAPHY_VARIANTS.subtitle1,
-      subtitle2: TYPOGRAPHY_VARIANTS.subtitle2,
-      body1: TYPOGRAPHY_VARIANTS.body1,
-      body2: TYPOGRAPHY_VARIANTS.body2,
-      body3: TYPOGRAPHY_VARIANTS.body3,
-      caption: TYPOGRAPHY_VARIANTS.caption,
+      ...TYPOGRAPHY_VARIANTS,
     },
     underline : {always:"underline", hover: "hover:underline", none: "no-underline"},
     color: {
