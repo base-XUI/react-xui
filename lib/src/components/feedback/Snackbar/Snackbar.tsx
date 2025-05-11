@@ -60,7 +60,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
       role="alert"
       aria-live="assertive"
       className={clsx(
-        "flex max-w-[568px] min-w-[288px] items-center rounded bg-gray-900 px-4 py-3 text-white shadow-lg",
+        "flex max-w-[568px] min-w-[288px] items-center rounded bg-white px-4 py-3 text-black shadow-lg",
         className,
       )}
       style={style}

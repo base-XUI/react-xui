@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { ComponentProps, useState } from "react";
 import { Snackbar } from "./Snackbar";
 import type { SnackbarOrigin } from "./Snackbar.types";
 import type { Meta, StoryObj } from "@storybook/react";
 
-const meta: Meta<typeof Snackbar> = {
+type StoryProps = ComponentProps<typeof Snackbar>;
+
+const meta: Meta<StoryProps> = {
   title: "Feedback/Snackbar",
   component: Snackbar,
   tags: ["autodocs"],
@@ -42,41 +44,20 @@ const meta: Meta<typeof Snackbar> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Snackbar>;
 
-export const Basic: Story = {
-  render: () => {
-    const [open, setOpen] = useState(false);
-    return (
-      <div>
-        <button onClick={() => setOpen(true)}>Show Snackbar</button>
-        <Snackbar
-          open={open}
-          message="This is a basic snackbar"
-          onClose={() => setOpen(false)}
-        />
-      </div>
-    );
-  },
-};
+type Story = StoryObj<StoryProps>;
 
-export const Interactive: Story = {
+export const Default: Story = {
   args: {
+    message: "Snackbar message",
     open: true,
-    message: "This is a customizable snackbar",
-    autoHideDuration: 5000,
     anchorOrigin: {
-      vertical: "bottom",
-      horizontal: "center",
+      vertical: "top", // top || bottom
+      horizontal: "center", // left || right || center
     },
   },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "Use the controls panel to customize this snackbar in real-time.",
-      },
-    },
+  render: (args) => {
+    return <Snackbar {...args} />;
   },
 };
 
@@ -117,12 +98,6 @@ export const WithAction: Story = {
 export const Positioned: Story = {
   args: {
     open: true,
-    message: "This is a customizable snackbar",
-    autoHideDuration: 5000,
-    anchorOrigin: {
-      vertical: "bottom",
-      horizontal: "center",
-    },
   },
   parameters: {
     docs: {
@@ -132,8 +107,7 @@ export const Positioned: Story = {
       },
     },
   },
-  render: () => {
-    const [open, setOpen] = useState(false);
+  render: (args) => {
     const [anchorOrigin, setAnchorOrigin] = useState<SnackbarOrigin>({
       vertical: "top",
       horizontal: "right",
@@ -158,27 +132,11 @@ export const Positioned: Story = {
           <option value="bottom-right">Bottom Right</option>
         </select>
         <Snackbar
-          open={open}
           message={`Snackbar at ${anchorOrigin.vertical} ${anchorOrigin.horizontal}`}
           anchorOrigin={anchorOrigin}
-          onClose={() => setOpen(false)}
+          {...args}
         />
       </div>
     );
-  },
-};
-
-export const CustomStyling: Story = {
-  args: {
-    open: true,
-    message: "Custom styled snackbar",
-    className: "bg-blue-600 text-white rounded-xl",
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Example of applying custom styling to the snackbar.",
-      },
-    },
   },
 };
