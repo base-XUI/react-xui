@@ -2,6 +2,7 @@ import { ComponentProps, useState } from "react";
 import { Snackbar } from "./Snackbar";
 import type { SnackbarOrigin } from "./Snackbar.types";
 import type { Meta, StoryObj } from "@storybook/react";
+import { Button } from "@/components/inputs/Button";
 
 type StoryProps = ComponentProps<typeof Snackbar>;
 
@@ -60,6 +61,19 @@ export const Default: Story = {
     return <Snackbar {...args} />;
   },
 };
+export const WithChildren: Story = {
+  args: {
+    open: true,
+    anchorOrigin: {
+      vertical: "top", // top || bottom
+      horizontal: "center", // left || right || center
+    },
+    children: "Hello World",
+  },
+  render: (args) => {
+    return <Snackbar {...args} />;
+  },
+};
 
 export const WithAutoHide: Story = {
   render: () => {
@@ -83,11 +97,16 @@ export const WithAction: Story = {
     const [open, setOpen] = useState(false);
     return (
       <div>
-        <button onClick={() => setOpen(true)}>Show Snackbar</button>
+        <Button onClick={() => setOpen(true)}>Open</Button>
         <Snackbar
           open={open}
           message="Snackbar with action"
-          action={<button onClick={() => setOpen(false)}>UNDO</button>}
+          action={
+            <Button variant={"outlined"} onClick={() => setOpen(false)}>
+              Close
+            </Button>
+          }
+          autoHideDuration={4000}
           onClose={() => setOpen(false)}
         />
       </div>
