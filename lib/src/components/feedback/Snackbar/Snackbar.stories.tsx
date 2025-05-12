@@ -75,43 +75,81 @@ export const WithChildren: Story = {
   },
 };
 
+const WithAutoHideComponent = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div>
+      <button onClick={() => setOpen(true)}>Show Auto-hiding Snackbar</button>
+      <Snackbar
+        open={open}
+        message="This will auto-hide after 3 seconds"
+        autoHideDuration={3000}
+        onClose={() => setOpen(false)}
+      />
+    </div>
+  );
+};
+
 export const WithAutoHide: Story = {
-  render: () => {
-    const [open, setOpen] = useState(false);
-    return (
-      <div>
-        <button onClick={() => setOpen(true)}>Show Auto-hiding Snackbar</button>
-        <Snackbar
-          open={open}
-          message="This will auto-hide after 3 seconds"
-          autoHideDuration={3000}
-          onClose={() => setOpen(false)}
-        />
-      </div>
-    );
-  },
+  render: () => <WithAutoHideComponent />,
+};
+
+// Repeat this pattern for WithAction and Positioned stories:
+const WithActionComponent = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div>
+      <Button onClick={() => setOpen(true)}>Open</Button>
+      <Snackbar
+        open={open}
+        message="Snackbar with action"
+        action={
+          <Button variant={"outlined"} onClick={() => setOpen(false)}>
+            Close
+          </Button>
+        }
+        autoHideDuration={4000}
+        onClose={() => setOpen(false)}
+      />
+    </div>
+  );
 };
 
 export const WithAction: Story = {
-  render: () => {
-    const [open, setOpen] = useState(false);
-    return (
-      <div>
-        <Button onClick={() => setOpen(true)}>Open</Button>
-        <Snackbar
-          open={open}
-          message="Snackbar with action"
-          action={
-            <Button variant={"outlined"} onClick={() => setOpen(false)}>
-              Close
-            </Button>
-          }
-          autoHideDuration={4000}
-          onClose={() => setOpen(false)}
-        />
-      </div>
-    );
-  },
+  render: () => <WithActionComponent />,
+};
+
+const PositionedComponent = (args: StoryProps) => {
+  const [anchorOrigin, setAnchorOrigin] = useState<SnackbarOrigin>({
+    vertical: "top",
+    horizontal: "right",
+  });
+  return (
+    <div>
+      <select
+        value={`${anchorOrigin.vertical}-${anchorOrigin.horizontal}`}
+        onChange={(e) => {
+          const [vertical, horizontal] = e.target.value.split("-");
+          setAnchorOrigin({
+            vertical: vertical as SnackbarOrigin["vertical"],
+            horizontal: horizontal as SnackbarOrigin["horizontal"],
+          });
+        }}
+      >
+        <option value="top-left">Top Left</option>
+        <option value="top-center">Top Center</option>
+        <option value="top-right">Top Right</option>
+        <option value="bottom-left">Bottom Left</option>
+        <option value="bottom-center">Bottom Center</option>
+        <option value="bottom-right">Bottom Right</option>
+      </select>
+      <Snackbar
+        message={`Snackbar at ${anchorOrigin.vertical} ${anchorOrigin.horizontal}`}
+        anchorOrigin={anchorOrigin}
+        {...args}
+      />
+    </div>
+  );
 };
 
 export const Positioned: Story = {
@@ -126,38 +164,7 @@ export const Positioned: Story = {
       },
     },
   },
-  render: (args) => {
-    const [anchorOrigin, setAnchorOrigin] = useState<SnackbarOrigin>({
-      vertical: "top",
-      horizontal: "right",
-    });
-    return (
-      <div>
-        <select
-          value={`${anchorOrigin.vertical}-${anchorOrigin.horizontal}`}
-          onChange={(e) => {
-            const [vertical, horizontal] = e.target.value.split("-");
-            setAnchorOrigin({
-              vertical: vertical as SnackbarOrigin["vertical"],
-              horizontal: horizontal as SnackbarOrigin["horizontal"],
-            });
-          }}
-        >
-          <option value="top-left">Top Left</option>
-          <option value="top-center">Top Center</option>
-          <option value="top-right">Top Right</option>
-          <option value="bottom-left">Bottom Left</option>
-          <option value="bottom-center">Bottom Center</option>
-          <option value="bottom-right">Bottom Right</option>
-        </select>
-        <Snackbar
-          message={`Snackbar at ${anchorOrigin.vertical} ${anchorOrigin.horizontal}`}
-          anchorOrigin={anchorOrigin}
-          {...args}
-        />
-      </div>
-    );
-  },
+  render: (args) => <PositionedComponent {...args} />,
 };
 
 export const WithCustomStyle: Story = {
