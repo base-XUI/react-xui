@@ -29,9 +29,9 @@ const TooltipInner = <C extends React.ElementType = "span">(
 
   const handleEvent =
     (callback?: (event: React.SyntheticEvent) => void) =>
-    (event: React.SyntheticEvent) => {
-      callback?.(event);
-    };
+      (event: React.SyntheticEvent) => {
+        callback?.(event);
+      };
 
   const openTooltip = (event: React.SyntheticEvent) => {
     setOpen(true);
@@ -42,11 +42,10 @@ const TooltipInner = <C extends React.ElementType = "span">(
     setOpen(false);
     onClose?.(event);
   };
-
+  console.log(tooltipVariants({ arrow, placement, interactive, color }), "oiwqeudfgv")
   return (
     <Component
       ref={ref}
-      tabIndex={0} // 🔑 make it focusable for tests and accessibility
       onMouseEnter={
         !disableHoverListener ? handleEvent(openTooltip) : undefined
       }
@@ -67,7 +66,10 @@ const TooltipInner = <C extends React.ElementType = "span">(
         <div
           id={tooltipId}
           role="tooltip"
-          data-testid="tooltip" // 🔍 for Cypress test targeting
+          data-testid="tooltip" // For Cypress test targeting
+          data-arrow={arrow || undefined}
+          data-color={color || undefined}
+          data-placement={placement || undefined}
           className={tooltipVariants({ arrow, placement, interactive, color })}
         >
           {title}

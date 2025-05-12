@@ -10,9 +10,14 @@ describe("Tooltip Component", () => {
       </Tooltip>,
     );
 
+    // Ensure the tooltip is not visible initially
     cy.get('[role="tooltip"]').should("not.exist");
-    cy.get("button").trigger("mouseenter");
-    cy.get('[role="tooltip"]')
+
+    // Hover over the button
+    cy.get("button").trigger("mouseover");
+
+    // Ensure the tooltip becomes visible
+    cy.get('[role="tooltip"]', { timeout: 500 })
       .should("be.visible")
       .and("contain", "Tooltip text");
   });
@@ -24,9 +29,9 @@ describe("Tooltip Component", () => {
       </Tooltip>,
     );
 
-    cy.get("button").trigger("mouseenter");
-    cy.get('[role="tooltip"]').should("be.visible");
-    cy.get("button").trigger("mouseleave");
+    cy.get("button").click({ force: true }).trigger("mouseover");
+    cy.get('[role="tooltip"]').should("be.visible").and("contain", "Tooltip text");
+    cy.get("button").trigger("mouseout");
     cy.get('[role="tooltip"]').should("not.exist");
   });
 
@@ -37,20 +42,21 @@ describe("Tooltip Component", () => {
       </Tooltip>,
     );
 
-    cy.get("button").trigger("mouseenter");
+    cy.get("button").trigger("mouseover");
     cy.get('[role="tooltip"]').should("not.exist");
   });
 
   it("should display the tooltip with an arrow if `arrow` is true", () => {
     mount(
-      <Tooltip title="Tooltip text" arrow>
+      <Tooltip title="Tooltip text" arrow >
         <button>Hover me</button>
       </Tooltip>,
     );
 
-    cy.get("button").trigger("mouseenter");
-    cy.get('[role="tooltip"]').should("be.visible");
-    cy.get('[role="tooltip"]').should("have.class", "arrow");
+    cy.get("button").trigger("mouseover");
+    cy.get('[role="tooltip"]', { timeout: 500 }).should("be.visible");
+    cy.get('[role="tooltip"]').and("contain", "Tooltip text");
+    cy.get('[role="tooltip"]').should("have.attr", "data-arrow", "true");
   });
 
   it("should render the tooltip with the correct color", () => {
@@ -71,13 +77,13 @@ describe("Tooltip Component", () => {
         </Tooltip>,
       );
 
-      cy.get("button").trigger("mouseenter");
+      cy.get("button").trigger("mouseover");
       cy.get('[role="tooltip"]')
         .should("be.visible")
         .and("contain", `Tooltip with ${color} color`)
-        .and("have.class", color);
+        .and("have.attr", 'data-color', color);
 
-      cy.get("button").trigger("mouseleave");
+      cy.get("button").trigger("mouseout");
     });
   });
 
@@ -107,13 +113,13 @@ describe("Tooltip Component", () => {
         </Tooltip>,
       );
 
-      cy.get("button").trigger("mouseenter");
+      cy.get("button").trigger("mouseover");
       cy.get('[role="tooltip"]')
         .should("be.visible")
         .and("contain", `Tooltip on ${placement}`)
-        .and("have.class", placement);
+        .and("have.attr", "data-placement", placement);
 
-      cy.get("button").trigger("mouseleave");
+      cy.get("button").trigger("mouseout");
     });
   });
 
@@ -124,13 +130,14 @@ describe("Tooltip Component", () => {
       </Tooltip>,
     );
 
-    cy.get("button").trigger("mouseenter");
+    cy.get("button").trigger("mouseover");
+    cy.get('[role="tooltip"]').trigger("mouseover");
     cy.get('[role="tooltip"]').should("be.visible");
 
     // Simulate hovering tooltip (note: this assumes `pointer-events: auto` on tooltip)
-    cy.get('[role="tooltip"]').trigger("mouseenter");
+    cy.get('[role="tooltip"]').trigger("mouseover");
 
-    cy.get("button").trigger("mouseleave");
+    cy.get("button").trigger("mouseout");
     cy.get('[role="tooltip"]').should("be.visible");
   });
 
@@ -141,9 +148,7 @@ describe("Tooltip Component", () => {
       </Tooltip>,
     );
 
-    cy.get("button").trigger("mouseenter");
-    cy.get('[role="tooltip"]')
-      .should("be.visible")
-      .and("contain", "Default Tooltip");
+    cy.get("button").trigger("mouseover");
+    cy.get('[role="tooltip"]').should("be.visible").and("contain", "Default Tooltip");
   });
 });

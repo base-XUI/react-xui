@@ -100,6 +100,7 @@ export const Basic: Story = {};
 export const AllPlacements: Story = {
   args: {
     placement: "top-start",
+    color: "warning",
   },
 
   render: () => (
@@ -119,8 +120,8 @@ export const AllPlacements: Story = {
 
 export const GoodToolTip: Story = {
   args: {
-    title: "Placement: The title",
-    placement: "top-end",
+    title: "Placesds",
+    placement: "bottom",
   },
   render: (args) => (
     <Tooltip {...args}>
