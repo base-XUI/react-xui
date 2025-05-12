@@ -3,72 +3,81 @@ import { TooltipProps, TooltipComponent } from "./Tooltip.types";
 import { tooltipVariants } from "./variants";
 
 const TooltipInner = <C extends React.ElementType = "span">(
-    {
-        as,
-        children,
-        title,
-        arrow = false,
-        placement = "bottom",
-        onOpen,
-        onClose,
-        disableHoverListener = false,
-        disableFocusListener = false,
-        disableTouchListener = false,
-        describeChild = false,
-        id,
-        className,
-        interactive = false,
-        color = "default",
-        ...props
-    }: TooltipProps<C>,
-    ref: React.Ref<Element>
+  {
+    as,
+    children,
+    title,
+    arrow = false,
+    placement = "bottom",
+    onOpen,
+    onClose,
+    disableHoverListener = false,
+    disableFocusListener = false,
+    disableTouchListener = false,
+    describeChild = false,
+    id,
+    className,
+    interactive = false,
+    color = "default",
+    ...props
+  }: TooltipProps<C>,
+  ref: React.Ref<Element>,
 ) => {
-    const [open, setOpen] = React.useState(false);
-    const Component = (as || "span") as React.ElementType;
-    const tooltipId = id || `tooltip-${Math.random().toString(36).slice(2, 8)}`;
+  const [open, setOpen] = React.useState(false);
+  const Component = (as || "span") as React.ElementType;
+  const tooltipId = id || `tooltip-${Math.random().toString(36).slice(2, 8)}`;
 
-    const handleEvent =
-        (callback?: (event: React.SyntheticEvent) => void) =>
-            (event: React.SyntheticEvent) => {
-                callback?.(event);
-            };
-
-    const openTooltip = (event: React.SyntheticEvent) => {
-        setOpen(true);
-        onOpen?.(event);
+  const handleEvent =
+    (callback?: (event: React.SyntheticEvent) => void) =>
+    (event: React.SyntheticEvent) => {
+      callback?.(event);
     };
 
-    const closeTooltip = (event: React.SyntheticEvent) => {
-        setOpen(false);
-        onClose?.(event);
-    };
+  const openTooltip = (event: React.SyntheticEvent) => {
+    setOpen(true);
+    onOpen?.(event);
+  };
 
-    return (
-        <Component
-            ref={ref}
-            onMouseEnter={!disableHoverListener ? handleEvent(openTooltip) : undefined}
-            onMouseLeave={!disableHoverListener ? handleEvent(closeTooltip) : undefined}
-            onFocus={!disableFocusListener ? handleEvent(openTooltip) : undefined}
-            onBlur={!disableFocusListener ? handleEvent(closeTooltip) : undefined}
-            aria-describedby={!describeChild ? tooltipId : undefined}
-            aria-label={describeChild && typeof title === "string" ? title : undefined}
-            className={className}
-            {...props}
+  const closeTooltip = (event: React.SyntheticEvent) => {
+    setOpen(false);
+    onClose?.(event);
+  };
+
+  return (
+    <Component
+      ref={ref}
+      tabIndex={0} // 🔑 make it focusable for tests and accessibility
+      onMouseEnter={
+        !disableHoverListener ? handleEvent(openTooltip) : undefined
+      }
+      onMouseLeave={
+        !disableHoverListener ? handleEvent(closeTooltip) : undefined
+      }
+      onFocus={!disableFocusListener ? handleEvent(openTooltip) : undefined}
+      onBlur={!disableFocusListener ? handleEvent(closeTooltip) : undefined}
+      aria-describedby={!describeChild ? tooltipId : undefined}
+      aria-label={
+        describeChild && typeof title === "string" ? title : undefined
+      }
+      className={className}
+      {...props}
+    >
+      {children}
+      {open && title && (
+        <div
+          id={tooltipId}
+          role="tooltip"
+          data-testid="tooltip" // 🔍 for Cypress test targeting
+          className={tooltipVariants({ arrow, placement, interactive, color })}
         >
-            {children}
-            {open && title && (
-                <div
-                    id={tooltipId}
-                    role="tooltip"
-                    className={tooltipVariants({ arrow, placement, interactive, color })}
-                >
-                    {title}
-                </div>
-            )}
-        </Component>
-    );
+          {title}
+        </div>
+      )}
+    </Component>
+  );
 };
 
+// 💡 This retains proper generic typing
 export const Tooltip = React.forwardRef(TooltipInner) as TooltipComponent;
 
 Tooltip.displayName = "Tooltip";

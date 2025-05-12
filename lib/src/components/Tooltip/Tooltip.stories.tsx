@@ -98,6 +98,10 @@ type Story = StoryObj<typeof Tooltip>;
 export const Basic: Story = {};
 
 export const AllPlacements: Story = {
+  args: {
+    placement: "top-start",
+  },
+
   render: () => (
     <div className="grid grid-cols-3 gap-4">
       {placementOptions.map((placeOption) => (
