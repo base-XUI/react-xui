@@ -1,146 +1,126 @@
+// Tooltip.stories.tsx
+
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { tooltipVariantsConfig } from "./variants";
 import { Tooltip } from ".";
+import { tooltipVariantsConfig } from "./variants";
 
-// Extract variant options directly from the config
-const interactiveOptions = Object.keys(tooltipVariantsConfig.variants.interactive);
+// Extract variant options from config
 const placementOptions = Object.keys(tooltipVariantsConfig.variants.placement);
 const colorOptions = Object.keys(tooltipVariantsConfig.variants.color);
-const arrowOptions = Object.keys(tooltipVariantsConfig.variants.arrow);
 
-// type PlacementOption = keyof typeof tooltipVariantsConfig.variants.placement;
+type PlacementOption = keyof typeof tooltipVariantsConfig.variants.placement;
 
-const meta = {
-    title: "Inputs/Tooltip",
-    component: Tooltip,
-    parameters: {
-        layout: "centered",
-        docs: {
-            description: {
-                component:
-                    "A versatile tooltip component that supports different variants, placements, colors, and states.",
-            },
-        },
+const meta: Meta<typeof Tooltip> = {
+  title: "Inputs/Tooltip",
+  component: Tooltip,
+  parameters: {
+    layout: "centered",
+    docs: {
+      description: {
+        component:
+          "A versatile tooltip component that supports different variants, placements, colors, and states.",
+      },
     },
-    tags: ["autodocs"],
-    argTypes: {
-        placement: {
-            description: "Placement of the tooltip",
-            options: placementOptions,
-            control: { type: "select" },
-            table: {
-                defaultValue: { summary: tooltipVariantsConfig.defaultVariants.placement },
-            },
+  },
+  tags: ["autodocs"],
+  argTypes: {
+    placement: {
+      description: "Placement of the tooltip",
+      options: placementOptions,
+      control: { type: "select" },
+      table: {
+        defaultValue: {
+          summary: tooltipVariantsConfig.defaultVariants.placement,
         },
-        color: {
-            description: "Color scheme of the tooltip",
-            options: colorOptions,
-            control: { type: "select" },
-            table: {
-                defaultValue: { summary: tooltipVariantsConfig.defaultVariants.color },
-            },
-        },
-        arrow: {
-            description: "Whether the tooltip includes an arrow",
-            options: arrowOptions,
-            control: { type: "select" },
-            table: {
-                defaultValue: { summary: String(tooltipVariantsConfig.defaultVariants.arrow) },
-            },
-        },
-        interactive: {
-            description: "Whether the tooltip is interactive",
-            options: interactiveOptions,
-            control: { type: "boolean" },
-            table: {
-                defaultValue: { summary: String(tooltipVariantsConfig.defaultVariants.interactive) },
-            },
-        },
-        loading: {
-            description: "Loading state of the tooltip",
-            control: "boolean",
-        },
-        loadingPosition: {
-            description: "Position of the loading indicator",
-            options: ["start", "center", "end"],
-            control: { type: "select" },
-            table: {
-                defaultValue: { summary: "center" },
-            },
-        },
-        disableElevation: {
-            description: "Disable elevation (shadow)",
-            control: "boolean",
-        },
-        fullWidth: {
-            description: "Whether the tooltip should take full width",
-            control: "boolean",
-        },
-        startIcon: {
-            description: "Icon element to show before the tooltip text",
-        },
-        endIcon: {
-            description: "Icon element to show after the tooltip text",
-        },
-        disabled: {
-            description: "Disables the tooltip",
-            control: "boolean",
-            table: {
-                defaultValue: { summary: "false" },
-            },
-        },
-        as: {
-            description: "The component used for the root node",
-            control: { type: "text" },
-            table: {
-                defaultValue: { summary: "span" },
-            },
-        },
-        component: {
-            description: "The component used for the root node",
-            control: { type: "text" },
-            table: {
-                defaultValue: { summary: "span" },
-            },
-        },
+      },
     },
-    args: {
-        onClick: fn(),
-        children: "Hover me",
-        title: "Tooltip text",
+    color: {
+      description: "Color scheme of the tooltip",
+      options: colorOptions,
+      control: { type: "select" },
+      table: {
+        defaultValue: {
+          summary: tooltipVariantsConfig.defaultVariants.color,
+        },
+      },
     },
-} satisfies Meta<typeof Tooltip>;
-
-export default meta;
-type Story = StoryObj<typeof Tooltip>;
-
-export const Basic: Story = {
-    args: {
-        placement: "bottom",
-        arrow: true,
+    arrow: {
+      description: "Whether the tooltip includes an arrow",
+      control: { type: "boolean" },
+      table: {
+        defaultValue: {
+          summary: String(tooltipVariantsConfig.defaultVariants.arrow),
+        },
+      },
     },
+    interactive: {
+      description: "Whether the tooltip is interactive",
+      control: { type: "boolean" },
+      table: {
+        defaultValue: {
+          summary: String(tooltipVariantsConfig.defaultVariants.interactive),
+        },
+      },
+    },
+    disabled: {
+      description: "Disables the tooltip",
+      control: "boolean",
+      table: {
+        defaultValue: { summary: "false" },
+      },
+    },
+    as: {
+      description: "The component used for the root node",
+      control: { type: "text" },
+      table: {
+        defaultValue: { summary: "span" },
+      },
+    },
+    children: {
+      control: false,
+    },
+  },
+  args: {
+    onClick: fn(),
+    title: "Tooltip text",
+    placement: "bottom",
+    arrow: true,
+    interactive: false,
+    children: <span className="border p-2">Hover me</span>,
+  },
 };
 
-// export const AllPlacements: Story = {
-//     render: () => (
-//         <div className="grid grid-cols-3 gap-4">
-//             {placementOptions.map((placeOption) => (
-//                 <Tooltip key={placeOption} title={placeOption} placement={placeOption as PlacementOption}
-//                 >
-//                     <span className="border p-2">{placeOption}</span>
-//                 </Tooltip>
-//             ))}
-//         </div>
-//     ),
-// };
+export default meta;
+
+type Story = StoryObj<typeof Tooltip>;
+
+export const Basic: Story = {};
+
+export const AllPlacements: Story = {
+  render: () => (
+    <div className="grid grid-cols-3 gap-4">
+      {placementOptions.map((placeOption) => (
+        <Tooltip
+          key={placeOption}
+          title={`Placement: ${placeOption}`}
+          placement={placeOption as PlacementOption}
+        >
+          <span className="border p-2">{placeOption}</span>
+        </Tooltip>
+      ))}
+    </div>
+  ),
+};
 
 export const GoodToolTip: Story = {
-    render: () => (
-        <div className="grid grid-cols-3 gap-4">
-            <Tooltip title="Placement: The title" onOpen={(event) => (event.target)} >
-                <span className="border p-2">{"inside the tooltip"}</span>
-            </Tooltip>
-        </div>
-    ),
+  args: {
+    title: "Placement: The title",
+    placement: "top-end",
+  },
+  render: (args) => (
+    <Tooltip {...args}>
+      <span className="border p-2">Inside the tooltip</span>
+    </Tooltip>
+  ),
 };
