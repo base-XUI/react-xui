@@ -2,153 +2,124 @@ import { mount } from "cypress/react";
 import { Tooltip } from ".";
 import { TooltipColor, TooltipPlacement } from "./variants";
 
+const tooltipSelector = '[role="tooltip"]';
+const hover = () => cy.get("button").trigger("mouseover");
+const unhover = () => cy.get("button").trigger("mouseout");
+const getTooltip = () => cy.get(tooltipSelector, { timeout: 500 });
+
+const mountTooltip = (props: React.ComponentProps<typeof Tooltip>, label = "Hover me") => {
+  mount(
+    <Tooltip {...props}>
+      <button>{label}</button>
+    </Tooltip>
+  );
+};
+
 describe("Tooltip Component", () => {
   it("should display the tooltip on hover", () => {
-    mount(
-      <Tooltip title="Tooltip text">
-        <button>Hover me</button>
-      </Tooltip>,
-    );
+    mountTooltip({ title: "Tooltip text" });
 
-    // Ensure the tooltip is not visible initially
-    cy.get('[role="tooltip"]').should("not.exist");
-
-    // Hover over the button
-    cy.get("button").trigger("mouseover");
-
-    // Ensure the tooltip becomes visible
-    cy.get('[role="tooltip"]', { timeout: 500 })
-      .should("be.visible")
-      .and("contain", "Tooltip text");
+    cy.get(tooltipSelector).should("not.exist");
+    hover();
+    getTooltip().should("be.visible").and("contain", "Tooltip text");
   });
 
   it("should hide the tooltip when the mouse leaves", () => {
-    mount(
-      <Tooltip title="Tooltip text">
-        <button>Hover me</button>
-      </Tooltip>,
-    );
+    mountTooltip({ title: "Tooltip text" });
 
-    cy.get("button").click({ force: true }).trigger("mouseover");
-    cy.get('[role="tooltip"]').should("be.visible").and("contain", "Tooltip text");
-    cy.get("button").trigger("mouseout");
-    cy.get('[role="tooltip"]').should("not.exist");
+    cy.get("button").click({ force: true });
+    hover();
+    getTooltip().should("be.visible").and("contain", "Tooltip text");
+    unhover();
+    cy.get(tooltipSelector).should("not.exist");
   });
 
   it("should not display the tooltip when `disableHoverListener` is true", () => {
-    mount(
-      <Tooltip title="Tooltip text" disableHoverListener>
-        <button>Hover me</button>
-      </Tooltip>,
-    );
+    mountTooltip({ title: "Tooltip text", disableHoverListener: true });
 
-    cy.get("button").trigger("mouseover");
-    cy.get('[role="tooltip"]').should("not.exist");
+    hover();
+    cy.get(tooltipSelector).should("not.exist");
   });
 
   it("should display the tooltip with an arrow if `arrow` is true", () => {
-    mount(
-      <Tooltip title="Tooltip text" arrow >
-        <button>Hover me</button>
-      </Tooltip>,
-    );
+    mountTooltip({ title: "Tooltip text", arrow: true });
 
-    cy.get("button").trigger("mouseover");
-    cy.get('[role="tooltip"]', { timeout: 500 }).should("be.visible");
-    cy.get('[role="tooltip"]').and("contain", "Tooltip text");
-    cy.get('[role="tooltip"]').should("have.attr", "data-arrow", "true");
+    hover();
+    getTooltip().should("be.visible").and("contain", "Tooltip text");
+    getTooltip().should("have.attr", "data-arrow", "true");
   });
 
-  it("should render the tooltip with the correct color", () => {
-    const colors: TooltipColor[] = [
-      "default",
-      "primary",
-      "secondary",
-      "success",
-      "error",
-      "warning",
-      "info",
-    ];
+  const colors: TooltipColor[] = [
+    "default",
+    "primary",
+    "secondary",
+    "success",
+    "error",
+    "warning",
+    "info",
+  ];
 
-    colors.forEach((color) => {
-      mount(
-        <Tooltip title={`Tooltip with ${color} color`} color={color}>
-          <button>Hover me</button>
-        </Tooltip>,
-      );
+  colors.forEach((color) => {
+    it(`should render tooltip with color: ${color}`, () => {
+      mountTooltip({ title: `Tooltip with ${color} color`, color });
 
-      cy.get("button").trigger("mouseover");
-      cy.get('[role="tooltip"]')
+      hover();
+      getTooltip()
         .should("be.visible")
         .and("contain", `Tooltip with ${color} color`)
-        .and("have.attr", 'data-color', color);
+        .and("have.attr", "data-color", color);
 
-      cy.get("button").trigger("mouseout");
+      unhover();
     });
   });
 
-  it("should render the tooltip in the correct placement", () => {
-    const placements: TooltipPlacement[] = [
-      "top",
-      "bottom",
-      "left",
-      "right",
-      "top-start",
-      "top-end",
-      "bottom-start",
-      "bottom-end",
-      "left-start",
-      "left-end",
-      "right-start",
-      "right-end",
-      "auto",
-      "auto-start",
-      "auto-end",
-    ];
+  const placements: TooltipPlacement[] = [
+    "top",
+    "bottom",
+    "left",
+    "right",
+    "top-start",
+    "top-end",
+    "bottom-start",
+    "bottom-end",
+    "left-start",
+    "left-end",
+    "right-start",
+    "right-end",
+    "auto",
+    "auto-start",
+    "auto-end",
+  ];
 
-    placements.forEach((placement) => {
-      mount(
-        <Tooltip title={`Tooltip on ${placement}`} placement={placement}>
-          <button>Hover me</button>
-        </Tooltip>,
-      );
+  placements.forEach((placement) => {
+    it(`should render tooltip with placement: ${placement}`, () => {
+      mountTooltip({ title: `Tooltip on ${placement}`, placement });
 
-      cy.get("button").trigger("mouseover");
-      cy.get('[role="tooltip"]')
+      hover();
+      getTooltip()
         .should("be.visible")
         .and("contain", `Tooltip on ${placement}`)
         .and("have.attr", "data-placement", placement);
 
-      cy.get("button").trigger("mouseout");
+      unhover();
     });
   });
 
   it("should remain open when `interactive` is true", () => {
-    mount(
-      <Tooltip title="Interactive Tooltip" interactive>
-        <button>Hover me</button>
-      </Tooltip>,
-    );
+    mountTooltip({ title: "Interactive Tooltip", interactive: true });
 
-    cy.get("button").trigger("mouseover");
-    cy.get('[role="tooltip"]').trigger("mouseover");
-    cy.get('[role="tooltip"]').should("be.visible");
+    hover();
+    getTooltip().trigger("mouseover");
+    getTooltip().should("be.visible");
 
-    // Simulate hovering tooltip (note: this assumes `pointer-events: auto` on tooltip)
-    cy.get('[role="tooltip"]').trigger("mouseover");
-
-    cy.get("button").trigger("mouseout");
-    cy.get('[role="tooltip"]').should("be.visible");
+    unhover();
+    getTooltip().should("be.visible");
   });
 
   it("should render with default props", () => {
-    mount(
-      <Tooltip title="Default Tooltip">
-        <button>Hover me</button>
-      </Tooltip>,
-    );
+    mountTooltip({ title: "Default Tooltip" });
 
-    cy.get("button").trigger("mouseover");
-    cy.get('[role="tooltip"]').should("be.visible").and("contain", "Default Tooltip");
+    hover();
+    getTooltip().should("be.visible").and("contain", "Default Tooltip");
   });
 });
