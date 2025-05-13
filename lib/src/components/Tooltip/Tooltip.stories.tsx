@@ -87,7 +87,7 @@ const meta: Meta<typeof Tooltip> = {
     placement: "bottom",
     arrow: true,
     interactive: true,
-    children: <span className=" border rounded p-2">Hover me</span>,
+    children: <span className="rounded border p-2">Hover me</span>,
   },
 };
 

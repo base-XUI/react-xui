@@ -7,11 +7,14 @@ const hover = () => cy.get("button").trigger("mouseover");
 const unhover = () => cy.get("button").trigger("mouseout");
 const getTooltip = () => cy.get(tooltipSelector, { timeout: 500 });
 
-const mountTooltip = (props: React.ComponentProps<typeof Tooltip>, label = "Hover me") => {
+const mountTooltip = (
+  props: React.ComponentProps<typeof Tooltip>,
+  label = "Hover me",
+) => {
   mount(
     <Tooltip {...props}>
       <button>{label}</button>
-    </Tooltip>
+    </Tooltip>,
   );
 };
 

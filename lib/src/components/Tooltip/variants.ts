@@ -79,7 +79,8 @@ export const tooltipVariants = cva(
       {
         arrow: true,
         placement: "top",
-        className: "before:bottom-[-4px] before:left-1/2 before:-translate-x-1/2",
+        className:
+          "before:bottom-[-4px] before:left-1/2 before:-translate-x-1/2",
       },
       {
         arrow: true,
