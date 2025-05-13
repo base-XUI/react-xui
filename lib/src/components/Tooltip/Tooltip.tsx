@@ -9,16 +9,13 @@ const TooltipInner = <C extends React.ElementType = "span">(
     children,
     title,
     arrow = false,
-    placement = "bottom",
+    disabled = false,
+    placement = "top",
     onOpen,
     onClose,
-    disableHoverListener = false,
-    disableFocusListener = false,
-    disableTouchListener = false,
-    describeChild = false,
     id,
     className,
-    interactive = false,
+    interactive = true,
     color = "default",
     ...props
   }: TooltipProps<C>,
@@ -41,12 +38,10 @@ const TooltipInner = <C extends React.ElementType = "span">(
   return (
     <Component
       ref={ref}
-      onMouseEnter={!disableHoverListener ? openTooltip : undefined}
-      onMouseLeave={!disableHoverListener ? closeTooltip : undefined}
-      onFocus={!disableFocusListener ? openTooltip : undefined}
-      onBlur={!disableFocusListener ? closeTooltip : undefined}
-      aria-describedby={!describeChild ? tooltipId : undefined}
-      aria-label={describeChild && typeof title === "string" ? title : undefined}
+      onMouseEnter={!disabled ? openTooltip : undefined}
+      onMouseLeave={closeTooltip}
+      onFocus={!disabled ? openTooltip : undefined}
+      onBlur={closeTooltip}
       className={cn(
         "relative text-center w-fit", className)}
       {...props}

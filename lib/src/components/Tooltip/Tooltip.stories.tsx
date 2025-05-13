@@ -87,7 +87,7 @@ const meta: Meta<typeof Tooltip> = {
     placement: "bottom",
     arrow: true,
     interactive: false,
-    children: <span className="border p-2">Hover me</span>,
+    children: <span className="rounded border p-2">Hover me</span>,
   },
 };
 
@@ -95,23 +95,34 @@ export default meta;
 
 type Story = StoryObj<typeof Tooltip>;
 
-export const Basic: Story = {};
+export const Basic: Story = {
+  args: {
+    interactive: true,
+    title: "Tooltip textsss",
+    placement: "top",
+    color: "default",
+    as: "",
+    arrow: false,
+    disabled: false,
+  },
+};
 
 export const AllPlacements: Story = {
   args: {
-    placement: "top-start",
-    color: "warning",
+    arrow: false,
+    interactive: true,
   },
 
-  render: () => (
-    <div className="grid grid-cols-3 gap-4">
+  render: (args) => (
+    <div className="grid grid-cols-3 gap-12">
       {placementOptions.map((placeOption) => (
         <Tooltip
+          {...args}
           key={placeOption}
           title={`Placement: ${placeOption}`}
           placement={placeOption as PlacementOption}
         >
-          <span className="border p-2">{placeOption}</span>
+          <span className="rounded border p-2">{placeOption}</span>
         </Tooltip>
       ))}
     </div>
@@ -120,12 +131,14 @@ export const AllPlacements: Story = {
 
 export const GoodToolTip: Story = {
   args: {
-    title: "Placesds",
+    title: "Tooltip text",
     placement: "bottom",
+    arrow: false,
+    interactive: true,
   },
   render: (args) => (
     <Tooltip {...args}>
-      <span className="border p-2">Inside the tooltip</span>
+      <span className="rounded border p-2">Inside the tooltip</span>
     </Tooltip>
   ),
 };

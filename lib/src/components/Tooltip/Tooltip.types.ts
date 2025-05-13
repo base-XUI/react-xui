@@ -9,6 +9,7 @@ import { tooltipVariants } from "./variants";
 export type TooltipBaseProps = {
   title?: string;
   arrow?: boolean;
+  disabled?: boolean;
   placement?:
     | "auto-end"
     | "auto-start"
@@ -31,10 +32,9 @@ export type TooltipBaseProps = {
   onOpen?: (event: React.SyntheticEvent) => void;
   onClose?: (event: React.SyntheticEvent) => void;
   id?: string;
-  disableHoverListener?: boolean;
-  disableFocusListener?: boolean;
-  disableTouchListener?: boolean;
-  describeChild?: boolean;
+  // disableHoverListener?: boolean;
+  // disableFocusListener?: boolean;
+  // disableTouchListener?: boolean;
   slotProps?: {
     arrow?: object;
     popper?: object;
