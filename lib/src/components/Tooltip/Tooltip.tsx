@@ -8,7 +8,7 @@ const TooltipInner = <C extends React.ElementType = "span">(
     as,
     children,
     title,
-    arrow = false,
+    arrow = true,
     disabled = false,
     placement = "top",
     onOpen,
