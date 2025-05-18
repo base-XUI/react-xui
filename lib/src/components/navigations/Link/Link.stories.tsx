@@ -74,6 +74,7 @@ const meta = {
     },
   },
   args: {
+    href: "#",
     children: "Link",
   },
 } satisfies Meta<typeof Link>;
@@ -89,7 +90,7 @@ export const Basic: Story = {
 // Basic variants
 export const underline: Story = {
   args: {
-    underline: "none",
+    underline: "always",
   },
 
   render: () => (

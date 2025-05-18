@@ -17,7 +17,6 @@ const Link = <C extends React.ElementType = "a">({
   ...rest
 }: LinkProps<C>) => {
   const Component = component || "a";
-
   // Use a11y utility to handle accessibility attributes
   const a11yProps = adaptPropsForA11y(
     {
@@ -28,10 +27,31 @@ const Link = <C extends React.ElementType = "a">({
     },
     typeof Component === "string" ? Component : "a",
   );
-
   return (
     <Component
       ref={ref}
+      href={rest.href}
+      onClick={(e) => {
+        const backendUrl = "http://localhost:5173";
+        const isInternalLink = rest.href && rest.href.startsWith(backendUrl);
+        console.log("internalUrl", isInternalLink);
+
+        window.history.pushState({}, "", "http://localhost:5173/about");
+        if (isInternalLink) {
+          e.preventDefault();
+        }
+        // if (isInternalLink) {
+        //   // Prevent default behavior for internal links
+
+        //   const internalUrl = rest.href.replace(backendUrl, "");
+        //   console.log("internalUrl", history.state());
+
+        //   // window.history.replaceState({}, "", internalUrl);
+        //   // history.forward();
+        //   // window.history.pushState({}, "", internalUrl);
+        // }
+      }}
+      {...rest}
       className={cn(
         LinkVariants({
           variant,

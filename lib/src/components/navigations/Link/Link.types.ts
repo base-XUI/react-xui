@@ -10,8 +10,7 @@ import type {
 /**
  * Base props for the Link component
  */
-export type LinkBaseProps = {  
-
+export type LinkBaseProps = {
   className?: string;
   children: React.ReactNode;
   variant?: VariantProps<typeof LinkVariants>["variant"];
@@ -19,7 +18,6 @@ export type LinkBaseProps = {
   underline?: VariantProps<typeof LinkVariants>["underline"];
   target?: VariantProps<typeof LinkVariants>["target"];
   rel?: VariantProps<typeof LinkVariants>["rel"];
- 
 } & VariantProps<typeof LinkVariants>;
 
 /**
