@@ -40,8 +40,8 @@ const TooltipInner = <C extends React.ElementType = "span">(
       ref={ref}
       onMouseEnter={!disabled ? openTooltip : undefined}
       onMouseLeave={closeTooltip}
-      onFocus={!disabled ? openTooltip : undefined}
       onBlur={closeTooltip}
+      onFocus={!disabled ? openTooltip : undefined}
       className={cn("relative w-fit text-center", className)}
       {...props}
     >
