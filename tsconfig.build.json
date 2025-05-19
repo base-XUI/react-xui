@@ -34,6 +34,9 @@
     "**/*.cy.ts",
     ".storybook",
     "cypress",
+    "cypress.config.ts",
+    "cypress.d.ts",
+    "cypress/**/*",
     "dist"
   ]
 }
