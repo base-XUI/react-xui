@@ -68,7 +68,7 @@ export default defineConfig((): UserConfig => {
       libInjectCss(),
       dts({
         include: [libFilesPath],
-        exclude: ["**/*.stories.tsx", "**/*.cy.tsx", "**/*.cy.ts"],
+        exclude: ["**/*.stories.tsx", "**/*.cy.tsx", "**/*.cy.ts","cypress.config.ts"],
         rollupTypes: true,
         outDir: "dist/types",
         compilerOptions: {
