@@ -18,7 +18,7 @@ export type TooltipPlacement =
   | "top";
 
 export type TooltipColor =
-  | "default"
+  | "gray"
   | "primary"
   | "secondary"
   | "success"
@@ -29,7 +29,7 @@ export type TooltipColor =
 export const tooltipVariantsConfig = {
   variants: {
     color: {
-      default: "bg-gray-800 text-white",
+      gray: "bg-gray-800 text-white",
       primary: "bg-primary text-primary-foreground",
       secondary: "bg-secondary text-secondary-foreground",
       success: "bg-success text-success-foreground",
@@ -63,7 +63,7 @@ export const tooltipVariantsConfig = {
     },
   },
   defaultVariants: {
-    color: "default" as TooltipColor,
+    color: "primary" as TooltipColor,
     placement: "bottom" as TooltipPlacement,
     arrow: true,
     interactive: false,

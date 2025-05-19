@@ -66,48 +66,6 @@
     "tailwindcss-animate": "^1.0.7",
     "yalc": "1.0.0-pre.53"
   },
-  "devDependencies": {
-    "@changesets/changelog-github": "^0.5.0",
-    "@changesets/cli": "^2.27.1",
-    "@chromatic-com/storybook": "^3.2.6",
-    "@commitlint/cli": "^19.2.0",
-    "@commitlint/config-conventional": "^19.1.0",
-    "@cypress/vite-dev-server": "^6.0.3",
-    "@eslint/js": "^9.19.0",
-    "@storybook/addon-essentials": "^8.6.12",
-    "@storybook/blocks": "^8.6.12",
-    "@storybook/react": "^8.6.12",
-    "@storybook/react-vite": "^8.6.12",
-    "@storybook/test": "^8.6.12",
-    "@testing-library/react": "^16.2.0",
-    "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^22.12.0",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
-    "@vitejs/plugin-react": "^4.3.4",
-    "concurrently": "^9.1.2",
-    "cypress": "^14.3.1",
-    "eslint": "^9.19.0",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.18",
-    "eslint-plugin-storybook": "^0.12.0",
-    "globals": "^15.14.0",
-    "husky": "^9.1.7",
-    "hygen": "^6.2.11",
-    "lint-staged": "^15.2.2",
-    "prettier": "3.5.1",
-    "prettier-plugin-tailwindcss": "^0.6.11",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^7.2.0",
-    "rimraf": "^5.0.10",
-    "storybook": "^8.6.12",
-    "typescript": "~5.7.2",
-    "typescript-eslint": "^8.22.0",
-    "vite": "^6.1.0",
-    "vite-plugin-dts": "^4.5.0",
-    "vite-plugin-lib-inject-css": "^2.2.1"
-  },
   "eslintConfig": {
     "extends": [
       "plugin:storybook/recommended"
@@ -126,5 +84,6 @@
       "prettier --write"
     ],
     "**/*": "prettier --write --ignore-unknown"
-  }
+  },
+  "yalcSig": "7e2b5d00176ea78574a9d142f37dd924"
 }
