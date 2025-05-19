@@ -100,9 +100,9 @@ export const Basic: Story = {
     interactive: true,
     arrow: true,
     disabled: false,
-    title: "Tooltip textsss",
+    title: "Tooltip text",
     placement: "top",
-    color: "default",
+    color: "primary",
     as: "",
   },
 };

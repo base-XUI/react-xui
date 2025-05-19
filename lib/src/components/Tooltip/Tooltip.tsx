@@ -16,7 +16,7 @@ const TooltipInner = <C extends React.ElementType = "span">(
     id,
     className,
     interactive = true,
-    color = "default",
+    color = "primary",
     ...props
   }: TooltipProps<C>,
   ref: React.Ref<Element>,
@@ -40,8 +40,8 @@ const TooltipInner = <C extends React.ElementType = "span">(
       ref={ref}
       onMouseEnter={!disabled ? openTooltip : undefined}
       onMouseLeave={closeTooltip}
-      onFocus={!disabled ? openTooltip : undefined}
       onBlur={closeTooltip}
+      onFocus={!disabled ? openTooltip : undefined}
       className={cn("relative w-fit text-center", className)}
       {...props}
     >
@@ -52,7 +52,7 @@ const TooltipInner = <C extends React.ElementType = "span">(
           role="tooltip"
           data-testid="tooltip"
           data-arrow={arrow ? "true" : undefined}
-          data-color={color || "default"}
+          data-color={color || "primary"}
           data-placement={placement}
           aria-live={interactive ? "polite" : undefined}
           className={cn(

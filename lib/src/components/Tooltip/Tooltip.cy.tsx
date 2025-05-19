@@ -46,7 +46,7 @@ describe("Tooltip Component", () => {
   });
 
   const colors: TooltipColor[] = [
-    "default",
+    "gray",
     "primary",
     "secondary",
     "success",
