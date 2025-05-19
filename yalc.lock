@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@base-xui/react-xui": {
+      "signature": "7e2b5d00176ea78574a9d142f37dd924",
+      "file": true,
+      "replaced": "^0.2.1"
+    }
+  }
+}
