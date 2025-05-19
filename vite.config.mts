@@ -13,7 +13,6 @@ export default defineConfig((): UserConfig => {
       lib: {
         entry: resolve(__dirname, `${libFilesPath}/index.ts`),
         name: "ReactXUI",
-        formats: ["es", "umd"],
         fileName: (format) => `react-xui.${format}.js`,
       },
       rollupOptions: {
