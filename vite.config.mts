@@ -86,7 +86,10 @@ export default defineConfig((): UserConfig => {
           paths: {
             "@/*": [`./${libFilesPath}/*`],
           },
+          skipLibCheck: true,
         },
+        entryRoot: libFilesPath,
+        staticImport: true,
       }),
     ],
   };
