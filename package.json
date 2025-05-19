@@ -33,9 +33,8 @@
   ],
   "scripts": {
     "storybook": "storybook dev -p 6006",
-    "dev:link": "pnpm build:package && yalc push",
-    "dev:publish": "pnpm build:package && yalc publish",
-    "dev:watch": "concurrently \"pnpm build:package --watch\" \"yalc push --watch\"",
+    "yalc:publish": "pnpm build:package && yalc publish",
+    "yalc:update": "pnpm build:package && yalc push --scripts --update --replace",
     "build:package": "pnpm clean && tsc -p tsconfig.build.json && vite build && pnpm build:css --mode package",
     "build:storybook": "storybook build",
     "build:css": "pnpm dlx @tailwindcss/cli -i lib/src/main.css -o dist/styles.css --minify",
@@ -48,8 +47,7 @@
     "test:unit": "cypress run --component",
     "test:unit:ui": "cypress open --component",
     "test:e2e": "cypress run",
-    "test:e2e:ui": "cypress open --e2e",
-    "prepublishOnly": "pnpm lint && pnpm test:unit && pnpm build:package"
+    "test:e2e:ui": "cypress open --e2e"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
