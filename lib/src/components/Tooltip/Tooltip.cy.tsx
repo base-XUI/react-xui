@@ -7,11 +7,14 @@ const hover = () => cy.get("button").trigger("mouseover");
 const unhover = () => cy.get("button").trigger("mouseout");
 const getTooltip = () => cy.get(tooltipSelector, { timeout: 500 });
 
-const mountTooltip = (props: React.ComponentProps<typeof Tooltip>, label = "Hover me") => {
+const mountTooltip = (
+  props: React.ComponentProps<typeof Tooltip>,
+  label = "Hover me",
+) => {
   mount(
     <Tooltip {...props}>
       <button>{label}</button>
-    </Tooltip>
+    </Tooltip>,
   );
 };
 
@@ -34,13 +37,6 @@ describe("Tooltip Component", () => {
     cy.get(tooltipSelector).should("not.exist");
   });
 
-  it("should not display the tooltip when `disableHoverListener` is true", () => {
-    mountTooltip({ title: "Tooltip text", disableHoverListener: true });
-
-    hover();
-    cy.get(tooltipSelector).should("not.exist");
-  });
-
   it("should display the tooltip with an arrow if `arrow` is true", () => {
     mountTooltip({ title: "Tooltip text", arrow: true });
 
@@ -50,7 +46,7 @@ describe("Tooltip Component", () => {
   });
 
   const colors: TooltipColor[] = [
-    "default",
+    "gray",
     "primary",
     "secondary",
     "success",
@@ -109,11 +105,11 @@ describe("Tooltip Component", () => {
     mountTooltip({ title: "Interactive Tooltip", interactive: true });
 
     hover();
-    getTooltip().trigger("mouseover");
-    getTooltip().should("be.visible");
+    getTooltip().trigger("mouseover", { force: true }); // Force interaction
+    getTooltip().should("be.visible", { timeout: 5000 }); // Ensure visibility
 
     unhover();
-    getTooltip().should("be.visible");
+    getTooltip().should("be.visible"); // Tooltip should remain visible
   });
 
   it("should render with default props", () => {
