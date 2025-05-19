@@ -70,11 +70,11 @@ export default defineConfig((): UserConfig => {
       tailwindcss(),
       libInjectCss(),
       dts({
-        include: [libFilesPath],
+        include: [resolve(__dirname, libFilesPath)],
         exclude: [
-          "**/*.stories.tsx",
-          "**/*.cy.tsx",
-          "**/*.cy.ts",
+          resolve(__dirname, `${libFilesPath}/**/*.stories.tsx`),
+          resolve(__dirname, `${libFilesPath}/**/*.cy.tsx`),
+          resolve(__dirname, `${libFilesPath}/**/*.cy.ts`),
           absoluteCypressConfigPath,
           absoluteCypressDTsPath,
           `${absoluteCypressDir}/**/*`,
