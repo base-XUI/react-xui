@@ -79,7 +79,7 @@ export default defineConfig((): UserConfig => {
           absoluteCypressDTsPath,
           `${absoluteCypressDir}/**/*`,
         ],
-        rollupTypes: true,
+        rollupTypes: false,
         outDir: "dist/types",
         compilerOptions: {
           baseUrl: ".",

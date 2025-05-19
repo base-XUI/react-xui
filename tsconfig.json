@@ -11,5 +11,6 @@
       "@/*": ["./lib/src/*"],
       "@test/*": ["./cypress/*"]
     }
-  }
+  },
+  "exclude": ["cypress.config.ts", "cypress.d.ts", "cypress/**/*"]
 }
