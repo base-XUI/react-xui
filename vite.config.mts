@@ -8,10 +8,6 @@ import { libInjectCss } from "vite-plugin-lib-inject-css";
 export default defineConfig((): UserConfig => {
   const libFilesPath = "lib/src";
 
-  const absoluteCypressConfigPath = resolve(__dirname, "cypress.config.ts");
-  const absoluteCypressDTsPath = resolve(__dirname, "cypress.d.ts");
-  const absoluteCypressDir = resolve(__dirname, "cypress");
-
   return {
     build: {
       lib: {
@@ -72,12 +68,12 @@ export default defineConfig((): UserConfig => {
       dts({
         include: [resolve(__dirname, libFilesPath)],
         exclude: [
-          resolve(__dirname, `${libFilesPath}/**/*.stories.tsx`),
-          resolve(__dirname, `${libFilesPath}/**/*.cy.tsx`),
-          resolve(__dirname, `${libFilesPath}/**/*.cy.ts`),
-          absoluteCypressConfigPath,
-          absoluteCypressDTsPath,
-          `${absoluteCypressDir}/**/*`,
+          "cypress.config.ts",
+          "cypress.d.ts",
+          "cypress/**/*",
+          `${libFilesPath}/**/*.stories.tsx`,
+          `${libFilesPath}/**/*.cy.tsx`,
+          `${libFilesPath}/**/*.cy.ts`,
         ],
         rollupTypes: true,
         outDir: "dist/types",
