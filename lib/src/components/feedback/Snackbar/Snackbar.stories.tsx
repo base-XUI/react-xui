@@ -60,13 +60,21 @@ export const Default: Story = {
   },
 };
 
-export const WithAction: Story = {
+export const Secondary: Story = {
   args: {
-    message: "This is a snackbar with an action",
+    message: "This is a success snackbar",
+    open: true,
+    severity: "secondary",
+    variant: "filled",
+  },
+};
+
+export const Info: Story = {
+  args: {
+    message: "This is an info snackbar",
     open: true,
     severity: "info",
     variant: "filled",
-    action: <Button size="small">Undo</Button>,
   },
 };
 
@@ -97,21 +105,22 @@ export const Warning: Story = {
   },
 };
 
-export const Info: Story = {
-  args: {
-    message: "This is an info snackbar",
-    open: true,
-    severity: "info",
-    variant: "filled",
-  },
-};
-
 export const Outlined: Story = {
   args: {
     message: "This is an outlined snackbar",
     open: true,
     severity: "success",
     variant: "outlined",
+  },
+};
+
+export const WithAction: Story = {
+  args: {
+    message: "This is a snackbar with an action",
+    open: true,
+    severity: "info",
+    variant: "filled",
+    action: <Button size="small">Undo</Button>,
   },
 };
 
