@@ -69,7 +69,7 @@ export default defineConfig((): UserConfig => {
       dts({
         include: [libFilesPath],
         exclude: ["**/*.stories.tsx", "**/*.cy.tsx", "**/*.cy.ts"],
-        rollupTypes: true,
+        rollupTypes: false,
         outDir: "dist/types",
         compilerOptions: {
           baseUrl: ".",
@@ -77,6 +77,7 @@ export default defineConfig((): UserConfig => {
             "@/*": [`./${libFilesPath}/*`],
           },
         },
+        tsconfigPath: "./tsconfig.build.json",
       }),
     ],
   };
