@@ -1,10 +1,34 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { useState } from "react";
 import { Snackbar } from "./Snackbar";
 import { Button } from "@/components/inputs/Button";
+import { SnackbarProps } from "./Snackbar.types";
 
-const meta: Meta<typeof Snackbar> = {
+const SnackbarWrapper = (props: SnackbarProps) => {
+  const { open = false, ...snackbarProps } = props;
+  const [initialOpen, setInitialOpen] = useState(open);
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <Button
+        onClick={() => setInitialOpen(true)}
+        variant="contained"
+        color="primary"
+      >
+        Open Snackbar
+      </Button>
+      <Snackbar
+        {...snackbarProps}
+        open={initialOpen}
+        onClose={() => setInitialOpen(false)}
+      />
+    </div>
+  );
+};
+
+const meta: Meta<typeof SnackbarWrapper> = {
   title: "Feedback/Snackbar",
-  component: Snackbar,
+  component: SnackbarWrapper,
   parameters: {
     layout: "centered",
   },
@@ -45,12 +69,11 @@ const meta: Meta<typeof Snackbar> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Snackbar>;
+type Story = StoryObj<typeof SnackbarWrapper>;
 
 export const Default: Story = {
   args: {
     message: "This is a default snackbar",
-    open: true,
     severity: "primary",
     variant: "filled",
     transition: "fade",
@@ -62,8 +85,7 @@ export const Default: Story = {
 
 export const Secondary: Story = {
   args: {
-    message: "This is a success snackbar",
-    open: true,
+    message: "This is a secondary snackbar",
     severity: "secondary",
     variant: "filled",
   },
@@ -72,7 +94,6 @@ export const Secondary: Story = {
 export const Info: Story = {
   args: {
     message: "This is an info snackbar",
-    open: true,
     severity: "info",
     variant: "filled",
   },
@@ -81,7 +102,6 @@ export const Info: Story = {
 export const Success: Story = {
   args: {
     message: "This is a success snackbar",
-    open: true,
     severity: "success",
     variant: "filled",
   },
@@ -90,7 +110,6 @@ export const Success: Story = {
 export const Error: Story = {
   args: {
     message: "This is an error snackbar",
-    open: true,
     severity: "error",
     variant: "filled",
   },
@@ -99,7 +118,6 @@ export const Error: Story = {
 export const Warning: Story = {
   args: {
     message: "This is a warning snackbar",
-    open: true,
     severity: "warning",
     variant: "filled",
   },
@@ -108,7 +126,6 @@ export const Warning: Story = {
 export const Outlined: Story = {
   args: {
     message: "This is an outlined snackbar",
-    open: true,
     severity: "success",
     variant: "outlined",
   },
@@ -117,7 +134,6 @@ export const Outlined: Story = {
 export const WithAction: Story = {
   args: {
     message: "This is a snackbar with an action",
-    open: true,
     severity: "info",
     variant: "filled",
     action: <Button size="small">Undo</Button>,
@@ -127,7 +143,6 @@ export const WithAction: Story = {
 export const TopRight: Story = {
   args: {
     message: "This is a top-right positioned snackbar",
-    open: true,
     severity: "info",
     variant: "filled",
     anchorOrigin: { vertical: "top", horizontal: "right" },
@@ -137,7 +152,6 @@ export const TopRight: Story = {
 export const WithoutCloseIcon: Story = {
   args: {
     message: "This snackbar has no close icon",
-    open: true,
     severity: "warning",
     variant: "filled",
     withCloseIcon: false,
@@ -146,7 +160,6 @@ export const WithoutCloseIcon: Story = {
 
 export const WithCustomContent: Story = {
   args: {
-    open: true,
     severity: "primary",
     variant: "filled",
     children: (
