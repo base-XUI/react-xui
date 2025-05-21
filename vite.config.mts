@@ -68,9 +68,11 @@ export default defineConfig((): UserConfig => {
       dts({
         include: [resolve(__dirname, libFilesPath)],
         exclude: [
-          "cypress.config.ts",
-          "cypress.d.ts",
-          "cypress/**/*",
+          resolve(__dirname, "cypress.config.ts"),
+          resolve(__dirname, "cypress.d.ts"),
+          resolve(__dirname, "cypress"),
+          resolve(__dirname, "cypress/**/*"),
+          resolve(__dirname, "dist"),
           `${libFilesPath}/**/*.stories.tsx`,
           `${libFilesPath}/**/*.cy.tsx`,
           `${libFilesPath}/**/*.cy.ts`,
