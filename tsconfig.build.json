@@ -29,14 +29,13 @@
   "include": ["lib/src/**/*"],
   "exclude": [
     "node_modules",
+    "dist",
+    "cypress",
+    "cypress.config.ts",
+    "cypress/**/*",
     "**/*.stories.tsx",
     "**/*.cy.tsx",
     "**/*.cy.ts",
-    ".storybook",
-    "cypress",
-    "cypress.config.ts",
-    "cypress.d.ts",
-    "cypress/**/*",
-    "dist"
+    ".storybook"
   ]
 }

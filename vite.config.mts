@@ -66,11 +66,12 @@ export default defineConfig((): UserConfig => {
       tailwindcss(),
       libInjectCss(),
       dts({
-        include: [libFilesPath], // <--- use relative path here!
+        include: [libFilesPath],
         exclude: [
           "cypress.config.ts",
           "cypress.d.ts",
           "cypress/**/*",
+          "cypress",
           "dist",
           `${libFilesPath}/**/*.stories.tsx`,
           `${libFilesPath}/**/*.cy.tsx`,
