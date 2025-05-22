@@ -1,27 +1,62 @@
+import { ChangeEvent } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { useArgs } from "@storybook/preview-api";
+
+import { CheckmarkIcon, IndeterminateIcon } from "@/icons";
 
 import { Checkbox } from "./Checkbox";
+import { CheckboxProps } from "./Checkbox.types";
+import { useArgs } from "storybook/internal/preview-api";
+import { Canvas, Controls, Subtitle, Title } from "@storybook/blocks";
 
 const meta = {
   title: "Inputs/Checkbox",
+  component: Checkbox,
+
   parameters: {
     layout: "centered",
+    Description:
+      "A checkbox is an input control used to select one or more options from a list.",
+
     docs: {
-      stories: ["Default"],
+      page: () => {
+        return (
+          <>
+            <Title />
+            <Subtitle
+              children={
+                "A checkbox is an input control used to select one or more options from a list."
+              }
+            />
+            <Canvas />
+            <Controls />
+          </>
+        );
+      },
     },
   },
   tags: ["autodocs"],
   argTypes: {
+    // Following MUI Checkbox API documentation ordering
     checked: {
       control: "boolean",
+      description: "If true, the component is checked.",
       table: {
-        defaultValue: { summary: "false" },
         type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
       },
-      description:
-        "If true, the checkbox is checked. Use this in controlled components with onChange.",
     },
+    checkedIcon: {
+      control: { disable: true },
+      description: "The icon to display when the component is checked.",
+      table: {
+        type: {
+          summary: "ReactElement",
+          detail: "Accepts any icon as React element",
+        },
+        defaultValue: { summary: "<CheckmarkIcon />" },
+      },
+    },
+
     color: {
       control: "select",
       options: [
@@ -33,74 +68,105 @@ const meta = {
         "warning",
         "muted",
       ],
+      description: "The color of the component.",
       table: {
-        defaultValue: { summary: "primary" },
+        type: {
+          summary:
+            "'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning' | 'muted' | string",
+        },
+        defaultValue: { summary: "'primary'" },
       },
+    },
+    defaultChecked: {
+      control: "boolean",
       description:
-        "Sets the color of the checkbox. Useful for indicating intent or priority (e.g., success, error).",
+        "The default checked state. Use when the component is not controlled.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    disabled: {
+      control: "boolean",
+      description: "If true, the checkbox is disabled.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+
+    icon: {
+      control: { disable: true },
+      description: "The icon to display when the component is unchecked.",
+      table: {
+        type: { summary: "ReactElement" },
+        defaultValue: { summary: "<CheckmarkIcon />" },
+      },
+    },
+    id: {
+      control: "text",
+      description: "The id of the input element.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    indeterminate: {
+      control: "boolean",
+      description: "If true, the component appears indeterminate.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    indeterminateIcon: {
+      control: { disable: true },
+      description: "The icon to display when the component is indeterminate.",
+      table: {
+        type: { summary: "ReactElement" },
+        defaultValue: { summary: "null" },
+      },
+    },
+
+    onChange: {
+      action: "changed",
+      description: "Callback fired when the state is changed.",
+      table: {
+        type: { summary: "function" },
+        detail: "function(event: React.ChangeEvent) => void",
+      },
+    },
+    required: {
+      control: "boolean",
+      description: "If true, the input element is required.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
     },
     size: {
       control: "select",
       options: ["small", "medium", "large"],
+      description: "The size of the component.",
       table: {
-        defaultValue: { summary: "medium" },
-        type: { summary: "string" },
+        type: { summary: "'small' | 'medium' | 'large' | string" },
+        defaultValue: { summary: "'medium'" },
       },
-      description:
-        "Controls the visual size of the checkbox. Choose based on UI density and readability needs.",
     },
-    disabled: {
-      control: "boolean",
-      table: {
-        defaultValue: { summary: "false" },
-        type: { summary: "boolean" },
-      },
-      description:
-        "If true, the checkbox cannot be interacted with and appears visually inactive.",
-    },
-    required: {
-      control: "boolean",
-      table: {
-        defaultValue: { summary: "false" },
-        type: { summary: "boolean" },
-      },
-      description:
-        "If true, the checkbox must be checked before form submission. Useful for mandatory selections.",
-    },
-    checkedIcon: {
+    slotProps: {
       control: { disable: true },
-      options: [],
+      description: "The props used for each slot inside.",
       table: {
-        type: { summary: "node" },
-        defaultValue: { summary: "<CheckmarkIcon />" },
+        type: { summary: "{ input?: func | object, root?: func | object }" },
+        defaultValue: { summary: "{}" },
       },
-      description:
-        "Custom icon shown when the checkbox is checked. Defaults to a checkmark if not provided.",
     },
-    icon: {
+
+    value: {
       control: { disable: true },
-      options: [],
+      description: "The value of the component.",
       table: {
-        type: { summary: "node" },
-        defaultValue: { summary: "<CheckmarkIcon />" },
+        type: { summary: "any" },
       },
-      description: "The icon to display when the component is unchecked..",
-    },
-    indeterminate: {
-      control: "boolean",
-      options: [false, true],
-      description:
-        "If true, shows an indeterminate state. Typically used in parent checkboxes representing a group selection.",
-    },
-    indeterminateIcon: {
-      control: { disable: true },
-      options: [],
-      table: {
-        type: { summary: "node" },
-        defaultValue: { summary: "null" },
-      },
-      description:
-        "Custom icon shown when the checkbox is in an indeterminate state. If not provided, no icon is shown.",
     },
   },
 } satisfies Meta<typeof Checkbox>;
@@ -108,91 +174,83 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof Checkbox>;
 
-export const CheckboxExample: Story = {
+// Default Story
+export const Default: Story = {
   args: {
+    id: "my-checkbox",
     checked: false,
     color: "primary",
     size: "medium",
     required: false,
     disabled: false,
+    defaultChecked: true,
     indeterminate: false,
-    checkedIcon: null,
-    indeterminateIcon: null,
-  },
+    checkedIcon: <CheckmarkIcon />,
+    indeterminateIcon: <IndeterminateIcon />,
+    onChange: () => {},
+    value: "Subscribe",
+  } as CheckboxProps,
   render: function Render(args) {
     const [{ checked }, updateArgs] = useArgs();
-    const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       const isChecked = e.target.checked;
-      updateArgs({ checked: isChecked }); // Update the checked state
+      updateArgs({ checked: isChecked }); // Update the args.checked prop
     };
 
     return (
       <Checkbox
         {...args}
-        checked={checked} // Ensure checked is controlled
-        onChange={handleChange1} // Handle changes
+        defaultChecked={args.defaultChecked}
+        id="my-checkbox"
+        checked={checked || args.checked || args.defaultChecked}
+        onChange={handleChange}
       />
     );
   },
 };
 
-// Add a new story for E2E testing with data-testid attributes
-// Checkbox.stories.tsx
-export const E2ETestingVariants: Story = {
+// With Slot Props Story
+export const WithSlotProps: Story = {
   args: {
+    id: "my-checkbox",
     checked: false,
     color: "primary",
     size: "medium",
     required: false,
     disabled: false,
     indeterminate: false,
-    checkedIcon: null,
-    indeterminateIcon: null,
+    checkedIcon: <CheckmarkIcon />,
+    indeterminateIcon: <IndeterminateIcon />,
+    onChange: () => {},
+    value: "Subscribe",
+    slotProps: {
+      root: {
+        className: "custom-slotProps-root-class",
+        ["slotProps-root-data-custom" as string]: "true",
+      },
+      input: {
+        style: { cursor: "pointer" },
+        title: "custom-slotProps-input-title",
+        name: "custom-slotProps-input-name",
+      },
+    },
   },
   render: function Render(args) {
     const [{ checked }, updateArgs] = useArgs();
-    const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       const isChecked = e.target.checked;
-      updateArgs({ checked: isChecked }); // Update the checked state
+      updateArgs({ checked: isChecked }); // Update the args.checked prop
     };
+
     return (
-      <>
-        <Checkbox
-          {...args}
-          color="primary"
-          checked={checked} // Ensure checked is controlled
-          onChange={handleChange1} // Handle changes
-        />
-      </>
-    );
-  },
-};
-export const E2ETestingDisabled: Story = {
-  args: {
-    checked: false,
-    color: "primary",
-    size: "medium",
-    required: false,
-    disabled: false,
-    indeterminate: false,
-    checkedIcon: null,
-    indeterminateIcon: null,
-  },
-  render: function Render(args) {
-    const [{ checked }, updateArgs] = useArgs();
-    const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const isChecked = e.target.checked;
-      updateArgs({ checked: isChecked }); // Update the checked state
-    };
-    return (
-      <>
-        <Checkbox
-          {...args}
-          color="primary"
-          checked={checked || args.checked} // Ensure checked is controlled
-          onChange={handleChange1} // Handle changes
-        />
-      </>
+      <Checkbox
+        {...args}
+        id="my-checkbox"
+        checked={checked || args.checked}
+        onChange={handleChange}
+      />
     );
   },
 };
