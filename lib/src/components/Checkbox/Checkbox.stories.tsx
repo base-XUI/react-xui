@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { CheckmarkIcon, IndeterminateIcon } from "@/icons";
+import { Check, Minus } from "lucide-react";
 
 import { Checkbox } from "./Checkbox";
 import { CheckboxProps } from "./Checkbox.types";
@@ -53,7 +53,7 @@ const meta = {
           summary: "ReactElement",
           detail: "Accepts any icon as React element",
         },
-        defaultValue: { summary: "<CheckmarkIcon />" },
+        defaultValue: { summary: "<Check />" },
       },
     },
 
@@ -100,7 +100,7 @@ const meta = {
       description: "The icon to display when the component is unchecked.",
       table: {
         type: { summary: "ReactElement" },
-        defaultValue: { summary: "<CheckmarkIcon />" },
+        defaultValue: { summary: "<Check />" },
       },
     },
     id: {
@@ -185,8 +185,8 @@ export const Default: Story = {
     disabled: false,
     defaultChecked: true,
     indeterminate: false,
-    checkedIcon: <CheckmarkIcon />,
-    indeterminateIcon: <IndeterminateIcon />,
+    checkedIcon: <Check />,
+    indeterminateIcon: <Minus />,
     onChange: () => {},
     value: "Subscribe",
   } as CheckboxProps,
@@ -220,8 +220,8 @@ export const WithSlotProps: Story = {
     required: false,
     disabled: false,
     indeterminate: false,
-    checkedIcon: <CheckmarkIcon />,
-    indeterminateIcon: <IndeterminateIcon />,
+    checkedIcon: <Check />,
+    indeterminateIcon: <Minus />,
     onChange: () => {},
     value: "Subscribe",
     slotProps: {

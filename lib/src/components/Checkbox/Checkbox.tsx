@@ -19,7 +19,8 @@ import { forwardRef, isValidElement } from "react";
 import { cn } from "@/utils/cn";
 import { checkboxVariants } from "./variants";
 import { type CheckboxBaseProps } from "./Checkbox.types";
-import { CheckmarkIcon, IndeterminateIcon } from "@/icons";
+
+import { Check, Minus } from "lucide-react";
 
 const Checkbox = forwardRef<HTMLInputElement, CheckboxBaseProps>(
   (
@@ -34,9 +35,9 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxBaseProps>(
       checked = false,
       indeterminate = false,
       disabled = false,
-      checkedIcon = <CheckmarkIcon />,
+      checkedIcon = <Check />,
       icon,
-      indeterminateIcon = <IndeterminateIcon />,
+      indeterminateIcon = <Minus />,
       required = false,
       onChange,
       slotProps = {},
