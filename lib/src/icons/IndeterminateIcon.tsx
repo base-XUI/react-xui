@@ -1,0 +1,12 @@
+export const IndeterminateIcon = () => (
+  <svg
+    width="32"
+    height="32"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect x="4" y="8" width="8" height="1" fill="currentColor" />
+  </svg>
+);
+export default IndeterminateIcon;
