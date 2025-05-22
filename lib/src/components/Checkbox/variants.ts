@@ -7,9 +7,10 @@ export type CheckboxColor =
   | "error"
   | "info"
   | "warning"
-  | "muted";
+  | "muted"
+  | "";
 
-type CheckboxSize = "small" | "medium" | "large";
+export type CheckboxSize = "small" | "medium" | "large";
 
 export const checkboxVariantsConfig = {
   variants: {
@@ -21,6 +22,7 @@ export const checkboxVariantsConfig = {
       info: "",
       warning: "",
       muted: "",
+      "": "",
     },
     state: {
       checked: "",
@@ -139,6 +141,24 @@ export const checkboxVariants = cva(
         state: "indeterminate",
         className:
           "text-warning-foreground border-warning-foreground bg-warning hover:bg-warning/90",
+      },
+      // Empty color (default to muted)
+      {
+        color: "",
+        state: "checked",
+        className:
+          "text-muted-foreground border-muted-foreground bg-muted hover:bg-muted/90",
+      },
+      {
+        color: "",
+        state: "unchecked",
+        className: "text-white border-muted-foreground hover:bg-muted/90",
+      },
+      {
+        color: "",
+        state: "indeterminate",
+        className:
+          "text-muted-foreground border-muted-foreground bg-muted hover:bg-muted/90",
       },
     ],
     defaultVariants: {
