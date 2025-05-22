@@ -1,47 +1,18 @@
-import { ReactElement, ElementType } from "react";
-
+// Checkbox.types.ts
+import { PolymorphicComponentPropWithRef } from "@/utils/polymorphic";
 import { VariantProps } from "class-variance-authority";
-import { checkboxVariants, CheckboxColor } from "./variants";
-
-import {
-  PolymorphicComponent,
-  PolymorphicComponentProp,
-} from "@/utils/polymorphic";
+import { CheckboxColor, checkboxVariants, CheckboxSize } from "./variants";
 
 export type CheckboxBaseProps = {
   /**
-   * Class name applied to the root element.
-   */
-  className?: string;
-  /**
-   * If true, the component is checked
+   * Controlled checked state of the checkbox
    */
   checked?: boolean;
 
   /**
-   * The default checked state. Use when the component is not controlled.
-   */
-  defaultChecked?: boolean;
-
-  /**
-   * If true, the component is disabled.
-   */
-  disabled?: boolean;
-
-  /**
-   * If true, the input element is required.
-   */
-  required?: boolean;
-
-  /**
-   * The icon to display when the component is checked.
+   * Custom icon to display when checked
    */
   checkedIcon?: React.ReactNode;
-
-  /**
-   * The icon to display when the component is unchecked.
-   */
-  icon?: React.ReactNode;
 
   /**
    * The color theme of the component.
@@ -49,54 +20,81 @@ export type CheckboxBaseProps = {
   color?: CheckboxColor | string;
 
   /**
-   * The size of the component. small is equivalent to the dense checkbox styling.
+   * Uncontrolled default checked state
    */
-  size?: "small" | "medium" | "large" | string;
-
-  value?: boolean[];
-  label?: string;
+  defaultChecked?: boolean;
 
   /**
-   *
-   * @param event 	Callback fired when the state is changed.
-   * @returns  event The event source of the callback. You can pull out the new checked state by accessing event.target.checked (boolean).
+   * Disabled state of the checkbox
+   */
+  disabled?: boolean;
+
+  /**
+   * The size of the component.
+   */
+  size?: CheckboxSize | string;
+
+  /**
+   * Unique identifier for the checkbox
+   */
+  id?: string;
+
+  /**
+   * Additional class names to apply
+   */
+  className?: string;
+
+  /**
+   * Ref to the underlying input element
+   */
+  ref?: React.Ref<HTMLInputElement>;
+
+  /**
+   * Name attribute of the input element.
+   * Important for form submission and grouping checkboxes.
+   */
+  name?: string;
+
+  /**
+   * Value attribute of the input element
+   */
+  value?: string | number;
+
+  /**
+   * Required state for form validation
+   */
+  required?: boolean;
+
+  /**
+   * Custom icon to display when unchecked
+   */
+  icon?: React.ReactNode;
+
+  /**
+   * Custom icon to display in indeterminate state
+   */
+  indeterminateIcon?: React.ReactNode;
+
+  /**
+   * Callback when checkbox state changes
    */
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 
+  /**
+   * Indeterminate state of the checkbox
+   */
   indeterminate?: boolean;
 
-  indeterminateIcon?: React.ReactNode;
+  /**
+   * Props for internal component slots
+   */
+  slotProps?: {
+    /** Props for the root span element */
+    root?: React.HTMLAttributes<HTMLElement>;
+    /** Props for the input element */
+    input?: React.InputHTMLAttributes<HTMLInputElement>;
+  };
 } & VariantProps<typeof checkboxVariants>;
 
-export type CheckboxGroupProps = {
-  children?: ReactElement<CheckboxBaseProps>[];
-  label?: string;
-  value?: boolean[];
-  onChange?: (checked: boolean[]) => void;
-  size?: "small" | "medium" | "large";
-  color?:
-    | "primary"
-    | "secondary"
-    | "success"
-    | "error"
-    | "info"
-    | "warning"
-    | "muted";
-  disabled?: boolean;
-  required?: boolean;
-  indeterminate?: boolean;
-} & VariantProps<typeof checkboxVariants>;
-/**
- * Props for the Checkbox component including the ref
- * Compatible with React 19's new ref handling
- */
-export type CheckboxProps<C extends ElementType = "input"> =
-  PolymorphicComponentProp<C, CheckboxBaseProps>;
-
-/**
- * Checkbox component type
- */
-export type CheckboxComponent = PolymorphicComponent<
-  CheckboxBaseProps,
-  "input"
->;
+export type CheckboxProps<C extends React.ElementType = "input"> =
+  PolymorphicComponentPropWithRef<C, CheckboxBaseProps>;
