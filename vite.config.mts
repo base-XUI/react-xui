@@ -30,7 +30,7 @@ export default defineConfig((): UserConfig => {
             format: "es",
             dir: "dist/es",
             preserveModules: true,
-            preserveModulesRoot: "lib",
+            preserveModulesRoot: "lib/src",
             exports: "named",
             entryFileNames: "[name].js",
           },
@@ -83,8 +83,8 @@ export default defineConfig((): UserConfig => {
         staticImport: true,
         // Ensure a types entry is generated
         insertTypesEntry: true,
-        // Output directory for declaration files
-        outDir: "./dist/dts",
+        // Output directory for declaration files - using temporary folder
+        outDir: "./temp-dts",
         // Skip emitting declaration files outside outDir
         strictOutput: true,
         // Always clean references to .css files

@@ -4,18 +4,21 @@
   "version": "0.1.0",
   "description": "React XUI Component Library",
   "main": "./dist/umd/react-xui.umd.js",
-  "module": "./dist/es/src/index.js",
+  "module": "./dist/es/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist/index.d.ts",
+    "dist/es",
+    "dist/umd",
+    "dist/styles.css"
   ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/es/src/index.js",
+      "import": "./dist/es/index.js",
       "require": "./dist/umd/react-xui.umd.js"
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": "./dist/styles.css"
   },
   "publishConfig": {
     "access": "public",
@@ -33,18 +36,15 @@
   ],
   "scripts": {
     "storybook": "storybook dev -p 6006",
-    "yalc:publish": "vite build && pnpm bundle:types && pnpm build:css --mode package && yalc publish --no-scripts",
-    "yalc:update": "vite build && pnpm bundle:types && pnpm build:css --mode package && yalc push --no-scripts",
-    "build:package": "pnpm clean && vite build && pnpm bundle:types && pnpm build:css --mode package",
-    "bundle:types": "api-extractor run --local --verbose",
+    "yalc:publish": "pnpm build:package && yalc publish --no-scripts",
+    "yalc:update": "pnpm build:package && yalc push --no-scripts",
+    "build:package": "rimraf dist && vite build && api-extractor run --local --verbose && pnpm dlx @tailwindcss/cli -i lib/src/main.css -o dist/styles.css --minify && rimraf temp-dts",
     "build:storybook": "storybook build",
-    "build:css": "pnpm dlx @tailwindcss/cli -i lib/src/main.css -o dist/styles.css --minify",
     "release": "pnpm build:package && changeset publish",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "clean": "rimraf dist",
     "test:unit": "cypress run --component",
     "test:unit:ui": "cypress open --component",
     "test:e2e": "cypress run",
