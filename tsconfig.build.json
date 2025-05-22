@@ -21,6 +21,7 @@
     },
     "declaration": true,
     "declarationDir": "./dist/types",
+    "rootDir": ".",
     "outDir": "./dist",
     "emitDeclarationOnly": true,
     "allowSyntheticDefaultImports": true,
