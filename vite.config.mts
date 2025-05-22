@@ -13,7 +13,6 @@ export default defineConfig((): UserConfig => {
       lib: {
         entry: resolve(__dirname, `${libFilesPath}/index.ts`),
         name: "ReactXUI",
-        formats: ["es", "umd"],
         fileName: (format) => `react-xui.${format}.js`,
       },
       rollupOptions: {
@@ -67,16 +66,29 @@ export default defineConfig((): UserConfig => {
       tailwindcss(),
       libInjectCss(),
       dts({
+        // Path to tsconfig
+        tsconfigPath: "./tsconfig.build.json",
+        // Include files from lib/src
         include: [libFilesPath],
-        exclude: ["**/*.stories.tsx", "**/*.cy.tsx", "**/*.cy.ts"],
-        rollupTypes: false,
-        outDir: "dist/types",
-        compilerOptions: {
-          baseUrl: ".",
-          paths: {
-            "@/*": [`./${libFilesPath}/*`],
-          },
-        },
+        // Exclude files that don't need types
+        exclude: [
+          "**/*.stories.tsx",
+          "**/*.cy.tsx",
+          "**/*.cy.ts",
+          "**/*.test.ts",
+        ],
+        // Output flat directory structure
+        root: "./",
+        // Make imported types static for better compatibility
+        staticImport: true,
+        // Ensure a types entry is generated
+        insertTypesEntry: true,
+        // Output directory for declaration files
+        outDir: "./dist/dts",
+        // Skip emitting declaration files outside outDir
+        strictOutput: true,
+        // Always clean references to .css files
+        clearPureImport: true,
       }),
     ],
   };
