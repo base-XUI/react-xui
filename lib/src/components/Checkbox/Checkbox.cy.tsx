@@ -2,230 +2,234 @@
 
 import { useState } from "react";
 import { Checkbox } from "./Checkbox";
-import { CheckboxColor } from "./variants";
-import * as React from "react";
+import { CheckboxColor, CheckboxSize } from "./variants";
 
-describe("Checked And UnChecked Checkbox Component", () => {
-  it("Should UnChecked The Checkbox", () => {
-    cy.mount(<Checkbox checked={false} />);
-    cy.get('input[type="checkbox"]').uncheck();
-    cy.get("label").click();
-    cy.get("input[type='checkbox']").check({ force: true });
+describe("Checkbox Component - Full Coverage", () => {
+  const inputSelector = "[data-testid='checkbox-input']";
+  const spanHolderSelector = "[data-testid='checkbox-span-holder']";
+
+  it("should render with default props correctly", () => {
+    cy.mount(<Checkbox defaultChecked={false} />);
+    cy.get(inputSelector).should("not.be.checked");
+    cy.get(spanHolderSelector).should("exist");
+    cy.get(inputSelector).should("not.have.attr", "disabled");
+    cy.get(inputSelector).should("not.have.attr", "required");
   });
 
-  it("Should Checked The Checkbox", () => {
+  it("should handle 'checked' prop", () => {
     cy.mount(<Checkbox checked={true} />);
-    cy.get("input[type='checkbox']").check({ force: true });
+    cy.get(inputSelector).should("be.checked");
     cy.get("svg").should("exist");
   });
-});
 
-describe("Default behavior", () => {
-  it("should not have required or disabled attributes by default", () => {
-    cy.mount(<Checkbox id="checkboxElement" />);
-    ["required", "disabled"].forEach((attr) => {
-      cy.get("#checkboxElement").should("not.have.attr", attr);
-    });
+  it("should handle 'defaultChecked' for uncontrolled checkbox", () => {
+    cy.mount(<Checkbox defaultChecked={true} />);
+    cy.get(inputSelector).should("be.checked");
   });
 
-  it("should not be indeterminate by default", () => {
-    cy.mount(<Checkbox />);
-    cy.get("div[role='checkbox']").should("not.contain", "—");
-    // Optional: ensure SVG icon is not present (if your unchecked state hides the icon)
-    cy.get("svg").should("not.exist");
-  });
-});
-describe("Test Event Handler By React Hooks", () => {
-  it("should handle checkbox change event", () => {
-    // Wrap the Checkbox with a parent component that manages state
-    const handleChange = cy.stub().as("handleChange");
-
+  it("should toggle checked on click", () => {
     const TestWrapper = () => {
       const [checked, setChecked] = useState(false);
-
-      const handleChangeWrapper = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setChecked(e.target.checked);
-        handleChange(e);
-        console.log("From Cypress File Test", e.target);
-      };
-
       return (
         <Checkbox
-          id="checkboxElement"
           checked={checked}
-          onChange={handleChangeWrapper}
+          onChange={(e) => setChecked(e.target.checked)}
         />
       );
     };
 
     cy.mount(<TestWrapper />);
-
-    // Click the label to toggle checkbox
-    cy.get("label").click();
-
-    // Assert checkbox is checked
-    cy.get("@handleChange").should("has.been.calledOnce");
-
-    cy.get("#checkboxElement").should("be.checked");
-    // Optionally assert SVG icon appears on check
-    cy.get("svg").should("exist");
-  });
-});
-
-//  Test Colors Of Checkbox
-describe("Colors", () => {
-  const colorTests: { name: CheckboxColor; classes: string }[] = [
-    {
-      name: "primary",
-      classes:
-        "text-primary-foreground border-primary-foreground bg-primary hover:bg-primary/90 box-content",
-    },
-    {
-      name: "secondary",
-      classes:
-        "text-secondary-foreground border-secondary-foreground bg-secondary hover:bg-secondary/90 box-content",
-    },
-    {
-      name: "success",
-      classes:
-        "text-success-foreground border-success-foreground bg-success hover:bg-success/90 box-content",
-    },
-    {
-      name: "warning",
-      classes:
-        "text-warning-foreground border-warning-foreground bg-warning hover:bg-warning/90 box-content",
-    },
-    {
-      name: "muted",
-      classes:
-        "text-muted-foreground border-muted-foreground bg-muted hover:bg-muted/90 box-content",
-    },
-    {
-      name: "error",
-      classes:
-        "text-error-foreground border-error-foreground bg-error hover:bg-error/90 box-content",
-    },
-    {
-      name: "info",
-      classes:
-        "text-info-foreground border-info-foreground bg-info hover:bg-info/90 box-content",
-    },
-  ];
-  colorTests.forEach(({ name, classes }) => {
-    it(`should apply ${name} color`, () => {
-      cy.mount(<Checkbox checked={true} color={name} />);
-      cy.get("div[role='checkbox']").should("exist");
-      cy.get("div[role='checkbox']").should("have.class", classes);
-      cy.get("svg").should("exist");
-    });
-  });
-});
-
-// Test Size Of Checkbox
-describe("Size", () => {
-  it("should render the checkbox with small size", () => {
-    cy.mount(<Checkbox size="small" />);
-    cy.get("div[role='checkbox']").should("exist");
-    cy.get("div[role='checkbox']").should("have.class", "h-5 w-5");
-  });
-  it("should render the checkbox with medium size", () => {
-    cy.mount(<Checkbox size="medium" />);
-    cy.get("div[role='checkbox']").should("exist");
-    cy.get("div[role='checkbox']").should("have.class", "h-6 w-6");
-  });
-  it("should render the checkbox with large size", () => {
-    cy.mount(<Checkbox size="large" />);
-    cy.get("div[role='checkbox']").should("exist");
-    cy.get("div[role='checkbox']").should("have.class", "h-7 w-7");
-  });
-});
-
-describe("Checkbox Component - Full Coverage", () => {
-  const defaultTestId = "div[role='checkbox']";
-  const inputSelector = "input[type='checkbox']";
-
-  it("should render with default props correctly", () => {
-    cy.mount(<Checkbox id="checkboxElement" checked={false} />);
-    cy.get(inputSelector).uncheck();
-
-    ["required", "disabled"].forEach((attr) => {
-      cy.get("#checkboxElement").should("not.have.attr", attr);
-    });
-  });
-
-  it("should handle 'checked' prop", () => {
-    cy.mount(<Checkbox checked />);
+    cy.get(spanHolderSelector).click();
     cy.get(inputSelector).should("be.checked");
   });
 
-  it("should handle 'defaultChecked' for uncontrolled checkbox", () => {
-    cy.mount(<Checkbox defaultChecked />);
-    cy.get(inputSelector).should("not.be.checked");
-  });
-
-  it("should toggle checked on label click", () => {
-    cy.mount(<Checkbox />);
-    cy.get("label").click();
-    // cy.get(inputSelector).check("be.checked");
-  });
-
-  it("should handle 'disabled' prop", () => {
-    cy.mount(<Checkbox disabled={true} />);
+  it("should handle 'disabled' state", () => {
+    cy.mount(<Checkbox disabled />);
     cy.get(inputSelector).should("be.disabled");
-    cy.get(defaultTestId).should("have.class", "opacity-50");
+    cy.get(spanHolderSelector).should("have.class", "opacity-50");
   });
 
-  it("should handle 'required' prop", () => {
+  it("should handle 'required' validation", () => {
     cy.mount(<Checkbox required />);
     cy.get(inputSelector).should("have.attr", "required");
-    cy.get(defaultTestId).should("have.class", "border-error");
+    cy.get(spanHolderSelector).should("have.class", "border-error");
   });
 
-  it("should handle 'indeterminate' state", () => {
+  it("should display indeterminate state", () => {
     cy.mount(<Checkbox indeterminate />);
-    cy.get(defaultTestId).should("exist").contains("—");
+    cy.get("svg").should("exist");
   });
 
-  it("should render custom 'checkedIcon'", () => {
-    cy.mount(<Checkbox checked checkedIcon={<span>✅</span>} />);
-    cy.get(defaultTestId).contains("✅").should("exist");
+  it("should render custom icon when checked", () => {
+    cy.mount(
+      <Checkbox
+        checked
+        checkedIcon={<span data-testid="custom-checked-icon">✅</span>}
+      />,
+    );
+    cy.get("[data-testid='custom-checked-icon']").should("exist");
   });
 
-  it("should render custom 'indeterminateIcon'", () => {
-    cy.mount(<Checkbox indeterminate indeterminateIcon={<span>⚠️</span>} />);
-    cy.get(defaultTestId).contains("⚠️").should("exist");
+  it("should render custom icon when indeterminate", () => {
+    cy.mount(
+      <Checkbox
+        indeterminate
+        indeterminateIcon={
+          <span data-testid="custom-indeterminate-icon">⚠️</span>
+        }
+      />,
+    );
+    cy.get("[data-testid='custom-indeterminate-icon']").should("exist");
   });
+});
 
-  it("should apply color variants", () => {
-    const colorTests: { name: CheckboxColor; expectedClass: string }[] = [
-      { name: "primary", expectedClass: "bg-primary-foreground" },
-      { name: "secondary", expectedClass: "bg-secondary-foreground" },
-      { name: "success", expectedClass: "bg-success-foreground" },
-      { name: "error", expectedClass: "bg-error-foreground" },
-      { name: "warning", expectedClass: "bg-warning-foreground" },
-      { name: "info", expectedClass: "bg-info-foreground" },
-      { name: "muted", expectedClass: "bg-muted-foreground" },
-    ];
-    colorTests.forEach(({ name, expectedClass }) => {
-      it(`should apply ${name} color`, () => {
-        cy.mount(<Checkbox checked={true} color={name} />);
-        cy.get("div[role='checkbox']").should("exist");
-        cy.get("div[role='checkbox']").should("have.class", expectedClass);
-        cy.get("svg").should("exist");
+describe("Checkbox Colors", () => {
+  const colors: CheckboxColor[] = [
+    "primary",
+    "secondary",
+    "success",
+    "error",
+    "warning",
+    "info",
+    "muted",
+  ];
+  const spanHolderSelector = "[data-testid='checkbox-span-holder']";
+  colors.forEach((color) => {
+    it(`should apply ${color} color classes`, () => {
+      cy.mount(<Checkbox color={color} checked />);
+      cy.get(spanHolderSelector).should((el) => {
+        expect(el).to.have.class(`bg-${color}`);
+        expect(el).to.have.class(`text-${color}-foreground`);
+        expect(el).to.have.class(`border-${color}-foreground`);
       });
     });
   });
+});
 
-  it("should apply size variants", () => {
-    const sizes: Array<{ size: string; expectedClass: string }> = [
-      { size: "small", expectedClass: "h-5 w-5" },
-      { size: "medium", expectedClass: "h-6 w-6" },
-      { size: "large", expectedClass: "h-7 w-7" },
-    ];
+describe("Checkbox Sizes", () => {
+  const sizes: Array<{ size: CheckboxSize; expectedClass: string }> = [
+    { size: "small", expectedClass: "h-5 w-5" },
+    { size: "medium", expectedClass: "h-6 w-6" },
+    { size: "large", expectedClass: "h-7 w-7" },
+  ];
 
-    sizes.forEach(({ size, expectedClass }) => {
-      cy.mount(<Checkbox size={size as any} />);
-      cy.get(defaultTestId).should("have.class", expectedClass);
+  sizes.forEach(({ size, expectedClass }) => {
+    it(`should apply ${size} size`, () => {
+      cy.mount(<Checkbox size={size} />);
+      cy.get("[data-testid='checkbox-span-holder']").should(
+        "have.class",
+        expectedClass,
+      );
     });
+  });
+});
+
+describe("Checkbox Icon Validation", () => {
+  it("should show error if icon is not a valid React element", () => {
+    cy.mount(
+      <Checkbox
+        icon="invalid-icon-string" // invalid type
+        checked={false}
+      />,
+    );
+
+    cy.get("[data-testid='invalid-icon-error']").should("exist");
+  });
+
+  it("should show error if checkedIcon is not a valid React element", () => {
+    cy.mount(
+      <Checkbox
+        checkedIcon={123} // invalid type
+        checked={true}
+      />,
+    );
+
+    cy.get("[data-testid='invalid-checkedIcon-error']").should("exist");
+  });
+
+  it("should show error if indeterminateIcon is not a valid React element", () => {
+    cy.mount(
+      <Checkbox
+        indeterminateIcon={"false"} // invalid type
+        indeterminate={true}
+      />,
+    );
+
+    cy.get("[data-testid='invalid-indeterminateIcon-error']").should("exist");
+  });
+
+  it("should NOT show error if all icons are valid React elements", () => {
+    cy.mount(
+      <Checkbox
+        icon={<span>ICON</span>}
+        checkedIcon={<span>CHECKED</span>}
+        indeterminateIcon={<span>MIXED</span>}
+        checked={true}
+        indeterminate={true}
+      />,
+    );
+
+    cy.get("[data-testid='invalid-icons-error']").should("not.exist");
+    cy.get("[data-testid='invalid-checkedIcon-error']").should("not.exist");
+    cy.get("[data-testid='invalid-indeterminateIcon-error']").should(
+      "not.exist",
+    );
+  });
+});
+
+describe("Checkbox - slotProps, value, and id", () => {
+  const inputSelector = "[data-testid='checkbox-input']";
+  const spanHolderSelector = "[data-testid='checkbox-span-holder']";
+
+  it("should apply slotProps.root correctly", () => {
+    cy.mount(
+      <Checkbox
+        slotProps={{
+          root: {
+            className: "custom-slotProps-root-class",
+            ["slotProps-root-data-custom" as string]: "true",
+          },
+          input: {},
+        }}
+      />,
+    );
+
+    // Check the span element for custom class and data attribute
+    cy.get(spanHolderSelector)
+      .should("have.class", "custom-slotProps-root-class")
+      .and("have.attr", "slotprops-root-data-custom", "true");
+  });
+
+  it("should apply slotProps.input correctly (title, name, style)", () => {
+    cy.mount(
+      <Checkbox
+        slotProps={{
+          input: {
+            title: "custom-slotProps-input-title",
+            name: "custom-slotProps-input-name",
+            style: { cursor: "pointer" },
+          },
+          root: {},
+        }}
+      />,
+    );
+
+    // Check input attributes
+    cy.get(inputSelector)
+      .should("have.attr", "title", "custom-slotProps-input-title")
+      .and("have.attr", "name", "custom-slotProps-input-name");
+
+    // Check inline style
+    cy.get(inputSelector).should("have.css", "cursor").and("equal", "pointer");
+  });
+
+  it("should pass the correct value to input", () => {
+    cy.mount(<Checkbox value="test-value" />);
+    cy.get(inputSelector).should("have.attr", "value", "test-value");
+  });
+
+  it("should use the provided id on input", () => {
+    cy.mount(<Checkbox id="custom-checkbox-id" />);
+    cy.get(inputSelector).should("have.id", "custom-checkbox-id");
   });
 });
