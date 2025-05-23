@@ -3,9 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { FormGroup } from "./FormGroup";
 import { Checkbox } from "../../Checkbox";
 import { FormControlLabel } from "../FormControlLabel";
-import { Canvas, Controls, Source, Subtitle, Title } from "@storybook/blocks";
-import { Link } from "storybook/internal/components";
-import { CodeXml, Rocket, Settings } from "lucide-react";
+import { Canvas, Controls, Subtitle, Title } from "@storybook/blocks";
 
 const meta: Meta<typeof FormGroup> = {
   title: "Inputs/FormGroup",
