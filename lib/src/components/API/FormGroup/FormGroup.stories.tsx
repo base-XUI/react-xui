@@ -1,8 +1,8 @@
-import { ChangeEvent, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { FormGroup } from "./FormGroup";
 import { Checkbox } from "../../Checkbox";
 import { Canvas, Controls, Subtitle, Title } from "@storybook/blocks";
+import { useArgs } from "storybook/internal/preview-api";
 
 const meta: Meta<typeof FormGroup> = {
   title: "Inputs/FormGroup",
@@ -87,32 +87,50 @@ export default meta;
 
 export const Default: FormGroupStory = {
   args: {
+    children: null,
     row: false,
     sx: {},
   },
   render: (args) => {
+    const [currentArgs, updateArgs] = useArgs();
+
+    // 🟡 القيم الافتراضية هنا بدل وضعها في args
+    const defaultCheckedItems = {
+      Apple: false,
+      Banana: false,
+      Cherry: false,
+    };
+
+    const checkedItems = currentArgs.checkedItems || defaultCheckedItems;
+
     const options = [
       { id: "opt1", label: "Apple" },
       { id: "opt2", label: "Banana" },
       { id: "opt3", label: "Cherry" },
     ];
 
-    const [values, setValues] = useState<Record<string, boolean>>({});
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, checked } = e.target;
-      setValues((prev) => ({
-        ...prev,
+      const newCheckedItems = {
+        ...checkedItems,
         [name]: checked,
-      }));
+      };
+      updateArgs({ checkedItems: newCheckedItems });
     };
+
+    // Pass checked values via args
     return (
-      <FormGroup animation={args.animation} row={args.row} sx={args.sx}>
-        {options?.map(({ id, label }) => (
-          <div key={id} className="flex gap-2">
+      <FormGroup
+        animation={args.animation}
+        sx={args.sx}
+        className={args.className}
+        row={args.row}
+      >
+        {options.map(({ label }) => (
+          <div key={label} className="flex gap-2">
             <Checkbox
               name={label}
-              checked={values[label]}
+              checked={checkedItems[label]}
               onChange={handleChange}
             />
             {label}
