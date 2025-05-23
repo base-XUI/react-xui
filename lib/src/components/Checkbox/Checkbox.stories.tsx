@@ -191,19 +191,21 @@ export const Default: Story = {
     value: "Subscribe",
   } as CheckboxProps,
   render: function Render(args) {
-    const [{ checked }, updateArgs] = useArgs();
+    const [{ checked, defaultChecked }, updateArgs] = useArgs();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       const isChecked = e.target.checked;
-      updateArgs({ checked: isChecked }); // Update the args.checked prop
+      updateArgs({ checked: isChecked, defaultChecked: false }); // Update the args.checked prop
     };
 
     return (
       <Checkbox
         {...args}
-        defaultChecked={args.defaultChecked}
+        defaultChecked={args.defaultChecked || defaultChecked}
         id="my-checkbox"
-        checked={checked || args.checked || args.defaultChecked}
+        checked={
+          checked || args.checked || args.defaultChecked || defaultChecked
+        }
         onChange={handleChange}
       />
     );

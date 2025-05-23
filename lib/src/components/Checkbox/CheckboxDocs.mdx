@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useRef, useState } from "react";
 import { Checkbox } from "./Checkbox";
 import * as CheckboxStories from "./Checkbox.stories";
-import { Check, Minus } from "lucide-react";
+import { Check, Minus, Paperclip } from "lucide-react";
 
 import {
   Meta,
@@ -28,21 +28,6 @@ import {
  </section>
 <section className="mb-12">
   <section className="flex items-center gap-2 mb-3 ">
-    <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-7 w-7"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-        <path
-          fillRule="evenodd"
-          d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-          clipRule="evenodd"
-        />
-      </svg>
-    </span>
     <h3 id="--features-" className="!m-0">
       <span className="!m-0 !text-3xl"> Features </span>
     </h3>
@@ -53,22 +38,7 @@ import {
       target="_self"
       className="rounded-full p-3 !text-black hover:bg-purple-300/20"
     >
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 14 14"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M11.841 2.159a2.25 2.25 0 00-3.182 0l-2.5 2.5a2.25 2.25 0 000 3.182.5.5 0 01-.707.707 3.25 3.25 0 010-4.596l2.5-2.5a3.25 3.25 0 014.596 4.596l-2.063 2.063a4.27 4.27 0 00-.094-1.32l1.45-1.45a2.25 2.25 0 000-3.182z"
-          fill="currentColor"
-        ></path>
-        <path
-          d="M3.61 7.21c-.1-.434-.132-.88-.095-1.321L1.452 7.952a3.25 3.25 0 104.596 4.596l2.5-2.5a3.25 3.25 0 000-4.596.5.5 0 00-.707.707 2.25 2.25 0 010 3.182l-2.5 2.5A2.25 2.25 0 112.159 8.66l1.45-1.45z"
-          fill="currentColor"
-        ></path>
-      </svg>
+       <Paperclip width={16} height={16} />
     </a>
   </section>
    <div className="rounded-lg flex flex-col gap-4 p-4 shadow-sm">
@@ -86,9 +56,7 @@ import {
           <Check />
         </div>
         </span>
-       
-          <span className="text-sm font-medium text-purple-900"> Full keyboard navigation. </span>
-
+        <span className="text-sm font-medium text-purple-900"> Full keyboard navigation. </span>
       </div>
       <div className="flex items-center gap-2">
         <span className="mt-0.5 mr-2 text-success">
@@ -104,21 +72,6 @@ import {
 
 <section className="mb-4">
   <section className="flex items-center gap-2 mb-3 ">
-    <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-7 w-7"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-        <path
-          fillRule="evenodd"
-          d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-          clipRule="evenodd"
-        />
-      </svg>
-    </span>
     <h3 id="--anatomy-" className="!m-0">
       <span className="!m-0 !text-3xl"> Anatomy </span>
     </h3>
@@ -129,22 +82,7 @@ import {
       target="_self"
       className="rounded-full p-3 !text-black hover:bg-purple-300/20"
     >
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 14 14"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M11.841 2.159a2.25 2.25 0 00-3.182 0l-2.5 2.5a2.25 2.25 0 000 3.182.5.5 0 01-.707.707 3.25 3.25 0 010-4.596l2.5-2.5a3.25 3.25 0 014.596 4.596l-2.063 2.063a4.27 4.27 0 00-.094-1.32l1.45-1.45a2.25 2.25 0 000-3.182z"
-          fill="currentColor"
-        ></path>
-        <path
-          d="M3.61 7.21c-.1-.434-.132-.88-.095-1.321L1.452 7.952a3.25 3.25 0 104.596 4.596l2.5-2.5a3.25 3.25 0 000-4.596.5.5 0 00-.707.707 2.25 2.25 0 010 3.182l-2.5 2.5A2.25 2.25 0 112.159 8.66l1.45-1.45z"
-          fill="currentColor"
-        ></path>
-      </svg>
+     <Paperclip width={16} height={16} />
     </a>
   </section>
    <Subtitle>
@@ -178,21 +116,6 @@ import {
 
 <section className="mb-4">
   <section className="mb-3 flex items-center gap-2">
-    <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-7 w-7"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-        <path
-          fillRule="evenodd"
-          d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-          clipRule="evenodd"
-        />
-      </svg>
-    </span>
     <h3 id="--anatomy-" className="!m-0">
       <span className="!m-0 !text-3xl"> Examples </span>
     </h3>
@@ -203,22 +126,7 @@ import {
       target="_self"
       className="rounded-full p-3 !text-black hover:bg-purple-300/20"
     >
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 14 14"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M11.841 2.159a2.25 2.25 0 00-3.182 0l-2.5 2.5a2.25 2.25 0 000 3.182.5.5 0 01-.707.707 3.25 3.25 0 010-4.596l2.5-2.5a3.25 3.25 0 014.596 4.596l-2.063 2.063a4.27 4.27 0 00-.094-1.32l1.45-1.45a2.25 2.25 0 000-3.182z"
-          fill="currentColor"
-        ></path>
-        <path
-          d="M3.61 7.21c-.1-.434-.132-.88-.095-1.321L1.452 7.952a3.25 3.25 0 104.596 4.596l2.5-2.5a3.25 3.25 0 000-4.596.5.5 0 00-.707.707 2.25 2.25 0 010 3.182l-2.5 2.5A2.25 2.25 0 112.159 8.66l1.45-1.45z"
-          fill="currentColor"
-        ></path>
-      </svg>
+     <Paperclip width={16} height={16} />
     </a>
   </section>
     ```tsx
