@@ -28,6 +28,7 @@ const FormGroup = forwardRef<HTMLDivElement, FormGroupProps>(
           className,
         )}
         style={sx} // Support inline styles via sx prop
+        data-testid="styled-element"
       >
         {children}
       </div>
