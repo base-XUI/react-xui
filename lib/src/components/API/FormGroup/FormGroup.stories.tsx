@@ -91,7 +91,7 @@ export const Default: FormGroupStory = {
     row: false,
     sx: {},
   },
-  render: (args) => {
+  render: function Render(args) {
     const [currentArgs, updateArgs] = useArgs();
 
     // 🟡 القيم الافتراضية هنا بدل وضعها في args
