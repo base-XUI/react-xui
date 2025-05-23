@@ -2,7 +2,6 @@ import { ChangeEvent, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { FormGroup } from "./FormGroup";
 import { Checkbox } from "../../Checkbox";
-import { FormControlLabel } from "../FormControlLabel";
 import { Canvas, Controls, Subtitle, Title } from "@storybook/blocks";
 
 const meta: Meta<typeof FormGroup> = {
@@ -70,17 +69,12 @@ const meta: Meta<typeof FormGroup> = {
           summary: "ReactElement",
           detail: "Accepts React element",
         },
-        defaultValue: { summary: "<Check />" },
+        defaultValue: { summary: "-" },
       },
     },
   },
   args: {
-    children: (
-      <>
-        <FormControlLabel control={<Checkbox />} label="Option 1" />
-        <FormControlLabel control={<Checkbox />} label="Option 2" />
-      </>
-    ),
+    children: null,
     row: false,
     sx: {},
     animation: false,
@@ -115,17 +109,14 @@ export const Default: FormGroupStory = {
     return (
       <FormGroup animation={args.animation} row={args.row} sx={args.sx}>
         {options?.map(({ id, label }) => (
-          <FormControlLabel
-            key={id}
-            control={
-              <Checkbox
-                name={label}
-                checked={values[label]}
-                onChange={handleChange}
-              />
-            }
-            label={label}
-          />
+          <div key={id} className="flex gap-2">
+            <Checkbox
+              name={label}
+              checked={values[label]}
+              onChange={handleChange}
+            />
+            {label}
+          </div>
         ))}
       </FormGroup>
     );
