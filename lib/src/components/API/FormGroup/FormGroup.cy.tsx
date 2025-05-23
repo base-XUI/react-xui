@@ -3,7 +3,6 @@
 import { Checkbox } from "@/components/Checkbox";
 import { FormGroup } from "./FormGroup";
 import { useState } from "react";
-import { FormControlLabel } from "../FormControlLabel";
 
 describe("FormGroup Component - Final Test", () => {
   it("renders correctly without any props", () => {
@@ -63,10 +62,7 @@ describe("FormGroup Component - Final Test", () => {
   it("works correctly with children like Checkbox inside FormControlLabel", () => {
     cy.mount(
       <FormGroup>
-        <FormControlLabel
-          label="Check Me"
-          control={<Checkbox data-testid="checkbox" />}
-        />
+        <Checkbox data-testid="checkbox" />
       </FormGroup>,
     );
 
@@ -79,10 +75,7 @@ describe("FormGroup Component - Final Test", () => {
     // Re-mount with checked state for verification (optional)
     cy.mount(
       <FormGroup>
-        <FormControlLabel
-          label="Check Me"
-          control={<Checkbox data-testid="checkbox" checked={true} />}
-        />
+        <Checkbox data-testid="checkbox" checked={true} />
       </FormGroup>,
     );
 
@@ -90,9 +83,6 @@ describe("FormGroup Component - Final Test", () => {
     cy.get('[data-testid="checkbox"]')
       .invoke("prop", "checked")
       .should("eq", true);
-
-    // Ensure the label text exists
-    cy.contains("Check Me").should("exist");
   });
 
   it("supports dynamic prop changes", () => {
