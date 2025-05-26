@@ -4,18 +4,21 @@
   "version": "0.1.0",
   "description": "React XUI Component Library",
   "main": "./dist/umd/react-xui.umd.js",
-  "module": "./dist/es/src/index.js",
-  "types": "./dist/types/index.d.ts",
+  "module": "./dist/es/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist/index.d.ts",
+    "dist/es",
+    "dist/umd",
+    "dist/styles.css"
   ],
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/es/src/index.js",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/es/index.js",
       "require": "./dist/umd/react-xui.umd.js"
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": "./dist/styles.css"
   },
   "publishConfig": {
     "access": "public",
@@ -33,18 +36,15 @@
   ],
   "scripts": {
     "storybook": "storybook dev -p 6006",
-    "dev:link": "pnpm build:package && yalc push",
-    "dev:publish": "pnpm build:package && yalc publish",
-    "dev:watch": "concurrently \"pnpm build:package --watch\" \"yalc push --watch\"",
-    "build:package": "pnpm clean && tsc -p tsconfig.build.json && vite build && pnpm build:css --mode package",
+    "yalc:publish": "pnpm build:package && yalc publish --no-scripts",
+    "yalc:update": "pnpm build:package && yalc push --no-scripts",
+    "build:package": "rimraf dist && vite build && api-extractor run --local --verbose && pnpm dlx @tailwindcss/cli -i lib/src/main.css -o dist/styles.css --minify && rimraf temp-dts",
     "build:storybook": "storybook build",
-    "build:css": "pnpm dlx @tailwindcss/cli -i lib/src/main.css -o dist/styles.css --minify",
     "release": "pnpm build:package && changeset publish",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "clean": "rimraf dist",
     "test:unit": "cypress run --component",
     "test:unit:ui": "cypress open --component",
     "test:e2e": "cypress run",
@@ -73,6 +73,7 @@
     "@commitlint/config-conventional": "^19.1.0",
     "@cypress/vite-dev-server": "^6.0.3",
     "@eslint/js": "^9.19.0",
+    "@microsoft/api-extractor": "^7.52.8",
     "@storybook/addon-essentials": "^8.6.12",
     "@storybook/blocks": "^8.6.12",
     "@storybook/react": "^8.6.12",
@@ -84,7 +85,6 @@
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
-    "concurrently": "^9.1.2",
     "cypress": "^14.3.1",
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",
@@ -100,6 +100,7 @@
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.2.0",
     "rimraf": "^5.0.10",
+    "rollup": "^4.41.0",
     "storybook": "^8.6.12",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.22.0",
