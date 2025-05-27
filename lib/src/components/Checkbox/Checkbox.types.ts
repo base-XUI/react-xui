@@ -1,100 +1,152 @@
 // Checkbox.types.ts
-import { PolymorphicComponentPropWithRef } from "@/utils/polymorphic";
 import { VariantProps } from "class-variance-authority";
-import { CheckboxColor, checkboxVariants, CheckboxSize } from "./variants";
+import { checkboxVariants, CheckboxColor, CheckboxSize } from "./variants";
+
+export type CheckboxSlots = {
+  /**
+   * The root container element for the checkbox.
+   * @default 'div' (or whatever default wrapper you're using)
+   */
+  root?: React.ElementType;
+
+  /**
+   * The native HTML input element that represents the actual checkbox.
+   * @default 'input'
+   */
+  input?: React.ElementType;
+};
+export type CheckboxSlotProps = {
+  /**
+   * Additional props passed to the root container element.
+   * Useful for styling or accessibility.
+   */
+  root?: React.HTMLAttributes<HTMLElement>;
+
+  /**
+   * Additional props passed to the input element.
+   * Allows overriding attributes like tabIndex, aria-label, etc.
+   */
+  input?: React.InputHTMLAttributes<HTMLInputElement>;
+};
 
 export type CheckboxBaseProps = {
+  // ————————————————————————————————————————
+  // 🔌 Core Functionality
+  // ————————————————————————————————————————
+
   /**
-   * Controlled checked state of the checkbox
+   * Whether the checkbox is currently checked.
+   * Use this when you want controlled behavior.
    */
   checked?: boolean;
 
   /**
-   * Custom icon to display when checked
-   */
-  checkedIcon?: React.ReactNode;
-
-  /**
-   * The color theme of the component.
-   */
-  color?: CheckboxColor | string;
-
-  /**
-   * Uncontrolled default checked state
+   * The initial checked state when the checkbox is first rendered.
+   * Use this for uncontrolled behavior.
    */
   defaultChecked?: boolean;
 
   /**
-   * Disabled state of the checkbox
-   */
-  disabled?: boolean;
-
-  /**
-   * The size of the component.
-   */
-  size?: CheckboxSize | string;
-
-  /**
-   * Unique identifier for the checkbox
-   */
-  id?: string;
-
-  /**
-   * Additional class names to apply
-   */
-  className?: string;
-
-  /**
-   * Ref to the underlying input element
-   */
-  ref?: React.Ref<HTMLInputElement>;
-
-  /**
-   * Name attribute of the input element.
-   * Important for form submission and grouping checkboxes.
-   */
-  name?: string;
-
-  /**
-   * Value attribute of the input element
-   */
-  value?: string | number;
-
-  /**
-   * Required state for form validation
-   */
-  required?: boolean;
-
-  /**
-   * Custom icon to display when unchecked
-   */
-  icon?: React.ReactNode;
-
-  /**
-   * Custom icon to display in indeterminate state
-   */
-  indeterminateIcon?: React.ReactNode;
-
-  /**
-   * Callback when checkbox state changes
-   */
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-
-  /**
-   * Indeterminate state of the checkbox
+   * If true, the checkbox will show an indeterminate state.
+   * Visually different but behaves as unchecked.
    */
   indeterminate?: boolean;
 
   /**
-   * Props for internal component slots
+   * If true, the checkbox will be disabled and not interactable.
    */
-  slotProps?: {
-    /** Props for the root span element */
-    root?: React.HTMLAttributes<HTMLElement>;
-    /** Props for the input element */
-    input?: React.InputHTMLAttributes<HTMLInputElement>;
-  };
+  disabled?: boolean;
+
+  /**
+   * If true, the checkbox must be checked before form submission.
+   */
+  required?: boolean;
+
+  /**
+   * Callback fired when the checked state changes.
+   * @param event - The change event from the input element.
+   */
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+
+  // ————————————————————————————————————————
+  // 🎨 Styling & Theming
+  // ————————————————————————————————————————
+
+  /**
+   * The color variant of the checkbox.
+   * Typically used to match your design system or theme.
+   */
+  color?: CheckboxColor;
+
+  /**
+   * The size of the checkbox.
+   * Can be used to adjust spacing, icon size, etc.
+   */
+  size?: CheckboxSize;
+
+  /**
+   * Optional class name applied to the root element.
+   * Used to apply additional styles or utility classes.
+   */
+  className?: string;
+
+  // ————————————————————————————————————————
+  // 📄 Form-related Props
+  // ————————————————————————————————————————
+
+  /**
+   * The ID of the checkbox element.
+   * Useful for associating labels or managing focus.
+   */
+  id?: string;
+
+  /**
+   * The name of the checkbox, submitted with form data.
+   */
+  name?: string;
+
+  /**
+   * The value of the checkbox, submitted with form data when checked.
+   */
+  value?: string | number | boolean;
+
+  // ————————————————————————————————————————
+  // 🖼️ Icons / Visuals
+  // ————————————————————————————————————————
+
+  /**
+   * Custom icon displayed inside the checkbox in any state.
+   * Overrides both checked and indeterminate icons if provided.
+   */
+  icon?: React.ReactNode;
+
+  /**
+   * Custom icon shown when the checkbox is checked.
+   * Only used if `icon` is not provided.
+   */
+  checkedIcon?: React.ReactNode;
+
+  /**
+   * Custom icon shown when the checkbox is in indeterminate state.
+   * Only used if `icon` is not provided.
+   */
+  indeterminateIcon?: React.ReactNode;
+
+  // ————————————————————————————————————————
+  // 🛠️ Customization & Slot API
+  // ————————————————————————————————————————
+
+  /**
+   * Customize the underlying elements used for rendering parts of the checkbox.
+   * Useful for integrating with UI libraries or adding custom wrappers.
+   */
+  slots?: CheckboxSlots;
+
+  /**
+   * Apply custom props to specific internal elements (root/input).
+   * Useful for setting data-attributes, aria roles, or extra event handlers.
+   */
+  slotProps?: CheckboxSlotProps;
 } & VariantProps<typeof checkboxVariants>;
 
-export type CheckboxProps<C extends React.ElementType = "input"> =
-  PolymorphicComponentPropWithRef<C, CheckboxBaseProps>;
+export type CheckboxProps = CheckboxBaseProps;
