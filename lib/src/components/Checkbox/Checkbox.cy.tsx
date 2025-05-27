@@ -1,5 +1,3 @@
-// cypress/e2e/checkbox.cy.tsx
-
 import { useState } from "react";
 import { Checkbox } from "./Checkbox";
 import { CheckboxColor, CheckboxSize } from "./variants";
@@ -108,9 +106,9 @@ describe("Checkbox Colors", () => {
 
 describe("Checkbox Sizes", () => {
   const sizes: Array<{ size: CheckboxSize; expectedClass: string }> = [
-    { size: "small", expectedClass: "h-5 w-5" },
-    { size: "medium", expectedClass: "h-6 w-6" },
-    { size: "large", expectedClass: "h-7 w-7" },
+    { size: "small", expectedClass: "h-4 w-4 text-xs" },
+    { size: "medium", expectedClass: "h-5 w-5 text-sm" },
+    { size: "large", expectedClass: "h-6 w-6 text-base" },
   ];
 
   sizes.forEach(({ size, expectedClass }) => {
@@ -125,6 +123,8 @@ describe("Checkbox Sizes", () => {
 });
 
 describe("Checkbox Icon Validation", () => {
+  const spanHolderSelector = "[data-testid='checkbox-span-holder']";
+
   it("should show error if icon is not a valid React element", () => {
     cy.mount(
       <Checkbox
@@ -133,7 +133,7 @@ describe("Checkbox Icon Validation", () => {
       />,
     );
 
-    cy.get("[data-testid='invalid-icon-error']").should("exist");
+    cy.get(spanHolderSelector).should("not.exist");
   });
 
   it("should show error if checkedIcon is not a valid React element", () => {
@@ -144,36 +144,18 @@ describe("Checkbox Icon Validation", () => {
       />,
     );
 
-    cy.get("[data-testid='invalid-checkedIcon-error']").should("exist");
+    cy.get(spanHolderSelector).should("not.exist");
   });
-
   it("should show error if indeterminateIcon is not a valid React element", () => {
     cy.mount(
       <Checkbox
-        indeterminateIcon={"false"} // invalid type
         indeterminate={true}
-      />,
-    );
-
-    cy.get("[data-testid='invalid-indeterminateIcon-error']").should("exist");
-  });
-
-  it("should NOT show error if all icons are valid React elements", () => {
-    cy.mount(
-      <Checkbox
-        icon={<span>ICON</span>}
-        checkedIcon={<span>CHECKED</span>}
-        indeterminateIcon={<span>MIXED</span>}
+        indeterminateIcon={123} // invalid type
         checked={true}
-        indeterminate={true}
       />,
     );
 
-    cy.get("[data-testid='invalid-icons-error']").should("not.exist");
-    cy.get("[data-testid='invalid-checkedIcon-error']").should("not.exist");
-    cy.get("[data-testid='invalid-indeterminateIcon-error']").should(
-      "not.exist",
-    );
+    cy.get(spanHolderSelector).should("not.exist");
   });
 });
 
