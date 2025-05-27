@@ -2,31 +2,9 @@ import { ReactNode } from "react";
 import {
   SnackbarAnchorOrigin,
   SnackbarSeverity,
-  SnackbarTransition,
   SnackbarVariant,
 } from "./Snackbar.types";
 
-// Transition effects
-const transitions = {
-  fade: {
-    entering: "opacity-0",
-    entered: "opacity-100 transition-opacity duration-300",
-    exiting: "opacity-0 transition-opacity duration-300",
-    exited: "opacity-0",
-  },
-  slide: {
-    entering: "transform translate-y-2",
-    entered: "transform translate-y-0 transition-transform duration-300",
-    exiting: "transform translate-y-2 transition-transform duration-300",
-    exited: "transform translate-y-2",
-  },
-  grow: {
-    entering: "transform scale-95 opacity-0",
-    entered: "transform scale-100 opacity-100 transition-all duration-300",
-    exiting: "transform scale-95 opacity-0 transition-all duration-300",
-    exited: "transform scale-95 opacity-0",
-  },
-};
 
 // Severity icons and colors
 const severityConfig: Record<
@@ -155,19 +133,4 @@ const getVariantClasses = (
     : severityConfig[severity].outlinedClass;
 };
 
-// Get transition classes based on transition type and state
-const getTransitionClasses = (
-  transition: SnackbarTransition,
-  isOpen: boolean,
-): string => {
-  return isOpen
-    ? transitions[transition].entered
-    : transitions[transition].exiting;
-};
-
-export {
-  severityConfig,
-  getPositionClasses,
-  getVariantClasses,
-  getTransitionClasses,
-};
+export { severityConfig, getPositionClasses, getVariantClasses };

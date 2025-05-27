@@ -5,8 +5,8 @@ import {
   severityConfig,
   getPositionClasses,
   getVariantClasses,
-  getTransitionClasses,
 } from "./variants";
+import { SnackbarContent } from "./_SnackbarContent";
 
 /**
  * Snackbar component for displaying brief notifications
@@ -25,7 +25,6 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   withCloseIcon = true,
   closeIcon,
   customIcon,
-  transition = "fade",
   className,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -64,7 +63,6 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   const variantClasses = getVariantClasses(severity, variant);
 
   // Get transition classes
-  const transitionClasses = getTransitionClasses(transition, isVisible);
 
   // Get the icon based on severity or custom icon
   const icon = customIcon || severityConfig[severity].icon;
@@ -75,7 +73,6 @@ export const Snackbar: React.FC<SnackbarProps> = ({
         "fixed z-50 flex max-w-md min-w-[300px] items-center rounded-md p-4 shadow-md",
         positionClasses,
         variantClasses,
-        transitionClasses,
         className,
       )}
       style={style}
@@ -85,10 +82,9 @@ export const Snackbar: React.FC<SnackbarProps> = ({
       {icon && <div className="mr-3 flex-shrink-0">{icon}</div>}
 
       {/* Content */}
-      <div className="flex-grow">{message || children}</div>
-
-      {/* Action */}
-      {action && <div className="ml-4 flex-shrink-0">{action}</div>}
+      <SnackbarContent action={action} message={message}>
+        {children}
+      </SnackbarContent>
 
       {/* Close Button */}
       {withCloseIcon && (

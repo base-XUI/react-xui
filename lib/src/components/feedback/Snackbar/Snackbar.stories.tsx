@@ -44,11 +44,7 @@ const meta: Meta<typeof SnackbarWrapper> = {
       options: ["filled", "outlined"],
       description: "The variant of the snackbar",
     },
-    transition: {
-      control: "select",
-      options: ["fade", "slide", "grow"],
-      description: "The transition effect",
-    },
+
     anchorOrigin: {
       control: "object",
       description: "The position of the snackbar",
@@ -76,7 +72,6 @@ export const Default: Story = {
     message: "This is a default snackbar",
     severity: "primary",
     variant: "filled",
-    transition: "fade",
     anchorOrigin: { vertical: "bottom", horizontal: "left" },
     autoHideDuration: 5000,
     withCloseIcon: true,
