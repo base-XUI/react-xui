@@ -1,4 +1,11 @@
 // Checkbox.types.ts
+import {
+  ChangeEvent,
+  ElementType,
+  HTMLAttributes,
+  InputHTMLAttributes,
+  ReactNode,
+} from "react";
 import { VariantProps } from "class-variance-authority";
 import { checkboxVariants, CheckboxColor, CheckboxSize } from "./variants";
 
@@ -7,26 +14,26 @@ export type CheckboxSlots = {
    * The root container element for the checkbox.
    * @default 'div' (or whatever default wrapper you're using)
    */
-  root?: React.ElementType;
+  root?: ElementType;
 
   /**
    * The native HTML input element that represents the actual checkbox.
    * @default 'input'
    */
-  input?: React.ElementType;
+  input?: ElementType;
 };
 export type CheckboxSlotProps = {
   /**
    * Additional props passed to the root container element.
    * Useful for styling or accessibility.
    */
-  root?: React.HTMLAttributes<HTMLElement>;
+  root?: HTMLAttributes<HTMLElement>;
 
   /**
    * Additional props passed to the input element.
    * Allows overriding attributes like tabIndex, aria-label, etc.
    */
-  input?: React.InputHTMLAttributes<HTMLInputElement>;
+  input?: InputHTMLAttributes<HTMLInputElement>;
 };
 
 export type CheckboxBaseProps = {
@@ -66,7 +73,7 @@ export type CheckboxBaseProps = {
    * Callback fired when the checked state changes.
    * @param event - The change event from the input element.
    */
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 
   // ————————————————————————————————————————
   // 🎨 Styling & Theming
@@ -118,19 +125,19 @@ export type CheckboxBaseProps = {
    * Custom icon displayed inside the checkbox in any state.
    * Overrides both checked and indeterminate icons if provided.
    */
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 
   /**
    * Custom icon shown when the checkbox is checked.
    * Only used if `icon` is not provided.
    */
-  checkedIcon?: React.ReactNode;
+  checkedIcon?: ReactNode;
 
   /**
    * Custom icon shown when the checkbox is in indeterminate state.
    * Only used if `icon` is not provided.
    */
-  indeterminateIcon?: React.ReactNode;
+  indeterminateIcon?: ReactNode;
 
   // ————————————————————————————————————————
   // 🛠️ Customization & Slot API
