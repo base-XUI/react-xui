@@ -6,40 +6,21 @@ import { Check, Minus } from "lucide-react";
 import { Checkbox } from "./Checkbox";
 import { CheckboxProps } from "./Checkbox.types";
 import { useArgs } from "storybook/internal/preview-api";
-import { Canvas, Controls, Subtitle, Title } from "@storybook/blocks";
 
 const meta = {
   title: "Inputs/Checkbox",
   component: Checkbox,
-
   parameters: {
     layout: "centered",
     Description:
       "A checkbox is an input control used to select one or more options from a list.",
-
-    docs: {
-      page: () => {
-        return (
-          <>
-            <Title />
-            <Subtitle
-              children={
-                "A checkbox is an input control used to select one or more options from a list."
-              }
-            />
-            <Canvas />
-            <Controls />
-          </>
-        );
-      },
-    },
   },
   tags: ["autodocs"],
   argTypes: {
     // Following MUI Checkbox API documentation ordering
     checked: {
       control: "boolean",
-      description: "If true, the component is checked.",
+      description: "If true, the checkbox is checked.",
       table: {
         type: { summary: "boolean" },
         defaultValue: { summary: "false" },
@@ -47,16 +28,15 @@ const meta = {
     },
     checkedIcon: {
       control: { disable: true },
-      description: "The icon to display when the component is checked.",
+      description: "The icon shown when the checkbox is checked.",
       table: {
         type: {
           summary: "ReactElement",
-          detail: "Accepts any icon as React element",
+          detail: "Accepts any React element like SVG or Icon component.",
         },
         defaultValue: { summary: "<Check />" },
       },
     },
-
     color: {
       control: "select",
       options: [
@@ -68,11 +48,13 @@ const meta = {
         "warning",
         "muted",
       ],
-      description: "The color of the component.",
+      description: "Sets the color theme of the checkbox.",
+
       table: {
         type: {
-          summary:
-            "'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning' | 'muted' | string",
+          detail:
+            "'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning' | 'muted'",
+          summary: "Determines the visual style and color palette.",
         },
         defaultValue: { summary: "'primary'" },
       },
@@ -80,7 +62,7 @@ const meta = {
     defaultChecked: {
       control: "boolean",
       description:
-        "The default checked state. Use when the component is not controlled.",
+        "Default state if the checkbox is not controlled by a parent component.",
       table: {
         type: { summary: "boolean" },
         defaultValue: { summary: "false" },
@@ -88,16 +70,15 @@ const meta = {
     },
     disabled: {
       control: "boolean",
-      description: "If true, the checkbox is disabled.",
+      description: "Disables the checkbox so it cannot be interacted with.",
       table: {
         type: { summary: "boolean" },
         defaultValue: { summary: "false" },
       },
     },
-
     icon: {
       control: { disable: true },
-      description: "The icon to display when the component is unchecked.",
+      description: "The icon shown when the checkbox is unchecked.",
       table: {
         type: { summary: "ReactElement" },
         defaultValue: { summary: "<Check />" },
@@ -105,14 +86,23 @@ const meta = {
     },
     id: {
       control: "text",
-      description: "The id of the input element.",
+      description: "Unique identifier for the input element.",
       table: {
         type: { summary: "string" },
       },
     },
+    className: {
+      control: "text",
+      description: "Unique identifier for the input element.",
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "string" },
+      },
+    },
     indeterminate: {
       control: "boolean",
-      description: "If true, the component appears indeterminate.",
+      description:
+        "If true, the checkbox appears in an indeterminate (mixed) state.",
       table: {
         type: { summary: "boolean" },
         defaultValue: { summary: "false" },
@@ -120,16 +110,17 @@ const meta = {
     },
     indeterminateIcon: {
       control: { disable: true },
-      description: "The icon to display when the component is indeterminate.",
+      description:
+        "The icon shown when the checkbox is in indeterminate state.",
       table: {
         type: { summary: "ReactElement" },
         defaultValue: { summary: "null" },
       },
     },
-
     onChange: {
       action: "changed",
-      description: "Callback fired when the state is changed.",
+      description:
+        "Callback function called whenever the checkbox state changes.",
       table: {
         type: { summary: "function" },
         detail: "function(event: React.ChangeEvent) => void",
@@ -137,7 +128,7 @@ const meta = {
     },
     required: {
       control: "boolean",
-      description: "If true, the input element is required.",
+      description: "Marks the checkbox as required in forms.",
       table: {
         type: { summary: "boolean" },
         defaultValue: { summary: "false" },
@@ -146,24 +137,55 @@ const meta = {
     size: {
       control: "select",
       options: ["small", "medium", "large"],
-      description: "The size of the component.",
+      description: "Controls the visual size of the checkbox.",
       table: {
-        type: { summary: "'small' | 'medium' | 'large' | string" },
+        type: { summary: "'small' | 'medium' | 'large'" },
         defaultValue: { summary: "'medium'" },
       },
     },
-    slotProps: {
-      control: { disable: true },
-      description: "The props used for each slot inside.",
+    slots: {
+      control: { disable: false },
+      description:
+        "Allows passing custom props to internal elements like root or input.",
       table: {
-        type: { summary: "{ input?: func | object, root?: func | object }" },
-        defaultValue: { summary: "{}" },
+        type: { summary: "{ root?: object, input?: object }" },
+        defaultValue: {
+          summary: "{}",
+          detail: `slots: {
+      root: "label",
+      input: "input",
+    }`,
+        },
       },
     },
+    slotProps: {
+      control: { disable: false },
+      description:
+        "Allows passing custom props to internal elements like root or input.",
 
+      table: {
+        type: { summary: "{ root?: object, input?: object }" },
+        defaultValue: {
+          summary: "{}",
+          detail: `
+root:{
+  className: "",
+  ["slotProps-root-data-custom" as string]: "true",
+   name: "custom-slotProps-input-name",
+     },
+input:{
+  style: { cursor: "pointer" },
+  title: "custom-slotProps-input-title",
+ 
+      },
+          `,
+        },
+      },
+    },
     value: {
       control: { disable: true },
-      description: "The value of the component.",
+      description:
+        "The value submitted with form data when the checkbox is checked.",
       table: {
         type: { summary: "any" },
       },
@@ -177,18 +199,19 @@ type Story = StoryObj<typeof Checkbox>;
 // Default Story
 export const Default: Story = {
   args: {
-    id: "my-checkbox",
     checked: false,
-    color: "primary",
-    size: "medium",
+    defaultChecked: false,
+    indeterminate: false,
     required: false,
     disabled: false,
-    defaultChecked: true,
-    indeterminate: false,
+    color: "primary",
+    size: "medium",
+    id: "my-checkbox",
+    value: "Subscribe",
+    className: "",
     checkedIcon: <Check />,
     indeterminateIcon: <Minus />,
     onChange: () => {},
-    value: "Subscribe",
   } as CheckboxProps,
   render: function Render(args) {
     const [{ checked, defaultChecked }, updateArgs] = useArgs();
@@ -212,8 +235,8 @@ export const Default: Story = {
   },
 };
 
-// With Slot Props Story
-export const WithSlotProps: Story = {
+// With Slot and SlotProps Story
+export const slotAndSlotProps: Story = {
   args: {
     id: "my-checkbox",
     checked: false,
@@ -226,10 +249,14 @@ export const WithSlotProps: Story = {
     indeterminateIcon: <Minus />,
     onChange: () => {},
     value: "Subscribe",
+    slots: {
+      root: "label",
+      input: "input",
+    },
     slotProps: {
       root: {
         className: "custom-slotProps-root-class",
-        ["slotProps-root-data-custom" as string]: "true",
+        ["slotprops-root-data-custom" as string]: "true",
       },
       input: {
         style: { cursor: "pointer" },
