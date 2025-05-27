@@ -83,18 +83,21 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
         : icon;
 
   // Resolve slot components
-  const RootComponent = slots.root || "span";
+  const RootComponent = slots.root || "label";
   const InputComponent = slots.input || "input";
 
-  // Build classes
-  const rootClasses = cn(
-    checkboxVariants({ color, size, state }),
-    disabled && "cursor-not-allowed opacity-50",
-    required && !checked && !indeterminate && "border-error",
-    className,
-    slotProps.root?.className,
-  );
-
+  const rootClasses = {
+    ...slotProps.root,
+    className: cn(
+      "inline-flex items-center justify-center transition-all relative",
+      checkboxVariants({ color, size, state }), // Apply variant styles
+      !checked && "border border-gray-300", // Default border when unchecked
+      disabled && "cursor-not-allowed opacity-50", // Disabled state styles
+      required && !checked && !indeterminate && "border-error border", // Required validation
+      className, // Custom className from props
+      slotProps.root?.className, // Custom className from slotProps
+    ),
+  };
   const inputClasses = cn(
     "absolute inset-0 opacity-0",
     disabled ? "cursor-not-allowed" : "cursor-pointer",
@@ -103,8 +106,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
 
   return (
     <RootComponent
-      {...slotProps.root}
-      className={rootClasses}
+      {...rootClasses}
       data-state={state}
       data-disabled={disabled}
       data-testid="checkbox-span-holder"
