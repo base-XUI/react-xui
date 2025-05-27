@@ -285,7 +285,7 @@ export const slotAndSlotProps: Story = {
 };
 
 export const Colors: Story = {
-  render: () => {
+  render: function Render(args) {
     const [checkedStates, setCheckedStates] = useState({
       primary: false,
       secondary: false,
