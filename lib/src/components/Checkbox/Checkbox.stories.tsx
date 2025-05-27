@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Check, Minus } from "lucide-react";
@@ -280,6 +280,49 @@ export const slotAndSlotProps: Story = {
         checked={checked || args.checked}
         onChange={handleChange}
       />
+    );
+  },
+};
+
+export const Colors: Story = {
+  render: () => {
+    const [checkedStates, setCheckedStates] = useState({
+      primary: false,
+      secondary: false,
+      success: false,
+      error: false,
+      info: false,
+      warning: false,
+      muted: false,
+    });
+
+    const handleChange =
+      (color: keyof typeof checkedStates) =>
+      (e: ChangeEvent<HTMLInputElement>) => {
+        const isChecked = e.target.checked;
+        setCheckedStates((prev) => ({
+          ...prev,
+          [color]: isChecked,
+        }));
+      };
+
+    return (
+      <div className="flex flex-wrap gap-4">
+        {Object.keys(checkedStates).map((color) => (
+          <div key={color} className="flex items-center space-x-2">
+            <Checkbox
+              id={`checkbox-${color}`}
+              name={`checkbox-${color}`}
+              color={color as any}
+              checked={checkedStates[color as keyof typeof checkedStates]}
+              onChange={handleChange(color as keyof typeof checkedStates)}
+              size="medium"
+              checkedIcon={<Check />}
+            />
+            <span>{color}</span>
+          </div>
+        ))}
+      </div>
     );
   },
 };
