@@ -60,6 +60,8 @@ export type TooltipBaseProps = {
 } & VariantProps<typeof tooltipVariants>;
 
 export type TooltipProps<C extends React.ElementType = "span"> =
-  PolymorphicComponentProp<C, TooltipBaseProps>;
+  PolymorphicComponentProp<C, TooltipBaseProps> & {
+    component?: C; // explicitly support `component` prop in addition to `as`
+  };
 
 export type TooltipComponent = PolymorphicComponent<TooltipBaseProps, "span">;

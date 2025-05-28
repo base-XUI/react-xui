@@ -1,11 +1,8 @@
-// Tooltip.stories.tsx
-
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import { Tooltip } from ".";
 import { tooltipVariantsConfig } from "./variants";
 
-// Extract variant options from config
 const placementOptions = Object.keys(tooltipVariantsConfig.variants.placement);
 const colorOptions = Object.keys(tooltipVariantsConfig.variants.color);
 
@@ -55,23 +52,66 @@ const meta: Meta<typeof Tooltip> = {
       },
     },
     disableInteractive: {
-      description: "Whether the tooltip is disableInteractive",
+      description: "Disables pointer and keyboard interaction with the tooltip",
       control: { type: "boolean" },
-      table: {
-        defaultValue: {
-          summary: String(tooltipVariantsConfig.defaultVariants.disableInteractive),
-        },
-      },
     },
     disabled: {
       description: "Disables the tooltip",
       control: "boolean",
+    },
+    disableFocusListener: {
+      description: "Disables tooltip activation on focus",
+      control: "boolean",
+    },
+    disableHoverListener: {
+      description: "Disables tooltip activation on hover",
+      control: "boolean",
+    },
+    disableTouchListener: {
+      description: "Disables tooltip activation on touch",
+      control: "boolean",
+    },
+    followCursor: {
+      description: "Positions the tooltip relative to the cursor",
+      control: "boolean",
+    },
+    enterDelay: {
+      description: "Delay (in ms) before showing tooltip on hover/focus",
+      control: { type: "number" },
       table: {
-        defaultValue: { summary: "false" },
+        defaultValue: { summary: "100" },
       },
     },
-    as: {
-      description: "The component used for the root node",
+    enterNextDelay: {
+      description: "Delay (in ms) for subsequent tooltip displays",
+      control: { type: "number" },
+      table: {
+        defaultValue: { summary: "0" },
+      },
+    },
+    enterTouchDelay: {
+      description: "Delay (in ms) before showing tooltip on touch",
+      control: { type: "number" },
+      table: {
+        defaultValue: { summary: "700" },
+      },
+    },
+    leaveDelay: {
+      description: "Delay (in ms) before hiding tooltip on hover/focus out",
+      control: { type: "number" },
+      table: {
+        defaultValue: { summary: "0" },
+      },
+    },
+    leaveTouchDelay: {
+      description: "Delay (in ms) before hiding tooltip after touch end",
+      control: { type: "number" },
+      table: {
+        defaultValue: { summary: "1500" },
+      },
+    },
+    component: {
+      description: "The HTML tag or React component used for the root node",
       control: { type: "text" },
       table: {
         defaultValue: { summary: "span" },
@@ -84,9 +124,10 @@ const meta: Meta<typeof Tooltip> = {
   args: {
     onClick: fn(),
     title: "Tooltip text",
-    placement: "bottom",
+    placement: "top",
     arrow: true,
-    disableInteractive: false,
+    color: "primary",
+    component: "span",
     children: <span className="rounded border p-2">Hover me</span>,
   },
 };
@@ -97,13 +138,23 @@ type Story = StoryObj<typeof Tooltip>;
 
 export const Basic: Story = {
   args: {
-    disableInteractive: false,
-    arrow: true,
-    disabled: false,
     title: "Tooltip text",
     placement: "top",
     color: "primary",
-    as: "",
+    arrow: true,
+    disabled: false,
+    disableInteractive: false,
+    disableFocusListener: false,
+    disableHoverListener: false,
+    disableTouchListener: false,
+    followCursor: false,
+    enterDelay: 1000,
+    enterNextDelay: 1000,
+    enterTouchDelay: 700,
+    leaveDelay: 1000,
+    leaveTouchDelay: 1500,
+    component: "span",
+    children: <span className="rounded border p-2">Hover me</span>,
   },
 };
 
@@ -113,7 +164,6 @@ export const AllPlacements: Story = {
     disableInteractive: false,
     disabled: false,
   },
-
   render: (args) => (
     <div className="grid grid-cols-3 gap-12">
       {placementOptions.map((placeOption) => (
@@ -122,6 +172,7 @@ export const AllPlacements: Story = {
           key={placeOption}
           title={`Placement: ${placeOption}`}
           placement={placeOption as PlacementOption}
+          component="span"
         >
           <span className="rounded border p-2">{placeOption}</span>
         </Tooltip>

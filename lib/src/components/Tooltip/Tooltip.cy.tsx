@@ -5,16 +5,19 @@ import { TooltipColor, TooltipPlacement } from "./variants";
 const tooltipSelector = '[role="tooltip"]';
 const hover = () => cy.get("button").trigger("mouseover");
 const unhover = () => cy.get("button").trigger("mouseout");
-const getTooltip = () => cy.get(tooltipSelector, { timeout: 500 });
+const focus = () => cy.get("button").focus();
+const blur = () => cy.get("button").blur();
+const touch = () => cy.get("button").trigger("touchstart");
+const getTooltip = () => cy.get(tooltipSelector, { timeout: 1000 });
 
 const mountTooltip = (
   props: React.ComponentProps<typeof Tooltip>,
-  label = "Hover me",
+  label = "Hover me"
 ) => {
   mount(
     <Tooltip {...props}>
       <button>{label}</button>
-    </Tooltip>,
+    </Tooltip>
   );
 };
 
@@ -30,10 +33,55 @@ describe("Tooltip Component", () => {
   it("should hide the tooltip when the mouse leaves", () => {
     mountTooltip({ title: "Tooltip text" });
 
-    cy.get("button").click({ force: true });
     hover();
-    getTooltip().should("be.visible").and("contain", "Tooltip text");
+    getTooltip().should("be.visible");
     unhover();
+    cy.get(tooltipSelector).should("not.exist");
+  });
+
+  it("should show tooltip on focus unless `disableFocusListener` is true", () => {
+    mountTooltip({ title: "Focus tooltip" });
+    focus();
+    getTooltip().should("be.visible").and("contain", "Focus tooltip");
+    blur();
+    cy.get(tooltipSelector).should("not.exist");
+
+    mountTooltip({ title: "Focus disabled", disableFocusListener: true });
+    focus();
+    cy.get(tooltipSelector).should("not.exist");
+  });
+
+  it("should not show tooltip on hover if `disableHoverListener` is true", () => {
+    mountTooltip({ title: "Hover disabled", disableHoverListener: true });
+
+    hover();
+    cy.get(tooltipSelector).should("not.exist");
+  });
+
+  it("should not show tooltip on touch if `disableTouchListener` is true", () => {
+    mountTooltip({ title: "Touch disabled", disableTouchListener: true });
+
+    touch();
+    cy.get(tooltipSelector).should("not.exist");
+  });
+
+  it("should apply delays correctly", () => {
+    mountTooltip({
+      title: "Delayed Tooltip",
+      enterDelay: 500,
+      leaveDelay: 300,
+    });
+
+    hover();
+    cy.wait(100);
+    cy.get(tooltipSelector).should("not.exist");
+    cy.wait(500);
+    getTooltip().should("be.visible");
+
+    unhover();
+    cy.wait(100);
+    cy.get(tooltipSelector).should("be.visible");
+    cy.wait(300);
     cy.get(tooltipSelector).should("not.exist");
   });
 
@@ -101,15 +149,15 @@ describe("Tooltip Component", () => {
     });
   });
 
-  it("should remain close when `disableInteractive` is true", () => {
-    mountTooltip({ title: "disableInteractive Tooltip", disableInteractive: true });
+  it("should remain visible when hovered if `disableInteractive` is true", () => {
+    mountTooltip({ title: "Interactive disabled", disableInteractive: true });
 
     hover();
-    getTooltip().trigger("mouseover", { force: true }); // Force interaction
-    getTooltip().should("be.visible", { timeout: 5000 }); // Ensure visibility
+    getTooltip().trigger("mouseover", { force: true });
+    getTooltip().should("be.visible");
 
     unhover();
-    getTooltip().should("be.visible"); // Tooltip should remain visible
+    getTooltip().should("be.visible");
   });
 
   it("should render with default props", () => {

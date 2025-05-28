@@ -19,7 +19,7 @@ const TooltipInner = <C extends React.ElementType = "span">(
   });
 
   const {
-    as,
+    component: as,
     children,
     title,
     arrow = true,
@@ -73,12 +73,7 @@ const TooltipInner = <C extends React.ElementType = "span">(
   const closeTooltip = (e?: React.SyntheticEvent) => {
     clearTimers();
     setOpen(false);
-    if (e) {
-      onClose?.(e);
-    } else {
-      // Provide a synthetic event if none is available
-      onClose?.({} as React.SyntheticEvent);
-    }
+    onClose?.(e ?? ({} as React.SyntheticEvent));
   };
 
   const handleOpenDelayed = (e: React.SyntheticEvent, type: "hover" | "focus") => {
@@ -147,7 +142,6 @@ const TooltipInner = <C extends React.ElementType = "span">(
     }
     : undefined;
 
-  // Helper for conditional event handler assignment
   const withCondition = <T extends (...args: any[]) => void>(
     disabled: boolean,
     handler: T

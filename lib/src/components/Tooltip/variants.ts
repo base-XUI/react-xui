@@ -65,7 +65,7 @@ export const tooltipVariantsConfig = {
   },
   defaultVariants: {
     color: "primary" as TooltipColor,
-    placement: "bottom" as TooltipPlacement,
+    placement: "top" as TooltipPlacement,
     arrow: true,
     disableInteractive: false,
   },
