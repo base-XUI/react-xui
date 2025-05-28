@@ -2,7 +2,11 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { Snackbar } from "./Snackbar";
 import { Button } from "@/components/inputs/Button";
-import { SnackbarProps } from "./Snackbar.types";
+import {
+  SnackbarProps,
+  SnackbarVerticalPosition,
+  SnackbarHorizontalPosition,
+} from "./Snackbar.types";
 
 const SnackbarWrapper = (props: SnackbarProps) => {
   const { open = false, ...snackbarProps } = props;
@@ -34,7 +38,6 @@ const meta: Meta<typeof SnackbarWrapper> = {
   },
   tags: ["autodocs"],
   argTypes: {
-
     anchorOrigin: {
       control: "object",
       description: "The position of the snackbar",
@@ -43,10 +46,7 @@ const meta: Meta<typeof SnackbarWrapper> = {
       control: "number",
       description: "The duration in milliseconds to auto-hide the snackbar",
     },
-    withCloseIcon: {
-      control: "boolean",
-      description: "Whether to show the close icon",
-    },
+
     open: {
       control: "boolean",
       description: "Whether the snackbar is open",
@@ -60,31 +60,146 @@ type Story = StoryObj<typeof SnackbarWrapper>;
 export const Default: Story = {
   args: {
     message: "This is a default snackbar",
-    anchorOrigin: { vertical: "bottom", horizontal: "left" },
-    autoHideDuration: 5000,
-    withCloseIcon: true,
   },
 };
-
 
 export const WithAction: Story = {
   args: {
     message: "This is a snackbar with an action",
-    action: <Button size="small">Undo</Button>,
+    anchorOrigin: { vertical: "bottom", horizontal: "left" },
+    autoHideDuration: 5000,
+  },
+  render: (args) => {
+    const [open, setOpen] = useState(false);
+    return (
+      <div>
+        <Button onClick={() => setOpen(true)}>Open Snackbar</Button>
+        <Snackbar
+          open={open}
+          message={args.message}
+          action={
+            <div>
+              <Button
+                variant={"outlined"}
+                onClick={() => setOpen(false)}
+                size="small"
+              >
+                Undo
+              </Button>
+            </div>
+          }
+          autoHideDuration={args.autoHideDuration}
+          anchorOrigin={args.anchorOrigin}
+        />
+      </div>
+    );
   },
 };
 
-export const TopRight: Story = {
+export const Positions: Story = {
   args: {
     message: "This is a top-right positioned snackbar",
     anchorOrigin: { vertical: "top", horizontal: "right" },
+    autoHideDuration: 5000,
   },
-};
+  render: (args) => {
+    const [open, setOpen] = useState(false);
+    const [vertical, setVertical] = useState<SnackbarVerticalPosition>("top");
+    const [horizontal, setHorizontal] =
+      useState<SnackbarHorizontalPosition>("right");
+    return (
+      <div>
+        <div className="w-[500px]">
+          <div className="mb-8 flex justify-center">
+            <Button
+              variant="contained"
+              onClick={() => {
+                setVertical("top");
+                setHorizontal("center");
+                setOpen(true);
+              }}
+            >
+              TOP-CENTER
+            </Button>
+          </div>
+          <div className="mb-8 flex justify-between">
+            <Button
+              variant="contained"
+              onClick={() => {
+                setVertical("top");
+                setHorizontal("left");
+                setOpen(true);
+              }}
+            >
+              TOP-LEFT
+            </Button>
 
-export const WithoutCloseIcon: Story = {
-  args: {
-    message: "This snackbar has no close icon",
-    withCloseIcon: false,
+            <Button
+              variant="contained"
+              onClick={() => {
+                setVertical("top");
+                setHorizontal("right");
+                setOpen(true);
+              }}
+            >
+              TOP-RIGHT
+            </Button>
+          </div>
+          <div className="mb-8 flex justify-between">
+            <Button
+              variant="contained"
+              onClick={() => {
+                setVertical("bottom");
+                setHorizontal("left");
+                setOpen(true);
+              }}
+            >
+              BOTTOM-LEFT
+            </Button>
+
+            <Button
+              variant="contained"
+              onClick={() => {
+                setVertical("bottom");
+                setHorizontal("right");
+                setOpen(true);
+              }}
+            >
+              BOTTOM-RIGHT
+            </Button>
+          </div>
+          <div className="mb-8 flex justify-center">
+            <Button
+              variant="contained"
+              onClick={() => {
+                setVertical("bottom");
+                setHorizontal("center");
+                setOpen(true);
+              }}
+            >
+              BOTTOM-CENTER
+            </Button>
+          </div>
+        </div>
+        <Snackbar
+          open={open}
+          message={args.message}
+          action={
+            <div>
+              <Button
+                variant={"outlined"}
+                onClick={() => setOpen(false)}
+                size="small"
+              >
+                Undo
+              </Button>
+            </div>
+          }
+          autoHideDuration={args.autoHideDuration}
+          anchorOrigin={{ vertical, horizontal }}
+        />
+      </div>
+    );
   },
 };
 

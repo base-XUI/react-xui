@@ -13,7 +13,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   children,
   autoHideDuration = 5000,
   anchorOrigin = { vertical: "bottom", horizontal: "left" },
-  style,
+  sx,
   onClose,
   open,
   className,
@@ -51,7 +51,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
         positionClasses,
         className,
       )}
-      style={style}
+      style={{ ...sx }}
       role="alert"
     >
       {/* Content */}

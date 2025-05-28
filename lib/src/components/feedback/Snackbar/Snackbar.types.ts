@@ -75,7 +75,7 @@ export interface SnackbarProps {
   /**
    * Custom inline styles
    */
-  style?: CSSProperties;
+  sx?: CSSProperties;
 
   /**
    * Callback fired when the Snackbar is closed
@@ -86,26 +86,6 @@ export interface SnackbarProps {
    * If true, the Snackbar is open
    */
   open: boolean;
-
-  /**
-   * If true, the close icon will be displayed
-   * @default true
-   */
-  withCloseIcon?: boolean;
-
-  /**
-   * Custom close icon
-   */
-  closeIcon?: ReactNode;
-
-  /**
-   * Custom icon to override the default severity icon
-   */
-
-  /**
-   * The transition effect
-   * @default 'fade'
-   */
 
   /**
    * Additional CSS class names

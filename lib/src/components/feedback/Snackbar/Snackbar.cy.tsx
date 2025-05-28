@@ -10,8 +10,6 @@ describe("Snackbar Component", () => {
     cy.get('[role="alert"]').should("have.class", "text-black");
   });
 
-
-
   it("renders with action button", () => {
     cy.mount(
       <Snackbar
@@ -61,14 +59,6 @@ describe("Snackbar Component", () => {
     cy.get('[role="alert"]').should("have.class", "left-1/2");
   });
 
-  it("does not render close icon when withCloseIcon is false", () => {
-    cy.mount(
-      <Snackbar open={true} message="No Close Icon" withCloseIcon={false} />,
-    );
-    cy.get('[role="alert"]').should("be.visible");
-    cy.get('[aria-label="Close"]').should("not.exist");
-  });
-
   it("calls onClose when close button is clicked", () => {
     const onCloseSpy = cy.spy().as("onCloseSpy");
     cy.mount(
@@ -88,7 +78,7 @@ describe("Snackbar Component", () => {
       <Snackbar
         open={true}
         message="Custom Styled Snackbar"
-        style={{ borderWidth: "3px", borderStyle: "dashed" }}
+        sx={{ borderWidth: "3px", borderStyle: "dashed" }}
       />,
     );
     cy.get('[role="alert"]').should("have.css", "border-width", "3px");
