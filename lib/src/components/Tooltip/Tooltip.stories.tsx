@@ -54,12 +54,12 @@ const meta: Meta<typeof Tooltip> = {
         },
       },
     },
-    interactive: {
-      description: "Whether the tooltip is interactive",
+    disableInteractive: {
+      description: "Whether the tooltip is disableInteractive",
       control: { type: "boolean" },
       table: {
         defaultValue: {
-          summary: String(tooltipVariantsConfig.defaultVariants.interactive),
+          summary: String(tooltipVariantsConfig.defaultVariants.disableInteractive),
         },
       },
     },
@@ -86,7 +86,7 @@ const meta: Meta<typeof Tooltip> = {
     title: "Tooltip text",
     placement: "bottom",
     arrow: true,
-    interactive: true,
+    disableInteractive: false,
     children: <span className="rounded border p-2">Hover me</span>,
   },
 };
@@ -97,7 +97,7 @@ type Story = StoryObj<typeof Tooltip>;
 
 export const Basic: Story = {
   args: {
-    interactive: true,
+    disableInteractive: false,
     arrow: true,
     disabled: false,
     title: "Tooltip text",
@@ -110,7 +110,7 @@ export const Basic: Story = {
 export const AllPlacements: Story = {
   args: {
     arrow: true,
-    interactive: true,
+    disableInteractive: false,
     disabled: false,
   },
 

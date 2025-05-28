@@ -15,8 +15,11 @@ const TooltipInner = <C extends React.ElementType = "span">(
     onClose,
     id,
     className,
-    interactive = true,
+    disableInteractive = false,
     color = "primary",
+    slots = {},
+    components = {}, // deprecated
+    slotProps = {},
     ...props
   }: TooltipProps<C>,
   ref: React.Ref<Element>,
@@ -35,6 +38,9 @@ const TooltipInner = <C extends React.ElementType = "span">(
     onClose?.(e);
   };
 
+  // Use slots first, fallback to deprecated components, or default to <div>
+  const TooltipBox = slots.tooltip ?? components.Tooltip ?? "div";
+
   return (
     <Component
       ref={ref}
@@ -47,21 +53,22 @@ const TooltipInner = <C extends React.ElementType = "span">(
     >
       {children}
       {open && title && (
-        <div
+        <TooltipBox
           id={tooltipId}
           role="tooltip"
           data-testid="tooltip"
           data-arrow={arrow ? "true" : undefined}
-          data-color={color || "primary"}
+          data-color={color}
           data-placement={placement}
-          aria-live={interactive ? "polite" : undefined}
+          aria-live={disableInteractive ? "polite" : undefined}
           className={cn(
             "p-[7px] whitespace-nowrap",
-            tooltipVariants({ arrow, placement, interactive, color }),
+            tooltipVariants({ arrow, placement, disableInteractive, color }),
           )}
+          {...slotProps.tooltip}
         >
           {title}
-        </div>
+        </TooltipBox>
       )}
     </Component>
   );

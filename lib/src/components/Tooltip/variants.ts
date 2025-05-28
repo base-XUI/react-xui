@@ -57,16 +57,16 @@ export const tooltipVariantsConfig = {
     arrow: {
       true: "before:content-[''] before:absolute before:w-2 before:h-2 before:rotate-45 before:bg-inherit",
     },
-    interactive: {
-      true: "pointer-events-auto",
-      false: "pointer-events-none",
+    disableInteractive: {
+      true: "pointer-events-none",
+      false: "pointer-events-auto",
     },
   },
   defaultVariants: {
     color: "primary" as TooltipColor,
     placement: "bottom" as TooltipPlacement,
     arrow: true,
-    interactive: false,
+    disableInteractive: false,
   },
 };
 

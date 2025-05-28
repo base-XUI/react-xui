@@ -101,8 +101,8 @@ describe("Tooltip Component", () => {
     });
   });
 
-  it("should remain open when `interactive` is true", () => {
-    mountTooltip({ title: "Interactive Tooltip", interactive: true });
+  it("should remain close when `disableInteractive` is true", () => {
+    mountTooltip({ title: "disableInteractive Tooltip", disableInteractive: true });
 
     hover();
     getTooltip().trigger("mouseover", { force: true }); // Force interaction
