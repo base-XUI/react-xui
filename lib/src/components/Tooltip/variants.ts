@@ -56,6 +56,7 @@ export const tooltipVariantsConfig = {
     },
     arrow: {
       true: "before:content-[''] before:absolute before:w-2 before:h-2 before:rotate-45 before:bg-inherit",
+      false: "",
     },
     disableInteractive: {
       true: "pointer-events-none",
@@ -73,70 +74,20 @@ export const tooltipVariantsConfig = {
 export const tooltipVariants = cva(
   "z-50 px-2 text-sm rounded shadow-md absolute transition-opacity duration-200",
   {
-    variants: tooltipVariantsConfig.variants,
-    defaultVariants: tooltipVariantsConfig.defaultVariants,
+    ...tooltipVariantsConfig,
     compoundVariants: [
-      {
-        arrow: true,
-        placement: "top",
-        className:
-          "before:bottom-[-4px] before:left-1/2 before:-translate-x-1/2",
-      },
-      {
-        arrow: true,
-        placement: "bottom",
-        className: "before:top-[-4px] before:left-1/2 before:-translate-x-1/2",
-      },
-      {
-        arrow: true,
-        placement: "left",
-        className: "before:right-[-4px] before:top-1/2 before:-translate-y-1/2",
-      },
-      {
-        arrow: true,
-        placement: "right",
-        className: "before:left-[-4px] before:top-1/2 before:-translate-y-1/2",
-      },
-      {
-        arrow: true,
-        placement: "top-start",
-        className: "before:bottom-[-4px] before:left-4",
-      },
-      {
-        arrow: true,
-        placement: "top-end",
-        className: "before:bottom-[-4px] before:right-4",
-      },
-      {
-        arrow: true,
-        placement: "bottom-start",
-        className: "before:top-[-4px] before:left-4",
-      },
-      {
-        arrow: true,
-        placement: "bottom-end",
-        className: "before:top-[-4px] before:right-4",
-      },
-      {
-        arrow: true,
-        placement: "left-start",
-        className: "before:right-[-4px] before:top-4",
-      },
-      {
-        arrow: true,
-        placement: "left-end",
-        className: "before:right-[-4px] before:bottom-4",
-      },
-      {
-        arrow: true,
-        placement: "right-start",
-        className: "before:left-[-4px] before:top-4",
-      },
-      {
-        arrow: true,
-        placement: "right-end",
-        className: "before:left-[-4px] before:bottom-4",
-      },
+      { arrow: true, placement: "top", className: "before:bottom-[-4px] before:left-1/2 before:-translate-x-1/2" },
+      { arrow: true, placement: "bottom", className: "before:top-[-4px] before:left-1/2 before:-translate-x-1/2" },
+      { arrow: true, placement: "left", className: "before:right-[-4px] before:top-1/2 before:-translate-y-1/2" },
+      { arrow: true, placement: "right", className: "before:left-[-4px] before:top-1/2 before:-translate-y-1/2" },
+      { arrow: true, placement: "top-start", className: "before:bottom-[-4px] before:left-4" },
+      { arrow: true, placement: "top-end", className: "before:bottom-[-4px] before:right-4" },
+      { arrow: true, placement: "bottom-start", className: "before:top-[-4px] before:left-4" },
+      { arrow: true, placement: "bottom-end", className: "before:top-[-4px] before:right-4" },
+      { arrow: true, placement: "left-start", className: "before:right-[-4px] before:top-4" },
+      { arrow: true, placement: "left-end", className: "before:right-[-4px] before:bottom-4" },
+      { arrow: true, placement: "right-start", className: "before:left-[-4px] before:top-4" },
+      { arrow: true, placement: "right-end", className: "before:left-[-4px] before:bottom-4" },
     ],
-  },
+  }
 );
