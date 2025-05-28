@@ -19,23 +19,6 @@ export interface SnackbarAnchorOrigin {
 }
 
 /**
- * Severity levels for the Snackbar
- */
-export type SnackbarSeverity =
-  | "primary"
-  | "secondary"
-  | "warning"
-  | "error"
-  | "info"
-  | "success";
-
-/**
- * Visual variants for the Snackbar
- */
-export type SnackbarVariant = "filled" | "outlined";
-
-
-/**
  * Props for the Snackbar component
  */
 
@@ -105,18 +88,6 @@ export interface SnackbarProps {
   open: boolean;
 
   /**
-   * The severity of the Snackbar
-   * @default 'primary'
-   */
-  severity?: SnackbarSeverity;
-
-  /**
-   * The variant of the Snackbar
-   * @default 'filled'
-   */
-  variant?: SnackbarVariant;
-
-  /**
    * If true, the close icon will be displayed
    * @default true
    */
@@ -130,7 +101,6 @@ export interface SnackbarProps {
   /**
    * Custom icon to override the default severity icon
    */
-  customIcon?: ReactNode;
 
   /**
    * The transition effect

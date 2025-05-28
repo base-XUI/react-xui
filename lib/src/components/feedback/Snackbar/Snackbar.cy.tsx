@@ -10,58 +10,7 @@ describe("Snackbar Component", () => {
     cy.get('[role="alert"]').should("have.class", "text-black");
   });
 
-  it("renders with different severities", () => {
-    // Success
-    cy.mount(
-      <Snackbar open={true} message="Success Snackbar" severity="success" />,
-    );
-    cy.get('[role="alert"]').should("have.class", "bg-green-500");
-    cy.get('[role="alert"]').should("have.class", "text-white");
 
-    // Error
-    cy.mount(
-      <Snackbar open={true} message="Error Snackbar" severity="error" />,
-    );
-    cy.get('[role="alert"]').should("have.class", "bg-red-500");
-    cy.get('[role="alert"]').should("have.class", "text-white");
-
-    // Warning
-    cy.mount(
-      <Snackbar open={true} message="Warning Snackbar" severity="warning" />,
-    );
-    cy.get('[role="alert"]').should("have.class", "bg-amber-500");
-    cy.get('[role="alert"]').should("have.class", "text-white");
-
-    // Info
-    cy.mount(<Snackbar open={true} message="Info Snackbar" severity="info" />);
-    cy.get('[role="alert"]').should("have.class", "bg-blue-500");
-    cy.get('[role="alert"]').should("have.class", "text-white");
-
-    // Secondary
-    cy.mount(
-      <Snackbar
-        open={true}
-        message="Secondary Snackbar"
-        severity="secondary"
-      />,
-    );
-    cy.get('[role="alert"]').should("have.class", "bg-gray-700");
-    cy.get('[role="alert"]').should("have.class", "text-white");
-  });
-
-  it("renders with outlined variant", () => {
-    cy.mount(
-      <Snackbar
-        open={true}
-        message="Outlined Snackbar"
-        severity="success"
-        variant="outlined"
-      />,
-    );
-    cy.get('[role="alert"]').should("have.class", "bg-white");
-    cy.get('[role="alert"]').should("have.class", "border-green-500");
-    cy.get('[role="alert"]').should("have.class", "text-green-500");
-  });
 
   it("renders with action button", () => {
     cy.mount(

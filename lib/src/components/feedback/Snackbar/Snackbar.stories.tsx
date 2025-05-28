@@ -34,16 +34,6 @@ const meta: Meta<typeof SnackbarWrapper> = {
   },
   tags: ["autodocs"],
   argTypes: {
-    severity: {
-      control: "select",
-      options: ["primary", "secondary", "warning", "error", "info", "success"],
-      description: "The severity of the snackbar",
-    },
-    variant: {
-      control: "radio",
-      options: ["filled", "outlined"],
-      description: "The variant of the snackbar",
-    },
 
     anchorOrigin: {
       control: "object",
@@ -70,67 +60,16 @@ type Story = StoryObj<typeof SnackbarWrapper>;
 export const Default: Story = {
   args: {
     message: "This is a default snackbar",
-    severity: "primary",
-    variant: "filled",
     anchorOrigin: { vertical: "bottom", horizontal: "left" },
     autoHideDuration: 5000,
     withCloseIcon: true,
   },
 };
 
-export const Secondary: Story = {
-  args: {
-    message: "This is a secondary snackbar",
-    severity: "secondary",
-    variant: "filled",
-  },
-};
-
-export const Info: Story = {
-  args: {
-    message: "This is an info snackbar",
-    severity: "info",
-    variant: "filled",
-  },
-};
-
-export const Success: Story = {
-  args: {
-    message: "This is a success snackbar",
-    severity: "success",
-    variant: "filled",
-  },
-};
-
-export const Error: Story = {
-  args: {
-    message: "This is an error snackbar",
-    severity: "error",
-    variant: "filled",
-  },
-};
-
-export const Warning: Story = {
-  args: {
-    message: "This is a warning snackbar",
-    severity: "warning",
-    variant: "filled",
-  },
-};
-
-export const Outlined: Story = {
-  args: {
-    message: "This is an outlined snackbar",
-    severity: "success",
-    variant: "outlined",
-  },
-};
 
 export const WithAction: Story = {
   args: {
     message: "This is a snackbar with an action",
-    severity: "info",
-    variant: "filled",
     action: <Button size="small">Undo</Button>,
   },
 };
@@ -138,8 +77,6 @@ export const WithAction: Story = {
 export const TopRight: Story = {
   args: {
     message: "This is a top-right positioned snackbar",
-    severity: "info",
-    variant: "filled",
     anchorOrigin: { vertical: "top", horizontal: "right" },
   },
 };
@@ -147,16 +84,12 @@ export const TopRight: Story = {
 export const WithoutCloseIcon: Story = {
   args: {
     message: "This snackbar has no close icon",
-    severity: "warning",
-    variant: "filled",
     withCloseIcon: false,
   },
 };
 
 export const WithCustomContent: Story = {
   args: {
-    severity: "primary",
-    variant: "filled",
     children: (
       <div className="flex flex-col">
         <span className="font-bold">Custom Content</span>

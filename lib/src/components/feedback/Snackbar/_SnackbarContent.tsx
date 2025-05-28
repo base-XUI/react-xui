@@ -15,7 +15,7 @@ export const SnackbarContent: React.FC<SnackbarContentProps> = ({
 
   return (
     <div
-      className={cn("flex items-center rounded-md p-4 shadow-md")}
+      className={cn("flex items-center rounded-md p-4")}
       style={{ ...sx }}
       role="alert"
     >
