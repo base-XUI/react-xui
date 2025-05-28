@@ -4,47 +4,30 @@ import type {
   PolymorphicComponentProp,
   PolymorphicComponent,
 } from "@/utils/polymorphic";
-import { tooltipVariants } from "./variants";
+import { TooltipPlacement, tooltipVariants } from "./variants";
 export type TooltipBaseProps = {
   title?: string;
   arrow?: boolean;
   disabled?: boolean;
-  placement?:
-  | "auto-end"
-  | "auto-start"
-  | "auto"
-  | "bottom-end"
-  | "bottom-start"
-  | "bottom"
-  | "left-end"
-  | "left-start"
-  | "left"
-  | "right-end"
-  | "right-start"
-  | "right"
-  | "top-end"
-  | "top-start"
-  | "top";
+  disableFocusListener?: boolean;
+  disableHoverListener?: boolean;
+  disableInteractive?: boolean;
+  disableTouchListener?: boolean; // for future enhancement
+  placement?: TooltipPlacement;
   open?: boolean;
   enterDelay?: number;
   leaveDelay?: number;
   onOpen?: (event: React.SyntheticEvent) => void;
   onClose?: (event: React.SyntheticEvent) => void;
   id?: string;
-  disableHoverListener?: boolean;
-  disableFocusListener?: boolean;
-  disableTouchListener?: boolean;
   slotProps?: {
-    arrow?: object;
-    popper?: object;
     tooltip?: object;
+    popper?: object;
     transition?: object;
   };
-
   slots?: {
-    arrow?: React.ElementType;
-    popper?: React.ElementType;
     tooltip?: React.ElementType;
+    popper?: React.ElementType;
     transition?: React.ElementType;
   };
 

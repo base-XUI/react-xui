@@ -16,9 +16,12 @@ const TooltipInner = <C extends React.ElementType = "span">(
     id,
     className,
     disableInteractive = false,
+    disableFocusListener = false,
+    disableHoverListener = false,
+    disableTouchListener = false, // placeholder
     color = "primary",
     slots = {},
-    components = {}, // deprecated
+    components = {},
     slotProps = {},
     ...props
   }: TooltipProps<C>,
@@ -27,6 +30,21 @@ const TooltipInner = <C extends React.ElementType = "span">(
   const [open, setOpen] = React.useState(false);
   const Component = (as || "span") as React.ElementType;
   const tooltipId = id || `tooltip-${Math.random().toString(36).slice(2, 8)}`;
+
+  // Utility to decide if tooltip can open based on event type & flags
+  const shouldOpen = (eventType: "focus" | "hover" | "touch") => {
+    if (disabled) return false;
+    switch (eventType) {
+      case "focus":
+        return !disableFocusListener;
+      case "hover":
+        return !disableHoverListener;
+      case "touch":
+        return !disableTouchListener;
+      default:
+        return true;
+    }
+  };
 
   const openTooltip = (e: React.SyntheticEvent) => {
     setOpen(true);
@@ -38,16 +56,15 @@ const TooltipInner = <C extends React.ElementType = "span">(
     onClose?.(e);
   };
 
-  // Use slots first, fallback to deprecated components, or default to <div>
   const TooltipBox = slots.tooltip ?? components.Tooltip ?? "div";
 
   return (
     <Component
       ref={ref}
-      onMouseEnter={!disabled ? openTooltip : undefined}
-      onMouseLeave={closeTooltip}
-      onBlur={closeTooltip}
-      onFocus={!disabled ? openTooltip : undefined}
+      onMouseEnter={shouldOpen("hover") ? openTooltip : undefined}
+      onMouseLeave={!disabled ? closeTooltip : undefined}
+      onFocus={shouldOpen("focus") ? openTooltip : undefined}
+      onBlur={!disabled ? closeTooltip : undefined}
       className={cn("relative w-fit text-center", className)}
       {...props}
     >
