@@ -1,25 +1,31 @@
 import React from "react";
+import { ChevronUp } from "lucide-react";
 import { AccordionProps } from "./Accordion.types";
 
-export const AccordionSummary = <C extends React.ElementType = "button">({
+export const AccordionSummary = <C extends React.ElementType = "h3">({
   children,
-  isOpen,
-  disabled,
-  onToggle,
-  accordionId,
+  expanded,
+  handleToggle,
+  expandIcon,
+  id,
 }: AccordionProps<C>) => {
   return (
-    <button
-      type="button"
-      className="w-full bg-gray-100 p-4 text-left font-semibold transition hover:bg-gray-200"
-      onClick={onToggle}
-      aria-expanded={isOpen}
-      aria-controls={`${accordionId}-details`}
-      id={`${accordionId}-summary`}
-      disabled={disabled}
-    >
-      <span>{children}</span>
-      <span>{isOpen ? "-" : "+"}</span>
-    </button>
+    <h3>
+      <button
+        type="button"
+        className="flex w-full cursor-pointer justify-between bg-blue-100 px-4 py-3 text-left font-semibold"
+        onClick={handleToggle}
+        aria-expanded={expanded}
+        aria-controls={`${id}-details`}
+        id={`${id}-summary`}
+      >
+        <span>{children}</span>
+        <span
+          className={`mr-2 transition-transform duration-150 ease-in-out ${expanded ? "rotate-180" : ""}`}
+        >
+          {expandIcon ? expandIcon : <ChevronUp />}
+        </span>{" "}
+      </button>
+    </h3>
   );
 };

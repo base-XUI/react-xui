@@ -3,17 +3,16 @@ import { AccordionProps } from "./Accordion.types";
 
 export const AccordionDetails = <C extends React.ElementType = "div">({
   children,
-  isOpen,
-  accordionId,
+  expanded,
+  id,
 }: AccordionProps<C>) => {
-  console.log("first", isOpen, children);
   return (
     <div
-      id={`${accordionId}-details`}
+      id={`${id}-details`}
       role="region"
-      aria-labelledby={`${accordionId}-summary`}
-      className={`px-4 py-2 transition-all duration-300 ${
-        isOpen ? "block" : "hidden"
+      aria-labelledby={`${id}-summary`}
+      className={`bg-accent px-4 py-3 transition-opacity duration-300 ease-in-out ${
+        expanded ? "block opacity-100" : "hidden opacity-0"
       }`}
     >
       {children}

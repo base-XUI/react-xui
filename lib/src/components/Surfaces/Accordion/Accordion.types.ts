@@ -14,17 +14,15 @@ export type AccordionBaseProps = {
    * The content of the accordion.
    */
   children: React.ReactNode;
-    /**
-   * The Header of the accordion.
-   */
-    // title: React.ReactNode;
+  /**
+
   /**
    * If true, disables the accordion.
    */
   disabled?: boolean;
   /**
- * The icon element to display as the expand/collapse indicator.
- */
+   * The icon element to display as the expand/collapse indicator.
+   */
   expandIcon?: React.ReactNode;
   /**
    * If true, expands the accordion by default.
@@ -51,17 +49,12 @@ export type AccordionBaseProps = {
    * Additional class name(s) for custom styling.
    */
   className?: string;
-/**
- * The id of the accordion element.
- */
-  accordionId?: string;
-    // Customization props
-  titleClassName?: string;
-  contentClassName?: string;
-  icon?: React.ReactNode;
-  iconPosition?: 'left' | 'right';
-  showIcon?: boolean;
-  disableTransition?: boolean;
+  /**
+   * The id of the accordion element.
+   */
+  id?: string;
+  // Customization props
+  iconPosition?: "left" | "right";
 } & VariantProps<typeof accordionVariants>;
 
 /**

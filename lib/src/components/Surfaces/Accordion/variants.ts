@@ -2,24 +2,28 @@ import { cva } from "class-variance-authority";
 
 export const accordionVariantsConfig = {
   variants: {
-    disabled: { true: "cursor-not-allowed opacity-50 bg-gray-200" },
+    disabled: { true: "cursor-none opacity-50 bg-gray-200" },
     disableGutters: {
-      true: "p-0",
+      true: "mb-0",
     },
-        square: { true: "rounded" },   
+    square: { true: "rounded" },
+    defaultExpanded: { true: "expanded" },
+    expanded: { true: "expanded" },
     defaultVariants: {
       defaultExpanded: false,
-      expand: false,
+      expanded: false,
       disabled: false,
       disableGutters: false,
     },
   },
 };
-export const accordionVariants = cva(`transition-margin relative overflow-auto rounded-tl-[4px] rounded-tr-[4px] bg-white text-black shadow duration-150 ease-in-out }`, {
+export const accordionVariants = cva(`bg-white text-black shadow `, {
   variants: accordionVariantsConfig.variants,
   defaultVariants: {
     disabled: false,
+    defaultExpanded: false,
     disableGutters: false,
     square: false,
+    expanded: false,
   },
 });
