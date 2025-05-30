@@ -1,5 +1,3 @@
-// cypress/e2e/FormGroup.cy.tsx
-
 import { useState } from "react";
 import { FormGroup } from "./FormGroup";
 import { Checkbox } from "@/components/Checkbox";
