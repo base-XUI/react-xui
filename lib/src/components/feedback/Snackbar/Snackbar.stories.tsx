@@ -51,6 +51,14 @@ const meta: Meta<typeof SnackbarWrapper> = {
       control: "boolean",
       description: "Whether the snackbar is open",
     },
+    sx: {
+      control: "object",
+      description: "The sx prop allows you to override the default styles",
+    },
+    onClose: {
+      description:
+        "onClose callback fired when the component requests to be closed",
+    },
   },
 };
 
@@ -85,6 +93,7 @@ const WithActionComponent = (args: SnackbarProps) => {
         }
         autoHideDuration={args.autoHideDuration}
         anchorOrigin={args.anchorOrigin}
+        onClose={() => setOpen(false)}
       />
     </div>
   );
@@ -196,6 +205,7 @@ const PositionsComponent = (args: SnackbarProps) => {
         }
         autoHideDuration={args.autoHideDuration}
         anchorOrigin={{ vertical, horizontal }}
+        onClose={() => setOpen(false)}
       />
     </div>
   );
