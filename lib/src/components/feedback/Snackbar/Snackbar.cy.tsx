@@ -59,12 +59,24 @@ describe("Snackbar Component", () => {
     cy.get('[role="alert"]').should("have.class", "left-1/2");
   });
 
-  it("calls onClose when close button is clicked", () => {
+  it("calls onClose when autoHideDuration expires", () => {
     const onCloseSpy = cy.spy().as("onCloseSpy");
+    const autoHideDuration = 2000;
+
+    cy.clock();
     cy.mount(
-      <Snackbar open={true} message="Closable Snackbar" onClose={onCloseSpy} />,
+      <Snackbar
+        open={true}
+        message="Auto-hiding Snackbar"
+        onClose={onCloseSpy}
+        autoHideDuration={autoHideDuration}
+      />,
     );
-    cy.get('[aria-label="Close"]').click();
+
+    cy.get('[role="alert"]').should("be.visible");
+    cy.tick(autoHideDuration);
+    // Add a small additional tick to allow React to process the state update
+    cy.tick(50);
     cy.get("@onCloseSpy").should("have.been.called");
   });
 
