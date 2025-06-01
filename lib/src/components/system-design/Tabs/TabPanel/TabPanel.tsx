@@ -31,7 +31,6 @@ export const TabPanel: TabPanelComponent = <
   return (
     <div
       role="tabpanel"
-      aria-hidden={!isSelected}
       data-state={isSelected ? "active" : "inactive"}
       className={clsx(
         "ring-offset-background data-[state=active]:animate-in data-[state=inactive]:animate-out data-[state=inactive]:fade-out data-[state=active]:fade-in mt-2",

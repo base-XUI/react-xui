@@ -4,6 +4,8 @@ import React, {
   useContext,
   useCallback,
   useMemo,
+  KeyboardEvent,
+  SyntheticEvent,
 } from "react";
 import clsx from "clsx";
 import { TabsProps, TabsComponent } from "./Tabs.types";
@@ -18,20 +20,17 @@ type TabsContextValue = {
   textColor: "inherit" | "primary" | "secondary";
 };
 
+interface TabProps {
+  value: unknown;
+  [key: string]: any;
+}
+
 const TabsContext = createContext<TabsContextValue | undefined>(undefined);
 
 export const useTabsContext = (): TabsContextValue => {
   const ctx = useContext(TabsContext);
   if (!ctx) throw new Error("useTabsContext must be used within <Tabs />");
   return ctx;
-};
-
-const validateChildren = (children: React.ReactNode) => {
-  React.Children.forEach(children, (child) => {
-    if (!React.isValidElement(child)) {
-      throw new Error("All children of Tabs must be valid React elements");
-    }
-  });
 };
 
 export const Tabs: TabsComponent = <C extends React.ElementType = "div">({
@@ -41,82 +40,91 @@ export const Tabs: TabsComponent = <C extends React.ElementType = "div">({
   onChange,
   orientation = "horizontal",
   variant = "standard",
-  selectionFollowsFocus = false,
   indicatorColor = "primary",
   textColor = "inherit",
-  centered = false,
   className,
   "aria-label": ariaLabel,
   ...props
-}: TabsProps<C>): JSX.Element => {
-  validateChildren(children);
-
+}: TabsProps<C>) => {
   const isControlled = controlledValue !== undefined;
   const [internalValue, setInternalValue] = useState(defaultValue);
   const value = isControlled ? controlledValue : internalValue;
 
-  const childArray = React.Children.toArray(children).filter(
-    React.isValidElement,
+  const childArray = useMemo(
+    () =>
+      React.Children.toArray(children).filter(
+        React.isValidElement,
+      ) as React.ReactElement<TabProps>[],
+    [children],
   );
-  const selectedIndex = childArray.findIndex(
-    (child) => React.isValidElement(child) && child.props.value === value,
+
+  const selectedIndex = useMemo(
+    () => childArray.findIndex((child) => child.props.value === value),
+    [childArray, value],
   );
 
   const handleChange = useCallback(
-    (event: React.SyntheticEvent, newValue: unknown) => {
+    (event: SyntheticEvent | null, newValue: unknown) => {
       if (!isControlled) {
         setInternalValue(newValue);
       }
-      onChange?.(event, newValue);
+      onChange?.(event as SyntheticEvent, newValue);
     },
     [isControlled, onChange],
   );
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    const currentIndex = selectedIndex;
-    let nextIndex = currentIndex;
+  const handleKeyDown = (event: KeyboardEvent) => {
+    let nextIndex = selectedIndex;
+    const isRtl = document.dir === "rtl";
 
     switch (event.key) {
-      case "ArrowLeft":
-      case "ArrowUp":
-        nextIndex = Math.max(0, currentIndex - 1);
-        break;
-      case "ArrowRight":
-      case "ArrowDown":
-        nextIndex = Math.min(childArray.length - 1, currentIndex + 1);
-        break;
       case "Home":
         nextIndex = 0;
         break;
       case "End":
         nextIndex = childArray.length - 1;
         break;
+      case "ArrowLeft":
+        if (orientation === "horizontal") {
+          nextIndex = Math.max(0, selectedIndex + (isRtl ? 1 : -1));
+        }
+        break;
+      case "ArrowRight":
+        if (orientation === "horizontal") {
+          nextIndex = Math.min(
+            childArray.length - 1,
+            selectedIndex + (isRtl ? -1 : 1),
+          );
+        }
+        break;
+      case "ArrowUp":
+        if (orientation === "vertical") {
+          nextIndex = Math.max(0, selectedIndex - 1);
+        }
+        break;
+      case "ArrowDown":
+        if (orientation === "vertical") {
+          nextIndex = Math.min(childArray.length - 1, selectedIndex + 1);
+        }
+        break;
       default:
         return;
     }
 
-    if (
-      nextIndex !== currentIndex &&
-      React.isValidElement(childArray[nextIndex])
-    ) {
+    if (nextIndex !== selectedIndex) {
       event.preventDefault();
       handleChange(event, childArray[nextIndex].props.value);
-      if (selectionFollowsFocus) {
-        const tabElement = document.querySelector(
-          `[role="tab"][data-index="${nextIndex}"]`,
-        ) as HTMLElement;
-        tabElement?.focus();
-      }
+      const tabElement = document.querySelector(
+        `[role="tab"][data-index="${nextIndex}"]`,
+      ) as HTMLElement | null;
+      tabElement?.focus();
     }
   };
 
   const contextValue = useMemo(
     () => ({
       value,
-      setValue: (val: unknown) => {
-        const event = new Event("change") as unknown as React.SyntheticEvent;
-        handleChange(event, val);
-      },
+      setValue: (val: unknown) => handleChange(null, val),
       orientation,
       selectedIndex,
       variant,

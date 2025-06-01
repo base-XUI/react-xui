@@ -30,17 +30,14 @@ export const TabList: TabListComponent = <C extends React.ElementType = "div">({
         child instanceof HTMLElement && child.getAttribute("role") === "tab",
     );
 
-    let selectedIndex = -1;
-    tabs.forEach((tab, index) => {
-      if (
+    const selectedTab = tabs.find(
+      (tab) =>
         tab instanceof HTMLElement &&
-        tab.getAttribute("aria-selected") === "true"
-      ) {
-        selectedIndex = index;
-      }
-    });
+        tab.getAttribute("aria-selected") === "true",
+    );
 
-    if (selectedIndex >= 0 && selectedIndex < tabs.length) {
+    if (selectedTab instanceof HTMLElement) {
+      selectedTab.focus();
     }
   }, [value, orientation]);
 
