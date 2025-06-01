@@ -168,3 +168,174 @@ import { Meta } from "@storybook/blocks";
   }
   `}
 </style>
+
+<div className="sb-section">
+  <div className="sb-section-item">
+    <h2 className="sb-section-item-heading">Branching Strategy</h2>
+    <p className="sb-section-item-paragraph">
+      We follow a modified GitFlow workflow:
+    </p>
+    <ul>
+      <li>
+        <b>main</b> – Production-ready code. Feature and bug fix branches are
+        merged to the development branch first.
+      </li>
+      <li>
+        <b>development</b> – Main development branch. All feature branches merge
+        here.
+      </li>
+      <li>
+        <b>XX/feature/*</b> – New features or enhancements, prefixed with
+        owner's initials (e.g., <code>JD/feature/button-component</code> for
+        John Doe)
+      </li>
+      <li>
+        <b>XX/fix/*</b> – Bug fixes, prefixed with owner's initials (e.g.,{" "}
+        <code>JD/fix/button-focus-issue</code>)
+      </li>
+      <li>
+        <b>XX/hotfix/*</b> – Emergency fixes for production, prefixed with
+        owner's initials (e.g., <code>JD/hotfix/critical-bug</code>)
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div className="sb-section">
+  <div className="sb-section-item">
+    <h2 className="sb-section-item-heading">Development Workflow</h2>
+    <ol>
+      <li>
+        <b>Start from development:</b>
+        <pre>
+          <code>
+            {`git checkout development
+git pull origin development
+git checkout -b XX/feature/your-feature-name
+# or git checkout -b XX/fix/your-bug-fix`}
+          </code>
+        </pre>
+      </li>
+      <li>
+        <b>Make your changes:</b> Write code, tests, and documentation.
+      </li>
+      <li>
+        <b>Create a changeset</b> (for changes that should trigger a version
+        change):
+        <pre>
+          <code>pnpm changeset</code>
+        </pre>
+        <p>
+          Follow the prompts to select the package, choose the semver change,
+          and write a description.
+        </p>
+        <p>
+          Please see
+          <a href="/?path=/docs/versioning-strategy--docs">
+            VERSIONING_STRATEGY.md
+          </a>
+          for detailed information about our Versioning Strategy.
+        </p>
+      </li>
+      <li>
+        <b>Commit your changes</b> (following conventional commits):
+        <pre>
+          <code>{`git add .
+git commit -m "feat: add new button variant"`}</code>
+        </pre>
+      </li>
+      <li>
+        <b>Push your branch and open a PR to development:</b>
+        <pre>
+          <code>
+            git push -u origin XX/feature/your-feature-name # Replace XX with
+          </code>
+        </pre>
+        <ul>
+          <li>
+            Create a PR targeting the <code>development</code> branch
+          </li>
+          <li>Ensure CI checks pass</li>
+          <li>Get code review approval</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div className="sb-section">
+  <div className="sb-section-item">
+    <h2 className="sb-section-item-heading">Release Process</h2>
+    <ol>
+      <li>
+        <b>Create a PR from development to main</b>
+
+      </li>
+      <li>
+        <b>Review and merge the PR:</b>
+        <ul>
+          <li>Once the PR is approved, merge it to main</li>
+          <li>
+            The GitHub Actions workflow will:
+            <ul>
+              <li>Automatically version packages based on changesets</li>
+              <li>Update the CHANGELOG.md</li>
+              <li>Build and publish the package to npm</li>
+              <li>Create a GitHub release</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <b>After the release:</b>
+        <ul>
+          <li>All versioning is handled automatically</li>
+          <li>The changesets are consumed and removed during the process</li>
+        </ul>
+      </li>
+    </ol>
+
+  </div>
+</div>
+
+<div className="sb-section">
+  <div className="sb-section-item">
+    <h2 className="sb-section-item-heading">Hotfix Process</h2>
+    <ol>
+      <li>
+        <b>Create a hotfix branch from main:</b>
+        <pre>
+          <code>{`git checkout main
+git pull origin main
+git checkout -b XX/hotfix/critical-issue`}</code>
+        </pre>
+      </li>
+      <li>
+        <b>Make your fix and create a changeset</b>
+      </li>
+      <li>
+        <b>Push your branch and open a PR directly to main:</b>
+        <pre>
+          <code>
+            git push -u origin XX/hotfix/critical-issue # Replace XX with your
+            initials, e.g., JD for John Doe
+          </code>
+        </pre>
+      </li>
+      <li>
+        <b>Review and merge the PR:</b>
+        <ul>
+          <li>Once approved, merge to main</li>
+          <li>
+            The GitHub Actions workflow will:
+            <ul>
+              <li>Version the package based on the changeset</li>
+              <li>Build and publish the hotfix to npm</li>
+              <li>Create a GitHub release</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+</div>
