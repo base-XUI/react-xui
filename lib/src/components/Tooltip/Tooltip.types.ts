@@ -32,19 +32,20 @@ export type TooltipBaseProps = {
 
   id?: string;
 
-  slotProps?: {
-    tooltip?: object;
-    popper?: object;
-    transition?: object;
-    arrow?: object;
-  };
-
   slots?: {
     tooltip?: React.ElementType;
     popper?: React.ElementType;
     transition?: React.ElementType;
     arrow?: React.ElementType;
   };
+
+  slotProps?: {
+    tooltip?: React.HTMLAttributes<HTMLDivElement>;
+    popper?: React.HTMLAttributes<HTMLDivElement>;
+    transition?: React.HTMLAttributes<HTMLDivElement>;
+    arrow?: React.HTMLAttributes<HTMLDivElement>;
+  };
+
 
   components?: {
     Tooltip?: React.ElementType;
@@ -58,7 +59,7 @@ export type TooltipBaseProps = {
 
 export type TooltipProps<C extends React.ElementType = "span"> =
   PolymorphicComponentProp<C, TooltipBaseProps> & {
-    component?: C; 
+    component?: C;
   };
 
 export type TooltipComponent = PolymorphicComponent<TooltipBaseProps, "span">;
