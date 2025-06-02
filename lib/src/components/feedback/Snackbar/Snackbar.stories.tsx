@@ -63,50 +63,12 @@ const meta: Meta<typeof SnackbarWrapper> = {
 export default meta;
 type Story = StoryObj<typeof SnackbarWrapper>;
 
-export const Default: Story = {
+export const Basic: Story = {
   args: {
     message: "This is a default snackbar",
   },
 };
 
-// Create a proper component for WithAction story
-const WithActionComponent = (args: SnackbarProps) => {
-  const [open, setOpen] = useState(false);
-  return (
-    <div>
-      <Button onClick={() => setOpen(true)}>Open Snackbar</Button>
-      <Snackbar
-        open={open}
-        message={args.message}
-        action={
-          <div>
-            <Button
-              variant={"outlined"}
-              onClick={() => setOpen(false)}
-              size="small"
-            >
-              Undo
-            </Button>
-          </div>
-        }
-        autoHideDuration={args.autoHideDuration}
-        anchorOrigin={args.anchorOrigin}
-        onClose={() => setOpen(false)}
-      />
-    </div>
-  );
-};
-
-export const WithAction: Story = {
-  args: {
-    message: "This is a snackbar with an action",
-    anchorOrigin: { vertical: "bottom", horizontal: "left" },
-    autoHideDuration: 5000,
-  },
-  render: (args) => <WithActionComponent {...args} />,
-};
-
-// Create a proper component for Positions story
 const PositionsComponent = (args: SnackbarProps) => {
   const [open, setOpen] = useState(false);
   const [vertical, setVertical] = useState<SnackbarVerticalPosition>("top");
@@ -217,6 +179,52 @@ export const Positions: Story = {
   },
   render: (args) => <PositionsComponent {...args} />,
 };
+
+export const AutomaticDismiss: Story = {
+  args: {
+    message: "Automatic dismiss after 3s",
+    autoHideDuration: 3000,
+  },
+};
+
+// Create a proper component for WithAction story
+const WithActionComponent = (args: SnackbarProps) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div>
+      <Button onClick={() => setOpen(true)}>Open Snackbar</Button>
+      <Snackbar
+        open={open}
+        message={args.message}
+        action={
+          <div>
+            <Button
+              variant={"outlined"}
+              onClick={() => setOpen(false)}
+              size="small"
+            >
+              Undo
+            </Button>
+          </div>
+        }
+        autoHideDuration={args.autoHideDuration}
+        anchorOrigin={args.anchorOrigin}
+        onClose={() => setOpen(false)}
+      />
+    </div>
+  );
+};
+
+export const WithAction: Story = {
+  args: {
+    message: "This is a snackbar with an action",
+    anchorOrigin: { vertical: "bottom", horizontal: "left" },
+    autoHideDuration: 5000,
+  },
+  render: (args) => <WithActionComponent {...args} />,
+};
+
+// Create a proper component for Positions story
 
 export const WithCustomContent: Story = {
   args: {
