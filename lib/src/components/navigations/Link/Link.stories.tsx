@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Link } from "./Link";
 import { linkVariantsConfig } from "./variants";
+import { Button } from "@/components/inputs/Button";
 
 // Extract variant options directly from the config
 const variantOptions = Object.keys(linkVariantsConfig.variants.variant);
@@ -114,7 +115,7 @@ export const security: Story = {
 // Example of using as a different element
 export const AsButton: StoryObj = {
   args: {
-    component: "button",
+    component: Button,
     children: "Link Button",
     role: "button",
     onClick: () => {},
