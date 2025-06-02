@@ -55,7 +55,7 @@ const Accordion = <C extends React.ElementType = "div">({
 
   const content = (
     <div
-      className={`w-100 border-gray-300 ${!disableGutters && isOpen ? "my-3" : "my-0"} ${disabled ? "pointer-events-none opacity-50" : ""} ${className}`}
+      className={`w-100 border-gray-300 ${!disableGutters && isOpen ? "my-3" : "my-0"} ${className}`}
       id={id}
     >
       {React.Children.map(children, (child: any) =>

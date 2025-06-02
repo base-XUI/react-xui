@@ -1,12 +1,13 @@
 import React from "react";
-import { ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { AccordionProps } from "./Accordion.types";
 
 export const AccordionSummary = <C extends React.ElementType = "h3">({
   children,
   expanded,
   handelChange,
-  expandIcon = <ChevronUp />,
+  disabled,
+  expandIcon = <ChevronDown />,
   id,
   slots,
 }: AccordionProps<C>) => {
@@ -16,7 +17,7 @@ export const AccordionSummary = <C extends React.ElementType = "h3">({
     <Heading>
       <button
         type="button"
-        className="flex w-full cursor-pointer justify-between bg-blue-100 px-4 py-3 text-left font-semibold"
+        className={`flex w-full ${disabled ? "cursor-default opacity-50" : "cursor-pointer"} justify-between bg-blue-100 px-4 py-3 text-left font-semibold`}
         onClick={handelChange}
         aria-expanded={expanded}
         aria-controls={`${id}-details`}
@@ -24,7 +25,7 @@ export const AccordionSummary = <C extends React.ElementType = "h3">({
       >
         <span>{children}</span>
         <span
-          className={`mr-2 transition-transform duration-150 ease-in-out ${
+          className={`mr-2 transition-transform ${
             expanded ? "rotate-180" : ""
           }`}
         >

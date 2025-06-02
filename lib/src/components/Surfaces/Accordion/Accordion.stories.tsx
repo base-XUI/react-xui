@@ -5,7 +5,7 @@ import { Accordion } from "./Accordion";
 import { AccordionSummary } from "./AccordionSummary";
 import { AccordionDetails } from "./AccordionDetails";
 import { Typography } from "@/components/system-design/Typography";
-import { ArrowUp } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 
 const meta = {
   title: "Surfaces/Accordion",
@@ -95,7 +95,7 @@ const meta = {
     },
 
     square: {
-      description: "If true, the accordion will have square corners.",
+      description: "If true, the accordion will remove square corners.",
       control: "boolean",
       table: {
         type: { summary: "boolean" },
@@ -123,7 +123,7 @@ const meta = {
     children: "Accordion",
     onChange: fn(),
   },
-  render: ({ expanded, expandIcon, slots, ...args }) => (
+  render: ({ expanded, expandIcon, ...args }) => (
     <>
       {Array.from([1, 2, 3], (index) => (
         <Accordion
@@ -172,7 +172,7 @@ export const Disabled: Story = {
 };
 export const ExpandedIcon: Story = {
   args: {
-    expandIcon: <ArrowUp />,
+    expandIcon: <ArrowDown />,
   },
 };
 // DisableGutters variant
@@ -183,7 +183,7 @@ export const DisableGutters: Story = {
   },
 };
 export const Controlled: Story = {
-  args: {},
+  args: { expanded: true },
   render: (args) => {
     function ControlledAccordion(props: typeof args) {
       const [expanded, setExpanded] = React.useState<string | false>(false);

@@ -11,9 +11,7 @@ export const AccordionDetails = <C extends React.ElementType = "div">({
       id={`${id}-details`}
       role="region"
       aria-labelledby={`${id}-summary`}
-      className={`bg-accent px-4 py-3 transition-opacity duration-300 ease-in-out ${
-        expanded ? "block opacity-100" : "hidden opacity-0"
-      }`}
+      className={`px-4 py-3 ${expanded ? "accordion" : "accordion-up"}`}
     >
       {children}
     </div>

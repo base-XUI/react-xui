@@ -24,6 +24,7 @@ export default defineConfig((): UserConfig => {
           "class-variance-authority",
           "clsx",
           "tailwind-merge",
+          "lucide-react"
         ],
         output: [
           {
@@ -45,6 +46,8 @@ export default defineConfig((): UserConfig => {
               "class-variance-authority": "cva",
               clsx: "clsx",
               "tailwind-merge": "twMerge",
+
+
             },
           },
         ],
