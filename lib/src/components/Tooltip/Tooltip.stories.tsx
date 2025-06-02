@@ -124,9 +124,9 @@ const meta: Meta<typeof Tooltip> = {
   args: {
     onClick: fn(),
     title: "Tooltip text",
-    placement: "top",
-    arrow: true,
-    color: "primary",
+    placement: tooltipVariantsConfig.defaultVariants.placement,
+    arrow: tooltipVariantsConfig.defaultVariants.arrow,
+    color: tooltipVariantsConfig.defaultVariants.color,
     component: "span",
     children: <span className="rounded border p-2">Hover me</span>,
   },
@@ -139,16 +139,16 @@ type Story = StoryObj<typeof Tooltip>;
 export const Basic: Story = {
   args: {
     title: "Tooltip text",
-    placement: "top",
-    color: "primary",
-    arrow: true,
+    placement: tooltipVariantsConfig.defaultVariants.placement,
+    color: tooltipVariantsConfig.defaultVariants.color,
+    arrow: tooltipVariantsConfig.defaultVariants.arrow,
     disabled: false,
-    disableInteractive: false,
+    disableInteractive: tooltipVariantsConfig.defaultVariants.disableInteractive,
     disableFocusListener: false,
     disableHoverListener: false,
     disableTouchListener: false,
     followCursor: false,
-    enterDelay: 1000,
+    enterDelay: 100,
     enterNextDelay: 1000,
     enterTouchDelay: 700,
     leaveDelay: 1000,
@@ -160,8 +160,8 @@ export const Basic: Story = {
 
 export const AllPlacements: Story = {
   args: {
-    arrow: true,
-    disableInteractive: false,
+    arrow: tooltipVariantsConfig.defaultVariants.arrow,
+    disableInteractive: tooltipVariantsConfig.defaultVariants.disableInteractive,
     disabled: false,
   },
   render: (args) => (
