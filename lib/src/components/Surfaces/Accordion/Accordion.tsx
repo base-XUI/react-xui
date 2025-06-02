@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { cn } from "@/utils/cn";
 import { adaptPropsForA11y } from "@/utils/a11y";
 import { AccordionProps } from "./Accordion.types";
@@ -15,43 +15,56 @@ const Accordion = <C extends React.ElementType = "div">({
   square,
   onChange,
   id,
+  slots,
   ref,
   ...rest
 }: AccordionProps<C>) => {
   const Component = component || "div";
-  // const [internalExpanded, setInternalExpanded] = useState(defaultExpanded);
+  //check if state is controlled or uncontrolled
+  const isControlled = expanded !== undefined;
 
-  // const isControlled = expanded !== undefined;
+  const [isExpanded, setIsExpanded] = React.useState<boolean>(defaultExpanded);
+  // const isOpen = isControlled ? expanded : isExpanded;
+  // Support both boolean and string for expanded
+  let isOpen: boolean;
+  if (isControlled) {
+    if (typeof expanded === "boolean") {
+      isOpen = expanded;
+    } else if (typeof expanded === "string") {
+      isOpen = expanded === id;
+    } else {
+      isOpen = false;
+    }
+  } else {
+    isOpen = isExpanded;
+  }
 
-  // const isOpen = isControlled ? expanded : internalExpanded;
-
-  // const handleToggle = (event: React.MouseEvent) => {
-  //   console.log("defaultExpanded5555", defaultExpanded, expanded, isOpen);
-  //   if (disabled) return;
-  //   const newExpanded = !isOpen;
-  //   if (!isControlled) {
-  //     setInternalExpanded(newExpanded);
-  //   }
-
-  //   onChange?.(event, newExpanded);
-  // };
-  const [isExpanded, setIsExpanded] = React.useState(defaultExpanded);
-
-  const handleExpansion = () => {
-    setIsExpanded((prevExpanded) => !prevExpanded);
+  const handleExpansion = (event: React.SyntheticEvent) => {
+    if (disabled) return;
+    if (isControlled) {
+      if (typeof expanded === "string") {
+        // Pass the next expanded value (panel id or false)
+        onChange?.(event, expanded === id ? false : true);
+      } else {
+        onChange?.(event, !expanded);
+      }
+    } else {
+      setIsExpanded((prev) => (onChange?.(event, !prev), !prev));
+    }
   };
 
   const content = (
     <div
-      className={`w-100 border-gray-300 ${!disableGutters && (isExpanded || defaultExpanded) ? "my-3" : "my-0"} ${disabled ? "pointer-events-none opacity-50" : ""} ${className}`}
+      className={`w-100 border-gray-300 ${!disableGutters && isOpen ? "my-3" : "my-0"} ${disabled ? "pointer-events-none opacity-50" : ""} ${className}`}
       id={id}
     >
       {React.Children.map(children, (child: any) =>
         React.cloneElement(child, {
-          expanded: isExpanded,
-          handleToggle: handleExpansion,
+          expanded: isOpen,
+          handelChange: handleExpansion,
           disabled,
-          accordionId: id,
+          id,
+          slots,
         }),
       )}
     </div>
@@ -68,7 +81,7 @@ const Accordion = <C extends React.ElementType = "div">({
       ref={ref}
       className={cn(
         accordionVariants({
-          expanded: isExpanded,
+          expanded: isOpen,
           disabled,
           disableGutters,
           square,

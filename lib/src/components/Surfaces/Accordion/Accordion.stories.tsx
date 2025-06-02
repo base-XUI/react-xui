@@ -1,18 +1,22 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import { Accordion } from "./Accordion";
 import { AccordionSummary } from "./AccordionSummary";
 import { AccordionDetails } from "./AccordionDetails";
 import { Typography } from "@/components/system-design/Typography";
+import { ArrowUp } from "lucide-react";
 
 const meta = {
   title: "Surfaces/Accordion",
   component: Accordion,
   subcomponents: { AccordionSummary, AccordionDetails }, // Add AccordionSummary and AccordionDetails components
-
   parameters: {
     layout: "centered",
     docs: {
+      toc: {
+        title: "Contents",
+      },
       description: {
         component:
           "A vertically stacked set of interactive headings that each reveal a section of content.",
@@ -84,7 +88,7 @@ const meta = {
     expandIcon: {
       description:
         "The icon element to display as the expand/collapse indicator.",
-      control: "text",
+      control: "object",
       table: {
         type: { summary: "node" },
       },
@@ -106,13 +110,20 @@ const meta = {
         defaultValue: { summary: "false" },
       },
     },
+    slots: {
+      description: "Slot overrides for internal components like heading",
+      control: false,
+      table: {
+        type: { summary: "{ heading?: { component?: React.ElementType } }" },
+      },
+    },
   },
 
   args: {
     children: "Accordion",
     onChange: fn(),
   },
-  render: ({ expandIcon, ...args }) => (
+  render: ({ expanded, expandIcon, slots, ...args }) => (
     <>
       {Array.from([1, 2, 3], (index) => (
         <Accordion
@@ -121,7 +132,12 @@ const meta = {
           defaultExpanded={args.defaultExpanded && index === 1}
           disabled={args.disabled && index === 3}
         >
-          <AccordionSummary expandIcon={expandIcon} id={`pane${index}-summary`}>
+          <AccordionSummary
+            expandIcon={
+              expandIcon !== undefined && index === 1 ? expandIcon : undefined
+            }
+            id={`panel${index}-summary`}
+          >
             <Typography component="span" variant="body3">
               Accordion{index}
             </Typography>
@@ -147,10 +163,16 @@ export const DefaultExpanded: Story = {
     defaultExpanded: true,
   },
 };
+
 // Disabled variant
 export const Disabled: Story = {
   args: {
     disabled: true,
+  },
+};
+export const ExpandedIcon: Story = {
+  args: {
+    expandIcon: <ArrowUp />,
   },
 };
 // DisableGutters variant
@@ -160,13 +182,45 @@ export const DisableGutters: Story = {
     defaultExpanded: true,
   },
 };
-// Controlled variant
 export const Controlled: Story = {
-  //still in coding
-  args: {
-    expanded: true,
+  args: {},
+  render: (args) => {
+    function ControlledAccordion(props: typeof args) {
+      const [expanded, setExpanded] = React.useState<string | false>(false);
+
+      const handleChange =
+        (panel: string) =>
+        (event: React.SyntheticEvent, isExpanded: boolean) => {
+          setExpanded(
+            () => (
+              props?.onChange?.(event, isExpanded), isExpanded ? panel : false
+            ),
+          );
+        };
+
+      return Array.from([1, 2, 3], (index) => (
+        <Accordion
+          expanded={expanded === `panel${index}`}
+          onChange={handleChange(`panel${index}`)}
+        >
+          <AccordionSummary
+            aria-controls={`panel${index}-content`}
+            id={`panel${index}-summary`}
+          >
+            <Typography component="span" variant="body3">
+              Accordion{index}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            this is content of accordion {index}
+          </AccordionDetails>
+        </Accordion>
+      ));
+    }
+    return <ControlledAccordion {...args} />;
   },
 };
+
 // Squared variant
 export const Squared: Story = {
   args: {

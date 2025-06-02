@@ -32,7 +32,7 @@ export type AccordionBaseProps = {
    * Callback fired when the accordion is expanded/collapsed.
    *  Uncontrolled mode
    */
-  onChange?: (event: React.MouseEvent, expanded: boolean) => void;
+  onChange?: (event: React.SyntheticEvent, expanded: boolean) => void;
   /**
    * If true, removes the default gutters (padding) from the accordion.
    */
@@ -53,7 +53,9 @@ export type AccordionBaseProps = {
    * The id of the accordion element.
    */
   id?: string;
-  // Customization props
+  slots?: {
+    heading?: { component?: React.ElementType };
+  };
   iconPosition?: "left" | "right";
 } & VariantProps<typeof accordionVariants>;
 
