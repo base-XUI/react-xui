@@ -36,7 +36,6 @@ describe("Snackbar Component", () => {
   });
 
   it("renders at different positions", () => {
-    // Top-right
     cy.mount(
       <Snackbar
         open={true}
@@ -47,7 +46,6 @@ describe("Snackbar Component", () => {
     cy.get('[role="alert"]').should("have.class", "top-4");
     cy.get('[role="alert"]').should("have.class", "right-4");
 
-    // Bottom-center
     cy.mount(
       <Snackbar
         open={true}
@@ -75,7 +73,6 @@ describe("Snackbar Component", () => {
 
     cy.get('[role="alert"]').should("be.visible");
     cy.tick(autoHideDuration);
-    // Add a small additional tick to allow React to process the state update
     cy.tick(50);
     cy.get("@onCloseSpy").should("have.been.called");
   });

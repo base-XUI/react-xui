@@ -4,9 +4,6 @@ import { SnackbarProps } from "./Snackbar.types";
 import { getPositionClasses } from "./variants";
 import { SnackbarContent } from "./_SnackbarContent";
 
-/**
- * Snackbar component for displaying brief notifications
- */
 export const Snackbar: React.FC<SnackbarProps> = ({
   action,
   message,
@@ -19,7 +16,6 @@ export const Snackbar: React.FC<SnackbarProps> = ({
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
-  // Handle auto-hide functionality
   useEffect(() => {
     if (open) {
       setIsVisible(true);
@@ -37,10 +33,8 @@ export const Snackbar: React.FC<SnackbarProps> = ({
     }
   }, [open, autoHideDuration, onClose]);
 
-  // If not open and not in transition, don't render
   if (!open && !isVisible) return null;
 
-  // Get position classes based on anchorOrigin
   const positionClasses = getPositionClasses(anchorOrigin);
 
   return (
@@ -52,7 +46,6 @@ export const Snackbar: React.FC<SnackbarProps> = ({
       )}
       role="alert"
     >
-      {/* Content */}
       <SnackbarContent action={action} message={message}>
         {children}
       </SnackbarContent>
