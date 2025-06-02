@@ -1,36 +1,30 @@
-import * as React from "react";
+import { ElementType, ComponentPropsWithoutRef } from "react";
 
-// Base card component props
-export interface CardProps extends React.ComponentProps<"div"> {
-  variant?: CardVariant;
-  size?: CardSize;
-  disabled?: boolean;
-  clickable?: boolean;
-}
+export type PolymorphicComponentsProp<E extends ElementType> = {
+  component?: E;
+};
 
-export type CardHeaderProps = React.ComponentProps<"div">;
-export type CardTitleProps = React.ComponentProps<"div">;
-export type CardDescriptionProps = React.ComponentProps<"div">
-export type CardActionProps = React.ComponentProps<"div">
-export type CardContentProps = React.ComponentProps<"div">
-export type CardFooterProps = React.ComponentProps<"div">
+export type PolymorphicProps<E extends ElementType> =
+  PolymorphicComponentsProp<E> & ComponentPropsWithoutRef<E>;
 
-export type CardVariant =
-  | "default"
-  | "outlined"
-  | "elevated"
-  | "ghost"
-  | "bordered";
+// The full polymorphic component props
+export type CardProps<E extends ElementType = "div"> = PolymorphicProps<E>;
+export type CardHeaderProps<E extends ElementType = "div"> =
+  PolymorphicProps<E>;
+export type CardTitleProps<E extends ElementType = "h3"> = PolymorphicProps<E>;
+export type CardActionProps<E extends ElementType = "div"> =
+  PolymorphicProps<E>;
+export type CardContentProps<E extends ElementType = "div"> =
+  PolymorphicProps<E>;
+export type CardFooterProps<E extends ElementType = "div"> =
+  PolymorphicProps<E>;
 
-export type CardSize = "xs" | "sm" | "md" | "lg" | "xl";
-
-export type CardOrientation = "vertical" | "horizontal";
+// export type CardSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 export type CardSlot =
   | "card"
   | "card-header"
   | "card-title"
-  | "card-description"
   | "card-action"
   | "card-content"
   | "card-footer";
