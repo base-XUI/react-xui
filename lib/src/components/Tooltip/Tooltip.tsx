@@ -136,7 +136,7 @@ const TooltipInner = <C extends React.ElementType = "span">(
     ? {
       position: "fixed",
       top: cursorPos.y + 10,
-      left: cursorPos.x + 10,
+      left: cursorPos.x + 3,
       transform: "none",
     }
     : undefined;
