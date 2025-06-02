@@ -27,7 +27,12 @@ export const Tab: TabComponent = <C extends React.ElementType = "button">({
   className,
   ...props
 }: TabProps<C>) => {
-  const { value: selectedValue, setValue, orientation } = useTabsContext();
+  const {
+    value: selectedValue,
+    setValue,
+    orientation,
+    variant,
+  } = useTabsContext();
   const isSelected = value === selectedValue;
 
   return (
@@ -35,6 +40,7 @@ export const Tab: TabComponent = <C extends React.ElementType = "button">({
       type="button"
       role="tab"
       aria-selected={isSelected}
+      aria-disabled={disabled ? "true" : undefined}
       disabled={disabled}
       onClick={() => setValue(value)}
       data-state={isSelected ? "active" : "inactive"}
@@ -45,6 +51,7 @@ export const Tab: TabComponent = <C extends React.ElementType = "button">({
         "disabled:pointer-events-none disabled:opacity-50",
         "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow",
         orientation === "vertical" && "w-full justify-start",
+        variant === "fullWidth" && "flex-1",
         className,
       )}
       tabIndex={isSelected ? 0 : -1}

@@ -26,12 +26,11 @@ export const TabPanel: TabPanelComponent = <
   const { value: selectedValue } = useTabsContext();
   const isSelected = value === selectedValue;
 
-  if (!isSelected) return null;
-
   return (
     <div
       role="tabpanel"
       data-state={isSelected ? "active" : "inactive"}
+      hidden={!isSelected}
       className={clsx(
         "ring-offset-background data-[state=active]:animate-in data-[state=inactive]:animate-out data-[state=inactive]:fade-out data-[state=active]:fade-in mt-2",
         "focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
