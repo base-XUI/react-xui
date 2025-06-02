@@ -47,7 +47,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   return (
     <div
       className={cn(
-        "fixed z-50 flex max-w-md min-w-[300px] items-center rounded-md bg-white text-black shadow-md",
+        "fixed z-50 flex max-w-md min-w-[356px] items-center rounded-md bg-white text-black shadow-lg",
         positionClasses,
         className,
       )}

@@ -7,6 +7,7 @@ import {
   SnackbarVerticalPosition,
   SnackbarHorizontalPosition,
 } from "./Snackbar.types";
+import { Typography } from "@/components/system-design/Typography";
 
 const SnackbarWrapper = (props: SnackbarProps) => {
   const { open = false, ...snackbarProps } = props;
@@ -222,12 +223,13 @@ export const Positions: Story = {
 
 export const WithCustomContent: Story = {
   args: {
+    action: <Button size={"small"}>Undo</Button>,
     children: (
       <div className="flex flex-col">
-        <span className="font-bold">Custom Content</span>
-        <span className="text-sm">
-          This snackbar has custom content instead of a message
-        </span>
+        <Typography variant={"subtitle2"}>Event has been created</Typography>
+        <Typography variant={"caption"} color={"muted-foreground"}>
+          Sunday, December 03, 2023 at 9:00 AM
+        </Typography>
       </div>
     ),
   },
