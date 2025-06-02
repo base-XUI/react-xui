@@ -19,7 +19,6 @@ const TooltipInner = <C extends React.ElementType = "span">(
   });
 
   const {
-    component: as,
     children,
     title,
     arrow = true,
@@ -46,7 +45,7 @@ const TooltipInner = <C extends React.ElementType = "span">(
     ...rest
   } = props;
 
-  const Component = (as ?? "span") as React.ElementType;
+  const Component = (props.component ?? "span") as React.ElementType;
   const TooltipBox = slots.tooltip ?? components.Tooltip ?? "div";
   const tooltipId = id ?? `tooltip-${Math.random().toString(36).slice(2, 8)}`;
 
