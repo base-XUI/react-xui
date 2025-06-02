@@ -13,16 +13,16 @@ export type SnackbarHorizontalPosition = "left" | "center" | "right";
 /**
  * Anchor origin for the Snackbar position
  */
-export interface SnackbarAnchorOrigin {
+export type SnackbarAnchorOrigin = {
   vertical: SnackbarVerticalPosition;
   horizontal: SnackbarHorizontalPosition;
-}
+};
 
 /**
  * Props for the Snackbar component
  */
 
-export interface SnackbarContentProps {
+export type SnackbarContentProps = {
   /**
    * Action component to display after the message
    */
@@ -37,9 +37,9 @@ export interface SnackbarContentProps {
    * Children to render if no message is provided
    */
   children?: ReactNode;
-}
+};
 
-export interface SnackbarProps {
+export type SnackbarProps = {
   /**
    * Action component to display after the message
    */
@@ -81,4 +81,4 @@ export interface SnackbarProps {
    * Additional CSS class names
    */
   className?: string;
-}
+};
