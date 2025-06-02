@@ -1,4 +1,5 @@
 import { SnackbarAnchorOrigin } from "./Snackbar.types";
+import { cn } from "@/utils/cn";
 
 // Get position classes based on anchorOrigin
 const getPositionClasses = (anchorOrigin: SnackbarAnchorOrigin): string => {
@@ -15,7 +16,7 @@ const getPositionClasses = (anchorOrigin: SnackbarAnchorOrigin): string => {
     right: "right-4",
   };
 
-  return `${verticalClasses[vertical]} ${horizontalClasses[horizontal]}`;
+  return cn(verticalClasses[vertical], horizontalClasses[horizontal]);
 };
 
 export { getPositionClasses };
