@@ -180,7 +180,7 @@ const TooltipInner = <C extends React.ElementType = "span">(
           data-placement={placement}
           aria-live={disableInteractive ? "polite" : undefined}
           className={cn(
-            "p-[7px] whitespace-nowrap",
+            "p-[5px] whitespace-nowrap",
             tooltipVariants({ arrow, placement, disableInteractive, color })
           )}
           style={followCursorStyle}

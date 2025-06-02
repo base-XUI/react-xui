@@ -46,9 +46,6 @@ export type TooltipBaseProps = {
     arrow?: React.ElementType;
   };
 
-  /**
-   * @deprecated Use `slots` instead. This will be removed in a future release.
-   */
   components?: {
     Tooltip?: React.ElementType;
     Popper?: React.ElementType;
@@ -61,7 +58,7 @@ export type TooltipBaseProps = {
 
 export type TooltipProps<C extends React.ElementType = "span"> =
   PolymorphicComponentProp<C, TooltipBaseProps> & {
-    component?: C; // explicitly support `component` prop in addition to `as`
+    component?: C; 
   };
 
 export type TooltipComponent = PolymorphicComponent<TooltipBaseProps, "span">;
