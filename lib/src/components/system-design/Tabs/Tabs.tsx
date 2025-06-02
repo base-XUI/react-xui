@@ -10,7 +10,7 @@ import React, {
 import clsx from "clsx";
 import { TabsProps, TabsComponent } from "./Tabs.types";
 
-type TabsContextValue = {
+export type TabsContextValue = {
   value: unknown;
   setValue: (val: unknown) => void;
   orientation: "horizontal" | "vertical";
@@ -20,7 +20,7 @@ type TabsContextValue = {
   textColor: "inherit" | "primary" | "secondary";
 };
 
-interface TabProps {
+export interface TabProps {
   value: unknown;
   [key: string]: any;
 }
@@ -73,53 +73,64 @@ export const Tabs: TabsComponent = <C extends React.ElementType = "div">({
     [isControlled, onChange],
   );
 
-  const handleKeyDown = (event: KeyboardEvent) => {
-    let nextIndex = selectedIndex;
-    const isRtl = document.dir === "rtl";
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      let nextIndex = selectedIndex;
+      const isRtl = document.dir === "rtl";
+      const tabCount = childArray.length;
 
-    switch (event.key) {
-      case "Home":
-        nextIndex = 0;
-        break;
-      case "End":
-        nextIndex = childArray.length - 1;
-        break;
-      case "ArrowLeft":
-        if (orientation === "horizontal") {
-          nextIndex = Math.max(0, selectedIndex + (isRtl ? 1 : -1));
-        }
-        break;
-      case "ArrowRight":
-        if (orientation === "horizontal") {
-          nextIndex = Math.min(
-            childArray.length - 1,
-            selectedIndex + (isRtl ? -1 : 1),
-          );
-        }
-        break;
-      case "ArrowUp":
-        if (orientation === "vertical") {
-          nextIndex = Math.max(0, selectedIndex - 1);
-        }
-        break;
-      case "ArrowDown":
-        if (orientation === "vertical") {
-          nextIndex = Math.min(childArray.length - 1, selectedIndex + 1);
-        }
-        break;
-      default:
-        return;
-    }
+      switch (event.key) {
+        case "Home":
+          nextIndex = 0;
+          break;
+        case "End":
+          nextIndex = tabCount - 1;
+          break;
+        case "ArrowLeft":
+          if (orientation === "horizontal") {
+            nextIndex = Math.max(0, selectedIndex + (isRtl ? 1 : -1));
+          }
+          break;
+        case "ArrowRight":
+          if (orientation === "horizontal") {
+            nextIndex = Math.min(
+              tabCount - 1,
+              selectedIndex + (isRtl ? -1 : 1),
+            );
+          }
+          break;
+        case "ArrowUp":
+          if (orientation === "vertical") {
+            nextIndex = Math.max(0, selectedIndex - 1);
+          }
+          break;
+        case "ArrowDown":
+          if (orientation === "vertical") {
+            nextIndex = Math.min(tabCount - 1, selectedIndex + 1);
+          }
+          break;
+        default:
+          return;
+      }
 
-    if (nextIndex !== selectedIndex) {
-      event.preventDefault();
-      handleChange(event, childArray[nextIndex].props.value);
-      const tabElement = document.querySelector(
-        `[role="tab"][data-index="${nextIndex}"]`,
-      ) as HTMLElement | null;
-      tabElement?.focus();
-    }
-  };
+      if (
+        nextIndex !== selectedIndex &&
+        nextIndex >= 0 &&
+        nextIndex < tabCount
+      ) {
+        event.preventDefault();
+        handleChange(event, childArray[nextIndex].props.value);
+
+        requestAnimationFrame(() => {
+          const tabElement = document.querySelector(
+            `[role="tab"][data-index="${nextIndex}"]`,
+          ) as HTMLElement | null;
+          tabElement?.focus();
+        });
+      }
+    },
+    [childArray, handleChange, orientation, selectedIndex],
+  );
 
   const contextValue = useMemo(
     () => ({

@@ -3,6 +3,7 @@ import { Tabs } from "./Tabs";
 import { Tab } from "./Tab/Tab";
 import { TabList } from "./TabList/TabList";
 import { TabPanel } from "./TabPanel/TabPanel";
+import { Home, User, Settings } from "lucide-react";
 
 const meta: Meta<typeof Tabs> = {
   title: "System Design/Tabs",
@@ -113,7 +114,7 @@ export const TabVariants: Story = {
       <Tabs defaultValue={0}>
         <TabList>
           <Tab value={0}>Standard Tab</Tab>
-          <Tab value={1} icon={<span>🏠</span>}>
+          <Tab value={1} icon={<Home className="h-4 w-4" />}>
             With Icon
           </Tab>
           <Tab value={2} disabled>
@@ -175,13 +176,13 @@ export const InteractiveExample: Story = {
   render: () => (
     <Tabs defaultValue={0}>
       <TabList>
-        <Tab value={0} icon={<span>🏠</span>}>
+        <Tab value={0} icon={<Home className="h-4 w-4" />}>
           Home
         </Tab>
-        <Tab value={1} icon={<span>👤</span>}>
+        <Tab value={1} icon={<User className="h-4 w-4" />}>
           Profile
         </Tab>
-        <Tab value={2} icon={<span>⚙️</span>}>
+        <Tab value={2} icon={<Settings className="h-4 w-4" />}>
           Settings
         </Tab>
       </TabList>
