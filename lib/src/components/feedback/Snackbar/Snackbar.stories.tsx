@@ -52,10 +52,7 @@ const meta: Meta<typeof SnackbarWrapper> = {
       control: "boolean",
       description: "Whether the snackbar is open",
     },
-    sx: {
-      control: "object",
-      description: "The sx prop allows you to override the default styles",
-    },
+
     onClose: {
       description:
         "onClose callback fired when the component requests to be closed",

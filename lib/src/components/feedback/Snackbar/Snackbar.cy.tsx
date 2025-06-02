@@ -85,18 +85,6 @@ describe("Snackbar Component", () => {
     cy.get('[role="alert"]').should("not.exist");
   });
 
-  it("applies custom styles", () => {
-    cy.mount(
-      <Snackbar
-        open={true}
-        message="Custom Styled Snackbar"
-        sx={{ borderWidth: "3px", borderStyle: "dashed" }}
-      />,
-    );
-    cy.get('[role="alert"]').should("have.css", "border-width", "3px");
-    cy.get('[role="alert"]').should("have.css", "border-style", "dashed");
-  });
-
   it("applies custom className", () => {
     cy.mount(
       <Snackbar

@@ -9,14 +9,12 @@ export const SnackbarContent: React.FC<SnackbarContentProps> = ({
   action,
   message,
   children,
-  sx,
 }) => {
   // Get the icon based on severity or custom icon
 
   return (
     <div
       className={cn("flex w-full items-center rounded-md p-4")}
-      style={{ ...sx }}
       role="alert"
     >
       {/* Content */}

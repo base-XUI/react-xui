@@ -37,11 +37,6 @@ export interface SnackbarContentProps {
    * Children to render if no message is provided
    */
   children?: ReactNode;
-
-  /**
-   * Custom inline styles
-   */
-  sx?: CSSProperties;
 }
 
 export interface SnackbarProps {
@@ -71,11 +66,6 @@ export interface SnackbarProps {
    * @default  vertical: 'bottom', horizontal: 'left'
    */
   anchorOrigin?: SnackbarAnchorOrigin;
-
-  /**
-   * Custom inline styles
-   */
-  sx?: CSSProperties;
 
   /**
    * Callback fired when the Snackbar is closed
