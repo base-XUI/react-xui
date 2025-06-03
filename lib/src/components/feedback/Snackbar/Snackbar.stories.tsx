@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { Snackbar } from "./Snackbar";
+import { SnackbarContent } from "./SnackbarContent";
 import { Button } from "@/components/inputs/Button";
 import {
   SnackbarProps,
@@ -238,4 +239,34 @@ export const WithCustomContent: Story = {
       </div>
     ),
   },
+};
+
+const action = (
+  <Button size="small" variant={"text"}>
+    Action
+  </Button>
+);
+
+export const Snackbar_Content: Story = {
+  args: {
+    message: "This is a top-right positioned snackbar",
+  },
+  render: (args) => (
+    <div className="grid gap-6">
+      <SnackbarContent message="I love snacks." action={action} />
+      <SnackbarContent
+        message={`I love candy. I love cookies. I love cupcakes. \
+          I love cheesecake. I love chocolate.`}
+      />
+      <SnackbarContent
+        message="I love candy. I love cookies. I love cupcakes."
+        action={action}
+      />
+      <SnackbarContent
+        message={`I love candy. I love cookies. I love cupcakes. \
+          I love cheesecake. I love chocolate.`}
+        action={action}
+      />
+    </div>
+  ),
 };

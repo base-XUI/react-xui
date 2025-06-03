@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { cn } from "@/utils/cn";
 import { SnackbarProps } from "./Snackbar.types";
 import { getPositionClasses } from "./variants";
-import { SnackbarContent } from "./_SnackbarContent";
+import { SnackbarContent } from "./SnackbarContent";
 
 export const Snackbar: React.FC<SnackbarProps> = ({
   action,
@@ -40,7 +40,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   return (
     <div
       className={cn(
-        "fixed z-50 flex max-w-md min-w-[356px] items-center rounded-md bg-white text-black shadow-lg",
+        "fixed z-50 flex max-w-md min-w-[356px] items-center rounded-md bg-white text-black",
         positionClasses,
         className,
       )}
