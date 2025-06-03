@@ -117,6 +117,20 @@ const meta = {
         type: { summary: "{ heading?: { component?: React.ElementType } }" },
       },
     },
+    className: {
+      description: "Override or extend the styles applied to the component.",
+      control: "text",
+    },
+    summaryClassName: {
+      description:
+        "Override or extend the styles applied to the Summary component (button).",
+      control: "text",
+    },
+    detailsClassName: {
+      description:
+        "Override or extend the styles applied to the Details component.",
+      control: "text",
+    },
   },
 
   args: {
@@ -184,8 +198,11 @@ export const DisableGutters: Story = {
 };
 export const Controlled: Story = {
   args: { expanded: true },
-  render: (args) => {
-    function ControlledAccordion(props: typeof args) {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+         const Controlled=(props: typeof args) =>{
       const [expanded, setExpanded] = React.useState<string | false>(false);
 
       const handleChange =
@@ -200,12 +217,12 @@ export const Controlled: Story = {
 
       return Array.from([1, 2, 3], (index) => (
         <Accordion
-          expanded={expanded === `panel${index}`}
-          onChange={handleChange(`panel${index}`)}
+          expanded={expanded === panel{index}}
+          onChange={handleChange(panel{index})}
         >
           <AccordionSummary
-            aria-controls={`panel${index}-content`}
-            id={`panel${index}-summary`}
+            aria-controls={panel{index}-content}
+            id={panel{index}-summary}
           >
             <Typography component="span" variant="body3">
               Accordion{index}
@@ -215,10 +232,53 @@ export const Controlled: Story = {
             this is content of accordion {index}
           </AccordionDetails>
         </Accordion>
-      ));
-    }
-    return <ControlledAccordion {...args} />;
+      ))
+    }`,
+        language: "tsx",
+        type: "code",
+      },
+    },
   },
+  render: () => <ControlledComponent />,
+};
+
+const ControlledComponent = (props: any) => {
+  const [expanded, setExpanded] = React.useState<string | false>(false);
+
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(() => {
+        props?.onChange?.(event, isExpanded);
+        return isExpanded ? panel : false;
+      });
+    };
+
+  return (
+    <>
+      {Array.from([1, 2, 3], (index) => {
+        const panel = `panel${index}`;
+        return (
+          <Accordion
+            key={panel}
+            expanded={expanded === panel}
+            onChange={handleChange(panel)}
+          >
+            <AccordionSummary
+              aria-controls={`${panel}-content`}
+              id={`${panel}-summary`}
+            >
+              <Typography component="span" variant="body3">
+                Accordion{index}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              this is content of accordion {index}
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
+    </>
+  );
 };
 
 // Squared variant

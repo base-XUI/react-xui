@@ -1,6 +1,6 @@
 import React from "react";
 import { cn } from "@/utils/cn";
-import { adaptPropsForA11y } from "@/utils/a11y";
+// import { adaptPropsForA11y } from "@/utils/a11y";
 import { AccordionProps } from "./Accordion.types";
 import { accordionVariants } from "./variants";
 
@@ -24,39 +24,37 @@ const Accordion = <C extends React.ElementType = "div">({
   const isControlled = expanded !== undefined;
 
   const [isExpanded, setIsExpanded] = React.useState<boolean>(defaultExpanded);
-  const isOpen = isControlled ? expanded : isExpanded;
   // Support both boolean and string for expanded
-  // let isOpen: boolean;
-  // if (isControlled) {
-  //   if (typeof expanded === "boolean") {
-  //     isOpen = expanded;
-  //   } else if (typeof expanded === "string") {
-  //     isOpen = expanded === id;
-  //   } else {
-  //     isOpen = false;
-  //   }
-  // } else {
-  //   isOpen = isExpanded;
-  // }
-
-  const handleExpansion =
-    (panel: string | boolean) => (event: React.SyntheticEvent) => {
-      if (disabled) return;
-      if (isControlled) {
-        if (typeof expanded === "string") {
-          // Pass the next expanded value (panel  or false)
-          onChange?.(event, expanded === panel ? false : true);
-        } else {
-          onChange?.(event, !expanded);
-        }
+  let isOpen: boolean;
+  if (isControlled) {
+    if (typeof expanded === "boolean") {
+      isOpen = expanded;
+    } else if (typeof expanded === "string") {
+      isOpen = expanded === id;
+    } else {
+      isOpen = false;
+    }
+  } else {
+    isOpen = isExpanded;
+  }
+  //handel expansion
+  const handleExpansion = (event: React.SyntheticEvent) => {
+    if (disabled) return;
+    if (isControlled) {
+      if (typeof expanded === "string") {
+        // Pass the next expanded value (panel id or false)
+        onChange?.(event, expanded === id ? false : true);
       } else {
-        setIsExpanded((prev) => (onChange?.(event, !prev), !prev));
+        onChange?.(event, !expanded);
       }
-    };
+    } else {
+      setIsExpanded((prev) => (onChange?.(event, !prev), !prev));
+    }
+  };
 
   const content = (
     <div
-      className={`w-100 border-gray-300 ${!disableGutters && isOpen ? "my-3" : "my-0"} ${className}`}
+      className={`w-100 ${!disableGutters && isOpen ? "my-3" : "my-0"} ${className}`}
       id={id}
     >
       {React.Children.map(children, (child: any) =>
@@ -72,10 +70,10 @@ const Accordion = <C extends React.ElementType = "div">({
   );
 
   // Use a11y utility to handle accessibility attributes
-  const a11yProps = adaptPropsForA11y(
-    { ...rest },
-    typeof Component === "string" ? Component : "div",
-  );
+  // const a11yProps = adaptPropsForA11y(
+  //   { ...rest },
+  //   typeof Component === "string" ? Component : "div",
+  // );
 
   return (
     <Component
@@ -89,7 +87,7 @@ const Accordion = <C extends React.ElementType = "div">({
           className,
         }),
       )}
-      {...a11yProps}
+      {...rest}
     >
       {content}
     </Component>

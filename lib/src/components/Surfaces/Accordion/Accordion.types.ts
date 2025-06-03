@@ -53,12 +53,20 @@ export type AccordionBaseProps = {
    * The id of the accordion element.
    */
   id?: string;
-  /**
+   /**
    *  change the heading element using the slots
    */
   slots?: {
     heading?: { component?: React.ElementType };
   };
+   /**
+   *class name(s) for button on summary component.
+   */
+  summaryClassName?: string;
+   /**
+   *class name(s) for Details component.
+   */
+  detailsClassName?:string
 } & VariantProps<typeof accordionVariants>;
 
 export type AccordionProps<C extends React.ElementType = "div"> =

@@ -17,7 +17,7 @@ export const accordionVariantsConfig = {
     },
   },
 };
-export const accordionVariants = cva(`bg-white text-black shadow rounded`, {
+export const accordionVariants = cva(`bg-white text-black border-b-1 first:rounded-tl-[4px] last:rounded-bl-[4px] first:rounded-tr-[4px] last:rounded-br-[4px] border-b-gray-100`, {
   variants: accordionVariantsConfig.variants,
   defaultVariants: {
     disabled: false,
