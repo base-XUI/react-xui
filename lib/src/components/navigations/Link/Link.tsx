@@ -3,7 +3,6 @@ import { cn } from "@/utils/cn";
 import { type LinkProps } from "./Link.types";
 import { LinkVariants } from "./variants";
 import { adaptPropsForA11y } from "@/utils/a11y";
-import { Button } from "@/components/inputs/Button";
 
 const Link = <C extends React.ElementType = "a">({
   component,
@@ -18,8 +17,6 @@ const Link = <C extends React.ElementType = "a">({
   ...rest
 }: LinkProps<C>) => {
   const Component = component || "a";
-  //check if component is a Button
-  const isButton = Component === Button;
 
   // Use a11y utility to handle accessibility attributes
   const a11yProps = adaptPropsForA11y(
@@ -38,7 +35,7 @@ const Link = <C extends React.ElementType = "a">({
       className={cn(
         LinkVariants({
           variant,
-          color: isButton ? "inherit" : color,
+          color,
           underline,
           className,
         }),
