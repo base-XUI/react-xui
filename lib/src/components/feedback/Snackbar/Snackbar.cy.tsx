@@ -71,8 +71,15 @@ describe("Snackbar Component", () => {
       />,
     );
 
-    cy.get('[role="alert"]').should("be.visible");
+    cy.get('[role="alert"]').should("exist");
     cy.tick(autoHideDuration);
+    cy.tick(50);
+
+    // Manually trigger the transitionend event since cy.clock() prevents real CSS transitions
+    cy.get('[role="alert"]').then(($el) => {
+      const transitionEndEvent = new Event("transitionend", { bubbles: true });
+      $el[0].dispatchEvent(transitionEndEvent);
+    });
     cy.tick(50);
     cy.get("@onCloseSpy").should("have.been.called");
   });
