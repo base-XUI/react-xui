@@ -20,13 +20,8 @@ export type LinkBaseProps = {
   rel?: VariantProps<typeof LinkVariants>["rel"];
 } & VariantProps<typeof LinkVariants>;
 
-/**
- * Props for the Link component including the ref
- * Compatible with React 19's new ref handling
- */
 export type LinkProps<C extends React.ElementType = "a"> =
   PolymorphicComponentProp<C, LinkBaseProps>;
-
 /**
  * Link component type
  */

@@ -86,14 +86,13 @@ export const Basic: Story = {
     children: "Link",
   },
 };
-// Basic variants
+// underline variants
 export const underline: Story = {
   args: {
     underline: "always",
   },
-
   render: () => (
-    <div className="inline-flex w-[400px] flex-col gap-4">
+    <div className="inline-flex gap-5">
       {underlineOption.map((underline) => (
         <Link key={underline} underline={underline}>
           underline-{underline}
@@ -107,11 +106,12 @@ export const security: Story = {
   args: {
     href: "#",
     target: "_blank",
+    "aria-label": "visit this page",
     rel: "noreferrer",
   },
 };
-// Example of using as a different element
-export const AsButton: StoryObj = {
+// Example of accessability if we don't use href in link we should pass component prop
+export const Accessibility: StoryObj = {
   args: {
     component: "button",
     children: "Link Button",

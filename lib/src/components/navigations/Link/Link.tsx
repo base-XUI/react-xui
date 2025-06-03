@@ -20,11 +20,7 @@ const Link = <C extends React.ElementType = "a">({
 
   // Use a11y utility to handle accessibility attributes
   const a11yProps = adaptPropsForA11y(
-    {
-      target,
-      rel,
-      ...rest,
-    },
+    { ...rest },
     typeof Component === "string" ? Component : "a",
   );
 

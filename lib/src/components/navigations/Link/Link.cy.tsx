@@ -38,7 +38,7 @@ describe("Link Component", () => {
     cy.mount(<Link color="error">Error</Link>);
     cy.get("a").should("exist");
   });
-
+  // Test Link as a Button
   it("renders as a Button", () => {
     cy.mount(
       <Link component="button" role="button" onClick={() => {}}>
