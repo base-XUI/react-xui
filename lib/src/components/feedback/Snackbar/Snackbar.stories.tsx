@@ -247,11 +247,11 @@ const action = (
   </Button>
 );
 
-export const Snackbar_Content: Story = {
+export const Content: Story = {
   args: {
     message: "This is a top-right positioned snackbar",
   },
-  render: (args) => (
+  render: () => (
     <div className="grid gap-6">
       <SnackbarContent message="I love snacks." action={action} />
       <SnackbarContent
