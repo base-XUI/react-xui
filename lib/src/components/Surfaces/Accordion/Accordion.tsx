@@ -24,34 +24,35 @@ const Accordion = <C extends React.ElementType = "div">({
   const isControlled = expanded !== undefined;
 
   const [isExpanded, setIsExpanded] = React.useState<boolean>(defaultExpanded);
-  // const isOpen = isControlled ? expanded : isExpanded;
+  const isOpen = isControlled ? expanded : isExpanded;
   // Support both boolean and string for expanded
-  let isOpen: boolean;
-  if (isControlled) {
-    if (typeof expanded === "boolean") {
-      isOpen = expanded;
-    } else if (typeof expanded === "string") {
-      isOpen = expanded === id;
-    } else {
-      isOpen = false;
-    }
-  } else {
-    isOpen = isExpanded;
-  }
+  // let isOpen: boolean;
+  // if (isControlled) {
+  //   if (typeof expanded === "boolean") {
+  //     isOpen = expanded;
+  //   } else if (typeof expanded === "string") {
+  //     isOpen = expanded === id;
+  //   } else {
+  //     isOpen = false;
+  //   }
+  // } else {
+  //   isOpen = isExpanded;
+  // }
 
-  const handleExpansion = (event: React.SyntheticEvent) => {
-    if (disabled) return;
-    if (isControlled) {
-      if (typeof expanded === "string") {
-        // Pass the next expanded value (panel id or false)
-        onChange?.(event, expanded === id ? false : true);
+  const handleExpansion =
+    (panel: string | boolean) => (event: React.SyntheticEvent) => {
+      if (disabled) return;
+      if (isControlled) {
+        if (typeof expanded === "string") {
+          // Pass the next expanded value (panel  or false)
+          onChange?.(event, expanded === panel ? false : true);
+        } else {
+          onChange?.(event, !expanded);
+        }
       } else {
-        onChange?.(event, !expanded);
+        setIsExpanded((prev) => (onChange?.(event, !prev), !prev));
       }
-    } else {
-      setIsExpanded((prev) => (onChange?.(event, !prev), !prev));
-    }
-  };
+    };
 
   const content = (
     <div

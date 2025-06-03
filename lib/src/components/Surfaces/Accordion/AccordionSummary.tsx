@@ -17,7 +17,7 @@ export const AccordionSummary = <C extends React.ElementType = "h3">({
     <Heading>
       <button
         type="button"
-        className={`flex w-full ${disabled ? "cursor-default opacity-50" : "cursor-pointer"} justify-between bg-blue-100 px-4 py-3 text-left font-semibold`}
+        className={`flex w-full ${disabled ? "cursor-default opacity-50" : "cursor-pointer"} justify-between px-4 py-3 text-left font-semibold`}
         onClick={handelChange}
         aria-expanded={expanded}
         aria-controls={`${id}-details`}

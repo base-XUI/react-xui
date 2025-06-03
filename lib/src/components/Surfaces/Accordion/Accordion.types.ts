@@ -34,7 +34,7 @@ export type AccordionBaseProps = {
    */
   onChange?: (event: React.SyntheticEvent, expanded: boolean) => void;
   /**
-   * If true, removes the default gutters (padding) from the accordion.
+   * If true, removes the default gutters (margin) from the accordion.
    */
   disableGutters?: boolean;
   /**
@@ -42,7 +42,7 @@ export type AccordionBaseProps = {
    */
   expanded?: boolean;
   /**
-   * If true, the accordion will have square corners.
+   * If true, the accordion will remove square corners.
    */
   square?: boolean;
   /**
@@ -53,16 +53,14 @@ export type AccordionBaseProps = {
    * The id of the accordion element.
    */
   id?: string;
+  /**
+   *  change the heading element using the slots
+   */
   slots?: {
     heading?: { component?: React.ElementType };
   };
-  iconPosition?: "left" | "right";
 } & VariantProps<typeof accordionVariants>;
 
-/**
- * Props for the Accordion component including the ref
- * Compatible with React 19's new ref handling
- */
 export type AccordionProps<C extends React.ElementType = "div"> =
   PolymorphicComponentProp<C, AccordionBaseProps>;
 
