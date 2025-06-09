@@ -88,7 +88,7 @@ const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
         const { control, value: labelValue } = props;
         if (!isValidElement(control)) return child;
         const radioProps = control.props;
-        const finalValue = labelValue ?? radioProps.value;
+        const finalValue = labelValue ?? (radioProps.value as Primitive);
         const finalName = String(radioProps.name || groupName);
         const isChecked = isSelected(getCurrentValue(finalName), finalValue);
         const clonedControl = cloneElement(control, {
@@ -104,13 +104,14 @@ const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
       }
       if (isRadioProps(props)) {
         const { name = groupName, value } = props;
+        const radioValue = value as Primitive;
         const finalName = String(name);
-        const isChecked = isSelected(getCurrentValue(finalName), value);
+        const isChecked = isSelected(getCurrentValue(finalName), radioValue);
         return cloneElement(child as ReactElement<RadioProps>, {
           name: finalName,
-          value,
+          value: radioValue,
           checked: isChecked,
-          onChange: handleChange(value, finalName),
+          onChange: handleChange(radioValue, finalName),
         });
       }
       return child;
