@@ -84,7 +84,7 @@ const meta = {
         type: { summary: "func" },
       },
       description:
-        "Simplified callback for uncontrolled components. Accepts the same parameters as \`onChange\`, but focuses on the raw value.",
+        "Simplified callback for uncontrolled components. Accepts the same parameters as `onChange`, but focuses on the raw value.",
     },
     value: {
       control: { type: "text" },
@@ -129,7 +129,7 @@ export const RadioGroupControlled: Story = {
     onChange: undefined,
     onValueChange: undefined,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [{ value }, updateArgs] = useArgs();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
