@@ -19,7 +19,7 @@ export interface RadioGroupProps {
   id?: string;
   children?: ReactNode;
   defaultValue?: Primitive;
-  value?: any;
+  value?: Primitive;
   onChange?: (
     event: ChangeEvent<HTMLInputElement>,
     value?: Primitive,
