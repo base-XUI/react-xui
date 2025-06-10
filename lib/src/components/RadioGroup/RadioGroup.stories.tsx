@@ -117,7 +117,7 @@ type Story = StoryObj<typeof RadioGroup>;
 
 export const RadioGroupControlled: Story = {
   args: {
-    value: undefined,
+    value: "vue",
     children: undefined,
     defaultValue: "angular",
     row: false,
@@ -128,17 +128,16 @@ export const RadioGroupControlled: Story = {
     onValueChange: undefined,
   },
   render: function Render(args) {
-    const [{ value }, updateArgs] = useArgs();
+    const [, updateArgs] = useArgs();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       updateArgs({ value: e.target.value });
     };
-
     return (
       <RadioGroup
         sx={args.sx}
         row={args.row}
-        value={value}
+        value={args.value}
         defaultValue={args.defaultValue}
         name={args.name}
         id={args.id}
@@ -180,9 +179,6 @@ export const RadioGroupUncontrolled: Story = {
         defaultValue={args.defaultValue}
         name={args.name}
         id={args.id}
-        onValueChange={(directValue) => {
-          console.log(directValue);
-        }}
       >
         <div className="my-2 flex items-center gap-3">
           <Radio value="male" />
