@@ -1,6 +1,6 @@
 import { Tabs } from "./Tabs";
-import { Tab } from "./Tab/Tab";
-import { TabList } from "./TabList/TabList";
+import { Tab } from "../Tab/Tab";
+import { TabList } from "../TabList/TabList";
 import { TabPanel } from "./TabPanel/TabPanel";
 
 describe("Tabs Component", () => {

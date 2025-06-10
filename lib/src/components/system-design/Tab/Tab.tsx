@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import { useTabsContext } from "../Tabs";
+import { useTabsContext } from "../Tabs/Tabs";
 import type {
   PolymorphicComponentProp,
   PolymorphicComponent,

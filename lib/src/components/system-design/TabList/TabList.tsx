@@ -1,14 +1,24 @@
 import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
-import { useTabsContext } from "../Tabs";
+import { useTabsContext } from "../Tabs/Tabs";
 import type {
   PolymorphicComponentProp,
   PolymorphicComponent,
 } from "@/utils/polymorphic";
+import {
+  TABLIST_ORIENTATIONS,
+  TABLIST_SIZES,
+  TABLIST_VARIANTS,
+} from "./variants";
 
-type TabListBaseProps = {
-  children?: React.ReactNode;
-};
+export interface TabListBaseProps {
+  children: React.ReactNode;
+  value?: string | number;
+  onChange?: (value: string | number) => void;
+  orientation?: keyof typeof TABLIST_ORIENTATIONS;
+  size?: keyof typeof TABLIST_SIZES;
+  variant?: keyof typeof TABLIST_VARIANTS;
+}
 
 type TabListProps<C extends React.ElementType = "div"> =
   PolymorphicComponentProp<C, TabListBaseProps>;

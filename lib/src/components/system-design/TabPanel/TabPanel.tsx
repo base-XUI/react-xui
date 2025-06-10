@@ -1,10 +1,10 @@
 import React from "react";
 import clsx from "clsx";
-import { useTabsContext } from "../Tabs";
 import type {
   PolymorphicComponentProp,
   PolymorphicComponent,
 } from "@/utils/polymorphic";
+import { useTabsContext } from "../Tabs/Tabs";
 
 type TabPanelBaseProps = {
   value: any;

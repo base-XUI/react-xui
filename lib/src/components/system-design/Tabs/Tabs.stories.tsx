@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Tabs } from "./Tabs";
-import { Tab } from "./Tab/Tab";
-import { TabList } from "./TabList/TabList";
-import { TabPanel } from "./TabPanel/TabPanel";
+import { Tab } from "../Tab/Tab";
+import { TabList } from "../TabList/TabList";
 import { Home, User, Settings } from "lucide-react";
+import { TabPanel } from "../TabPanel";
 
 const meta: Meta<typeof Tabs> = {
   title: "System Design/Tabs",
