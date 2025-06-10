@@ -21,12 +21,14 @@ interface RadioProps extends RadioGroupProps {
 }
 
 function isFormControlLabelProps(
-  props: Record<string, any>,
-): props is RadioProps {
+  props: Record<string, Primitive>,
+): props is Record<string, Primitive> & RadioProps {
   return "control" in props && isValidElement(props.control);
 }
 
-function isRadioProps(props: Record<string, any>): props is RadioGroupProps {
+function isRadioProps(
+  props: Record<string, Primitive>,
+): props is Record<string, Primitive> & RadioGroupProps {
   return "value" in props && typeof props.value !== "undefined";
 }
 
@@ -44,7 +46,7 @@ const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
       id,
       defaultValue,
       value: externalValue,
-      name: groupName = "default",
+      name: groupName,
       row = false,
       sx,
       onChange,
@@ -80,16 +82,30 @@ const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
       };
 
     const renderChild = (child: ReactNode): ReactNode => {
-      if (!isValidElement(child)) return child;
-
-      const props = child.props as Record<string, any>;
+      if (!isValidElement(child)) {
+        return child;
+      }
+      if ((child.props as { children: String }).children) {
+        const children = Children.map(
+          (child.props as { children: String }).children,
+          renderChild,
+        );
+        return cloneElement(
+          child,
+          { ...(child.props as Record<string, unknown>) },
+          children,
+        );
+      }
+      const props = child.props as Record<string, Primitive>;
 
       if (isFormControlLabelProps(props)) {
         const { control, value: labelValue } = props;
+
         if (!isValidElement(control)) return child;
         const radioProps = control.props;
         const finalValue = labelValue ?? (radioProps.value as Primitive);
         const finalName = String(radioProps.name || groupName);
+
         const isChecked = isSelected(getCurrentValue(finalName), finalValue);
         const clonedControl = cloneElement(control, {
           name: finalName,
@@ -99,21 +115,23 @@ const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
         });
 
         return cloneElement(child as ReactElement<RadioProps>, {
-          control: clonedControl,
+          control: clonedControl as ReactElement<RadioProps>,
         });
       }
       if (isRadioProps(props)) {
         const { name = groupName, value } = props;
         const radioValue = value as Primitive;
-        const finalName = String(name);
+        const finalName = String(name || groupName);
         const isChecked = isSelected(getCurrentValue(finalName), radioValue);
         return cloneElement(child as ReactElement<RadioProps>, {
+          key: String(radioValue),
           name: finalName,
           value: radioValue,
           checked: isChecked,
           onChange: handleChange(radioValue, finalName),
         });
       }
+
       return child;
     };
     return (
