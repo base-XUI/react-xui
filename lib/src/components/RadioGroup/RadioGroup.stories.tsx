@@ -2,7 +2,6 @@ import { ChangeEvent } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Canvas, Controls, Subtitle, Title } from "@storybook/blocks";
 import { useArgs } from "storybook/internal/preview-api";
-import { FormControlLabel } from "../API/FormControlLabel";
 import { RadioGroup } from "./RadioGroup";
 import { Radio } from "../API/Radio";
 import { Star } from "lucide-react";
@@ -67,7 +66,6 @@ const meta = {
       control: { disable: true },
       table: {
         defaultValue: { summary: "func" },
-        type: { summary: null as any },
       },
       description: ` Callback fired when a radio button is selected.<br/><br/><code> Signature: </code>
 
@@ -146,9 +144,18 @@ export const RadioGroupControlled: Story = {
         id={args.id}
         onChange={handleChange}
       >
-        <FormControlLabel label="Angular" control={<Radio value="angular" />} />
-        <FormControlLabel label="React" control={<Radio value="react" />} />
-        <FormControlLabel label="Vue" control={<Radio value="vue" />} />
+        <div className="my-1 flex items-center gap-4">
+          <Radio value="angular" />
+          <span>Angular</span>
+        </div>
+        <div className="my-1 flex items-center gap-4">
+          <Radio value="react" />
+          <span>React</span>
+        </div>
+        <div className="my-1 flex items-center gap-4">
+          <Radio value="vue" />
+          <span>Vue</span>
+        </div>
       </RadioGroup>
     );
   },
@@ -177,8 +184,14 @@ export const RadioGroupUncontrolled: Story = {
           console.log(directValue);
         }}
       >
-        <FormControlLabel label="Male" control={<Radio value="male" />} />
-        <FormControlLabel label="Female" control={<Radio value="female" />} />
+        <div className="my-2 flex items-center gap-3">
+          <Radio value="male" />
+          <span>Male</span>
+        </div>
+        <div className="my-2 flex items-center gap-3">
+          <Radio value="female" />
+          <span>Female</span>
+        </div>
       </RadioGroup>
     );
   },
@@ -186,21 +199,11 @@ export const RadioGroupUncontrolled: Story = {
 export const RadioWithoutRadioGroup: Story = {
   render: () => {
     return (
-      <>
-        <FormControlLabel
-          label="options11"
-          value="1"
-          control={<Radio name="options11" />}
-        />
-        <FormControlLabel
-          label="options21"
-          control={<Radio name="options11" value="2" />}
-        />
-        <FormControlLabel
-          label="options31"
-          control={<Radio name="options31" value="3" />}
-        />
-      </>
+      <div className="flex items-center gap-3">
+        <Radio name="options11" value={1} />
+        <Radio name="options11" value="2" />
+        <Radio name="options11" value="3" />
+      </div>
     );
   },
 };
@@ -222,13 +225,14 @@ export const Direction: Story = {
         onChange={args.onChange}
         row={args.row}
       >
-        <FormControlLabel
-          value="female"
-          aria-atomic="false"
-          control={<Radio />}
-          label="Female"
-        />
-        <FormControlLabel value="male" control={<Radio />} label="Male" />
+        <div className="my-2 flex items-center gap-3">
+          <Radio value="male" />
+          <span>Male</span>
+        </div>
+        <div className="my-2 flex items-center gap-3">
+          <Radio value="female" />
+          <span>Female</span>
+        </div>
       </RadioGroup>
     );
   },
@@ -260,22 +264,19 @@ export const CustomRadioExample: Story = {
           aria-label="Experience Rating"
         >
           {RateData.map((num, idx) => (
-            <FormControlLabel
-              key={idx}
-              control={
-                <Radio
-                  value={num.value}
-                  name={num.name}
-                  className="border-0 bg-transparent hover:bg-transparent focus:bg-transparent"
-                  icon={
-                    <Star fill="#fff" strikethroughThickness={1} color="#DDD" />
-                  }
-                  checkedIcon={<Star fill="#ffd230" color="#ffd230" />}
-                  id={`rating-${num.label}`}
-                />
-              }
-              label={`${num.label} `}
-            />
+            <div key={idx} className="flex items-center gap-3">
+              <Radio
+                value={num.value}
+                name={num.name}
+                className="border-0 bg-transparent hover:bg-transparent focus:bg-transparent"
+                icon={
+                  <Star fill="#fff" strikethroughThickness={1} color="#DDD" />
+                }
+                checkedIcon={<Star fill="#ffd230" color="#ffd230" />}
+                id={`rating-${num.label}`}
+              />
+              <span>{num.label}</span>
+            </div>
           ))}
         </RadioGroup>
       </div>
