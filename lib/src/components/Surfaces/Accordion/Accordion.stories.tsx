@@ -117,19 +117,12 @@ const meta = {
         type: { summary: "{ heading?: { component?: React.ElementType } }" },
       },
     },
-    className: {
+    classes: {
       description: "Override or extend the styles applied to the component.",
-      control: "text",
-    },
-    summaryClassName: {
-      description:
-        "Override or extend the styles applied to the Summary component (button).",
-      control: "text",
-    },
-    detailsClassName: {
-      description:
-        "Override or extend the styles applied to the Details component.",
-      control: "text",
+      control: false,
+      table: {
+        type: { summary: "{ root,summary,details}" },
+      },
     },
   },
 

@@ -48,7 +48,7 @@ export type AccordionBaseProps = {
   /**
    * Additional class name(s) for custom styling.
    */
-  className?: string;
+  classes?: { root: string; details: string; summary: string };
   /**
    * The id of the accordion element.
    */
@@ -59,14 +59,7 @@ export type AccordionBaseProps = {
   slots?: {
     heading?: { component?: React.ElementType };
   };
-   /**
-   *class name(s) for button on summary component.
-   */
-  summaryClassName?: string;
-   /**
-   *class name(s) for Details component.
-   */
-  detailsClassName?:string
+
 } & VariantProps<typeof accordionVariants>;
 
 export type AccordionProps<C extends React.ElementType = "div"> =

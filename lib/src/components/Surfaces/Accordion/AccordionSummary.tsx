@@ -1,7 +1,7 @@
 import React from "react";
 import { ChevronDown } from "lucide-react";
 import { AccordionProps } from "./Accordion.types";
-
+import { twMerge } from "tailwind-merge";
 export const AccordionSummary = <C extends React.ElementType = "h3">({
   children,
   expanded,
@@ -10,16 +10,21 @@ export const AccordionSummary = <C extends React.ElementType = "h3">({
   expandIcon = <ChevronDown />,
   id,
   slots,
-  summaryClassName,
+  classes,
 }: AccordionProps<C>) => {
   //heading of summary
   const Heading = slots?.heading?.component || "h3";
-
+  const summaryClass = twMerge(
+    "flex w-full justify-between px-4 py-3 text-left font-semibold",
+    expanded && "bg-gray-100",
+    disabled ? "cursor-default opacity-50" : "cursor-pointer",
+    classes?.summary,
+  );
   return (
     <Heading>
       <button
         type="button"
-        className={`flex w-full ${disabled ? "cursor-default opacity-50" : "cursor-pointer"} justify-between px-4 py-3 text-left font-semibold ${summaryClassName}`}
+        className={summaryClass}
         onClick={handelChange}
         aria-expanded={expanded}
         aria-controls={`${id}-details`}

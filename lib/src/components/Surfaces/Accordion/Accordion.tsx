@@ -3,11 +3,11 @@ import { cn } from "@/utils/cn";
 // import { adaptPropsForA11y } from "@/utils/a11y";
 import { AccordionProps } from "./Accordion.types";
 import { accordionVariants } from "./variants";
-
+import { twMerge } from "tailwind-merge";
 const Accordion = <C extends React.ElementType = "div">({
   component,
   children,
-  className,
+  classes,
   defaultExpanded = false,
   expanded,
   disabled,
@@ -51,12 +51,14 @@ const Accordion = <C extends React.ElementType = "div">({
       setIsExpanded((prev) => (onChange?.(event, !prev), !prev));
     }
   };
+  const rootClass = twMerge(
+    "w-100",
+    !disableGutters && isOpen ? "my-3" : "my-0",
+    classes?.root,
+  );
 
   const content = (
-    <div
-      className={`w-100 ${!disableGutters && isOpen ? "my-3" : "my-0"} ${className}`}
-      id={id}
-    >
+    <div className={rootClass} id={id}>
       {React.Children.map(children, (child: any) =>
         React.cloneElement(child, {
           expanded: isOpen,
@@ -84,7 +86,6 @@ const Accordion = <C extends React.ElementType = "div">({
           disabled,
           disableGutters,
           square,
-          className,
         }),
       )}
       {...rest}

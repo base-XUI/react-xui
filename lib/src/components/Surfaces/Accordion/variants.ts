@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-
+// Configuration object that we can export for use in stories
 export const accordionVariantsConfig = {
   variants: {
     disabled: { true: "cursor-default opacity-50 bg-gray-200" },
