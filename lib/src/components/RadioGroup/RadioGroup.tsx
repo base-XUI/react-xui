@@ -1,43 +1,42 @@
 import {
   forwardRef,
   useState,
+  useEffect,
   Children,
   cloneElement,
   isValidElement,
   ReactNode,
   ChangeEvent,
   ReactElement,
+  useCallback,
 } from "react";
 import {
+  ELEMENT_TYPES,
+  ElementType,
   Primitive,
   RadioChangeMetadata,
   RadioGroupProps,
+  RadioProps,
 } from "./RadioGroup.types";
 import { cn } from "@/utils/cn";
 
-interface RadioProps extends RadioGroupProps {
-  control?: ReactElement<RadioProps>;
-  checked?: boolean;
-}
+const normalize = (val: Primitive): Primitive =>
+  typeof val === "string" ? val.toLowerCase() : val;
 
-function isFormControlLabelProps(
-  props: Record<string, Primitive>,
-): props is Record<string, Primitive> & RadioProps {
-  return "control" in props && isValidElement(props.control);
-}
+const isSelected = (selectedValue: Primitive, val: Primitive): boolean => {
+  if (selectedValue == null || val == null) return selectedValue === val;
+  return String(selectedValue) === String(val);
+};
 
-function isRadioProps(
-  props: Record<string, Primitive>,
-): props is Record<string, Primitive> & RadioGroupProps {
-  return "value" in props && typeof props.value !== "undefined";
-}
-
-export function isSelected(selectedValue: Primitive, val: Primitive): boolean {
-  if (selectedValue == undefined || val == undefined) {
-    return selectedValue === val;
+const getElementType = (props: RadioProps): ElementType => {
+  if ("control" in props && isValidElement(props.control)) {
+    return ELEMENT_TYPES.FORM_CONTROL_LABEL;
   }
-  return String(selectedValue).toLowerCase() === String(val).toLowerCase();
-}
+  if ("value" in props && props.value !== undefined) {
+    return ELEMENT_TYPES.RADIO;
+  }
+  return ELEMENT_TYPES.OTHER;
+};
 
 const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
   (
@@ -46,7 +45,7 @@ const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
       id,
       defaultValue,
       value: externalValue,
-      name: groupName,
+      name: groupName = "default",
       row = false,
       sx,
       onChange,
@@ -54,97 +53,116 @@ const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
     },
     ref,
   ) => {
-    const [internalValues, setInternalValues] = useState<
-      Record<string, Primitive>
-    >({});
+    const containerClassName = cn(
+      "flex flex-col items-start justify-center",
+      row && "flex-row gap-4",
+    );
+    const normalizedDefaultValue: Primitive | undefined =
+      defaultValue !== undefined ? normalize(defaultValue) : undefined;
 
-    const getCurrentValue = (fieldName: string): Primitive => {
-      return internalValues[fieldName] ?? externalValue ?? defaultValue;
-    };
+    const isControlled = externalValue !== undefined && externalValue !== "";
+    const [internalValue, setInternalValue] = useState<Primitive | undefined>(
+      normalizedDefaultValue,
+    );
+    const currentValue: Primitive | undefined = isControlled
+      ? externalValue !== undefined
+        ? normalize(externalValue)
+        : undefined
+      : internalValue;
 
-    const handleChange =
-      (val: Primitive, fieldName: string) =>
-      (e: ChangeEvent<HTMLInputElement>) => {
+    useEffect(() => {
+      if (!isControlled) {
+        setInternalValue(normalizedDefaultValue);
+      }
+    }, [isControlled, normalizedDefaultValue]);
+
+    const handleChange = useCallback(
+      (val: Primitive) => (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.disabled) return;
-        const finalName = String(fieldName);
+
+        const normalizedVal = normalize(val);
+
+        if (!isControlled) {
+          setInternalValue(normalizedVal);
+        }
+
         const metadata: RadioChangeMetadata = {
-          id: `radio-${val}`,
-          value: val,
-          name: finalName,
+          id: e.target.id || `radio-${String(normalizedVal)}`,
+          value: normalizedVal,
+          name: groupName,
           checked: true,
         };
-        setInternalValues((prev) => ({
-          ...prev,
-          [finalName]: val,
-        }));
-        onChange?.(e, val, metadata);
-        onValueChange?.(val, metadata);
-      };
 
-    const renderChild = (child: ReactNode): ReactNode => {
-      if (!isValidElement(child)) {
-        return child;
-      }
-      if ((child.props as { children: String }).children) {
-        const children = Children.map(
-          (child.props as { children: String }).children,
-          renderChild,
-        );
-        return cloneElement(
-          child,
-          { ...(child.props as Record<string, unknown>) },
-          children,
-        );
-      }
-      const props = child.props as Record<string, Primitive>;
+        onChange?.(e, normalizedVal, metadata);
+        onValueChange?.(normalizedVal, metadata);
+      },
+      [isControlled, groupName, onChange, onValueChange],
+    );
 
-      if (isFormControlLabelProps(props)) {
+    const createRadioProps = useCallback(
+      (value: Primitive) => ({
+        name: groupName,
+        value,
+        checked: isSelected(currentValue, value),
+        onChange: handleChange(value),
+        key: `${groupName}-${String(value)}`,
+      }),
+      [groupName, currentValue, handleChange],
+    );
+
+    const processFormControlLabel = useCallback(
+      (child: ReactElement, props: RadioProps) => {
         const { control, value: labelValue } = props;
+        if (!isValidElement(control)) return;
 
-        if (!isValidElement(control)) return child;
-        const radioProps = control.props;
-        const finalValue = labelValue ?? (radioProps.value as Primitive);
-        const finalName = String(radioProps.name || groupName);
-
-        const isChecked = isSelected(getCurrentValue(finalName), finalValue);
-        const clonedControl = cloneElement(control, {
-          name: finalName,
-          value: finalValue,
-          checked: isChecked,
-          onChange: handleChange(finalValue, finalName),
-        });
-
+        const value =
+          labelValue ?? (control.props as { value: Primitive }).value;
+        const clonedControl = cloneElement(control, createRadioProps(value));
         return cloneElement(child as ReactElement<RadioProps>, {
-          control: clonedControl as ReactElement<RadioProps>,
+          ...props,
+          control: clonedControl,
         });
-      }
-      if (isRadioProps(props)) {
-        const { name = groupName, value } = props;
-        const radioValue = value as Primitive;
-        const finalName = String(name || groupName);
-        const isChecked = isSelected(getCurrentValue(finalName), radioValue);
-        return cloneElement(child as ReactElement<RadioProps>, {
-          key: String(radioValue),
-          name: finalName,
-          value: radioValue,
-          checked: isChecked,
-          onChange: handleChange(radioValue, finalName),
-        });
-      }
+      },
+      [createRadioProps],
+    );
 
-      return child;
-    };
+    const processRadio = useCallback(
+      (child: ReactElement, props: RadioProps): ReactElement => {
+        return cloneElement(child, createRadioProps(props.value));
+      },
+      [createRadioProps],
+    );
+
+    const processChild = useCallback(
+      (child: ReactNode): ReactNode => {
+        if (!isValidElement(child)) return child;
+        const props = child.props as RadioProps;
+        const elementType = getElementType(props);
+
+        if (props.children) {
+          return cloneElement(
+            child,
+            props,
+            Children.map(props.children, processChild),
+          );
+        }
+        switch (elementType) {
+          case ELEMENT_TYPES.FORM_CONTROL_LABEL:
+            return processFormControlLabel(child, props);
+
+          case ELEMENT_TYPES.RADIO:
+            return processRadio(child, props);
+
+          default:
+            return child;
+        }
+      },
+      [processFormControlLabel, processRadio],
+    );
+
     return (
-      <div
-        id={id}
-        ref={ref}
-        style={sx}
-        className={cn(
-          "flex flex-col items-start justify-center",
-          row && "flex-row gap-4",
-        )}
-      >
-        {Children.map(children, renderChild)}
+      <div id={id} ref={ref} style={sx} className={containerClassName}>
+        {Children.map(children, processChild)}
       </div>
     );
   },
