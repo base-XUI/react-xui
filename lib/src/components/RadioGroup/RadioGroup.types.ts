@@ -1,4 +1,9 @@
-import type { ReactNode, CSSProperties, ChangeEvent } from "react";
+import type {
+  ReactNode,
+  CSSProperties,
+  ChangeEvent,
+  ReactElement,
+} from "react";
 
 export interface RadioChangeEvent
   extends Omit<ChangeEvent<HTMLInputElement>, "target"> {
@@ -6,7 +11,7 @@ export interface RadioChangeEvent
     value: Primitive;
   };
 }
-export type Primitive = string | number | boolean;
+export type Primitive = string | number | boolean | undefined;
 
 export interface RadioChangeMetadata {
   id: string;
@@ -30,3 +35,16 @@ export interface RadioGroupProps {
   sx?: CSSProperties;
   name?: string;
 }
+export interface RadioProps extends RadioGroupProps {
+  control?: ReactElement;
+  checked?: boolean;
+  [key: string]: unknown;
+}
+
+export const ELEMENT_TYPES = {
+  FORM_CONTROL_LABEL: "formControlLabel",
+  RADIO: "radio",
+  OTHER: "other",
+} as const;
+
+export type ElementType = (typeof ELEMENT_TYPES)[keyof typeof ELEMENT_TYPES];
