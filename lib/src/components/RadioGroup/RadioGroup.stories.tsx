@@ -117,7 +117,7 @@ type Story = StoryObj<typeof RadioGroup>;
 
 export const RadioGroupControlled: Story = {
   args: {
-    value: "vue",
+    value: "",
     children: undefined,
     defaultValue: "angular",
     row: false,
