@@ -18,11 +18,8 @@ export type SnackbarAnchorOrigin = {
   horizontal: SnackbarHorizontalPosition;
 };
 
-/**
- * Props for the Snackbar component
- */
-
-export type SnackbarContentProps = {
+export interface SnackbarContentProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Action component to display after the message
    */
@@ -39,7 +36,7 @@ export type SnackbarContentProps = {
   children?: ReactNode;
 };
 
-export type SnackbarProps = {
+export interface SnackbarProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Action component to display after the message
    */
