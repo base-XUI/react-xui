@@ -1,4 +1,4 @@
-import { ReactNode, CSSProperties } from "react";
+import { ReactNode } from "react";
 
 /**
  * Vertical position of the Snackbar
