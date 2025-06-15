@@ -5,11 +5,13 @@ export const SnackbarContent: React.FC<SnackbarContentProps> = ({
   action,
   message,
   children,
+  ...restProps
 }) => {
   return (
     <div
       className={cn("flex w-full items-center rounded-md p-4 shadow-lg")}
       role="alert"
+      {...restProps}
     >
       <div className="flex-grow">{message || children}</div>
 

@@ -13,6 +13,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   onClose,
   open,
   className,
+  ...restProps
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
@@ -86,6 +87,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
       )}
       role="alert"
       onTransitionEnd={handleTransitionEnd}
+      {...restProps}
     >
       <SnackbarContent action={action} message={message}>
         {children}
