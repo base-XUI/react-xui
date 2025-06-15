@@ -9,7 +9,7 @@ export const AccordionDetails = <C extends React.ElementType = "div">({
   classes,
 }: AccordionProps<C>) => {
   const detailsClass = twMerge(
-    "px-4 py-3",
+    "px-4 py-1",
     expanded ? "accordion" : "accordion-up",
     classes?.details,
   );

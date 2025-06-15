@@ -6,7 +6,8 @@ export const accordionVariantsConfig = {
     disableGutters: {
       true: "mb-0",
     },
-    square: { true: "rounded-none" },
+
+    square: { true: "rounded-none shadow", false: "border-b-1" },
     defaultExpanded: { true: "expanded" },
     expanded: { true: "expanded" },
     defaultVariants: {
@@ -17,13 +18,17 @@ export const accordionVariantsConfig = {
     },
   },
 };
-export const accordionVariants = cva(`bg-white text-black border-b-1 first:rounded-tl-[4px] last:rounded-bl-[4px] first:rounded-tr-[4px] last:rounded-br-[4px] border-b-gray-100`, {
-  variants: accordionVariantsConfig.variants,
-  defaultVariants: {
-    disabled: false,
-    defaultExpanded: false,
-    disableGutters: false,
-    square: false,
-    expanded: false,
+export const accordionVariants = cva(
+  `bg-white text-black border-b-gray-200`,
+
+  {
+    variants: accordionVariantsConfig.variants,
+    defaultVariants: {
+      disabled: false,
+      defaultExpanded: false,
+      disableGutters: false,
+      square: false,
+      expanded: false,
+    },
   },
-});
+);

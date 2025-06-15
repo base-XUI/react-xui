@@ -7,38 +7,36 @@ export const AccordionSummary = <C extends React.ElementType = "h3">({
   expanded,
   handelChange,
   disabled,
-  expandIcon = <ChevronDown />,
+  expandIcon = <ChevronDown color="#71717A" size={18} />,
   id,
   slots,
   classes,
 }: AccordionProps<C>) => {
   //heading of summary
   const Heading = slots?.heading?.component || "h3";
+  console.log("first", slots?.heading?.component);
   const summaryClass = twMerge(
-    "flex w-full justify-between px-4 py-3 text-left font-semibold",
-    expanded && "bg-gray-100",
+    "flex w-full justify-between px-4 py-3 text-left text-sm font-semibold transition-all",
     disabled ? "cursor-default opacity-50" : "cursor-pointer",
     classes?.summary,
   );
-  return (
-    <Heading>
-      <button
-        type="button"
-        className={summaryClass}
-        onClick={handelChange}
-        aria-expanded={expanded}
-        aria-controls={`${id}-details`}
-        id={`${id}-summary`}
+  return React.createElement(
+    Heading,
+    {},
+    <button
+      type="button"
+      className={summaryClass}
+      onClick={handelChange}
+      aria-expanded={expanded}
+      aria-controls={`${id}-details`}
+      id={`${id}-summary`}
+    >
+      {children}
+      <span
+        className={`mr-2 transition-transform ${expanded ? "rotate-180" : ""}`}
       >
-        <span>{children}</span>
-        <span
-          className={`mr-2 transition-transform ${
-            expanded ? "rotate-180" : ""
-          }`}
-        >
-          {expandIcon}
-        </span>
-      </button>
-    </Heading>
+        {expandIcon}
+      </span>
+    </button>,
   );
 };

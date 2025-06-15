@@ -1,6 +1,5 @@
 import React from "react";
 import { cn } from "@/utils/cn";
-// import { adaptPropsForA11y } from "@/utils/a11y";
 import { AccordionProps } from "./Accordion.types";
 import { accordionVariants } from "./variants";
 import { twMerge } from "tailwind-merge";
@@ -14,7 +13,7 @@ const Accordion = <C extends React.ElementType = "div">({
   disableGutters,
   square,
   onChange,
-  id,
+  id = `accordion-${Math.random().toString(36).substr(2, 9)}`, // Generate a unique id if not provided
   slots,
   ref,
   ...rest
@@ -22,10 +21,10 @@ const Accordion = <C extends React.ElementType = "div">({
   const Component = component || "div";
   //check if state is controlled or uncontrolled
   const isControlled = expanded !== undefined;
-
-  const [isExpanded, setIsExpanded] = React.useState<boolean>(defaultExpanded);
-  // Support both boolean and string for expanded
-  let isOpen: boolean;
+  //states for expanded or not
+  const [isExpanded, setIsExpanded] = React.useState(defaultExpanded);
+  // Determine initial open state for uncontrolled mode
+  let isOpen: boolean = isExpanded === true || defaultExpanded === true; // Support both boolean and string for expanded
   if (isControlled) {
     if (typeof expanded === "boolean") {
       isOpen = expanded;
@@ -34,8 +33,6 @@ const Accordion = <C extends React.ElementType = "div">({
     } else {
       isOpen = false;
     }
-  } else {
-    isOpen = isExpanded;
   }
   //handel expansion
   const handleExpansion = (event: React.SyntheticEvent) => {
@@ -59,23 +56,21 @@ const Accordion = <C extends React.ElementType = "div">({
 
   const content = (
     <div className={rootClass} id={id}>
-      {React.Children.map(children, (child: any) =>
-        React.cloneElement(child, {
-          expanded: isOpen,
-          handelChange: handleExpansion,
-          disabled,
-          id,
-          slots,
-        }),
+      {React.Children.map(
+        children,
+        (
+          child: any, //eslint-disable-line
+        ) =>
+          React.cloneElement(child, {
+            expanded: isOpen,
+            handelChange: handleExpansion,
+            disabled,
+            id,
+            slots,
+          }),
       )}
     </div>
   );
-
-  // Use a11y utility to handle accessibility attributes
-  // const a11yProps = adaptPropsForA11y(
-  //   { ...rest },
-  //   typeof Component === "string" ? Component : "div",
-  // );
 
   return (
     <Component

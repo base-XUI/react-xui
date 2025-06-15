@@ -114,7 +114,7 @@ const meta = {
       description: "Slot overrides for internal components like heading",
       control: false,
       table: {
-        type: { summary: "{ heading?: { component?: React.ElementType } }" },
+        type: { summary: "{ heading?: { component?: 'h3' } }" },
       },
     },
     classes: {
@@ -137,6 +137,7 @@ const meta = {
           {...args}
           key={index}
           defaultExpanded={args.defaultExpanded && index === 1}
+          slots={args.slots}
           disabled={args.disabled && index === 3}
         >
           <AccordionSummary
@@ -145,9 +146,7 @@ const meta = {
             }
             id={`panel${index}-summary`}
           >
-            <Typography component="span" variant="body3">
-              Accordion{index}
-            </Typography>
+            Accordion{index}
           </AccordionSummary>
           <AccordionDetails>
             this is content of accordion {index}
@@ -234,8 +233,9 @@ export const Controlled: Story = {
   },
   render: () => <ControlledComponent />,
 };
-
-const ControlledComponent = (props: any) => {
+const ControlledComponent = (
+  props: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+) => {
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange =

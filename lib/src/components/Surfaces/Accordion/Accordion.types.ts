@@ -53,13 +53,12 @@ export type AccordionBaseProps = {
    * The id of the accordion element.
    */
   id?: string;
-   /**
+  /**
    *  change the heading element using the slots
    */
   slots?: {
-    heading?: { component?: React.ElementType };
+    heading?: { component?: string };
   };
-
 } & VariantProps<typeof accordionVariants>;
 
 export type AccordionProps<C extends React.ElementType = "div"> =
