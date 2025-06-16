@@ -162,8 +162,9 @@ export default meta;
 type Story = StoryObj<typeof Accordion>;
 
 // Basic variants
-export const Basic: Story = {};
-
+export const Basic: Story = {
+  args: {},
+};
 // DefaultExpanded variant
 export const DefaultExpanded: Story = {
   args: {

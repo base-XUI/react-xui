@@ -29,11 +29,11 @@ const Accordion = <C extends React.ElementType = "div">({
   const [uncontrolledOpen, setUncontrolledOpen] =
     React.useState(defaultExpanded);
 
-  const isOpen = isControlled
-    ? typeof expanded === "string"
-      ? expanded === id
-      : expanded
-    : uncontrolledOpen === true || defaultExpanded === true;
+  const isOpen = isControlled ? expanded : uncontrolledOpen;
+  // Sync uncontrolledOpen with defaultExpanded if it changes
+  React.useEffect(() => {
+    setUncontrolledOpen(defaultExpanded);
+  }, [defaultExpanded]);
   //handel expansion
   const handleExpansion = React.useCallback(
     (event: React.SyntheticEvent) => {
@@ -53,7 +53,6 @@ const Accordion = <C extends React.ElementType = "div">({
   );
   // Define the root class based on the props
   const rootClass = cn(
-    "w-full",
     !disableGutters && isOpen ? "my-3" : "my-0",
     classes?.root,
   );
