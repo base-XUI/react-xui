@@ -275,7 +275,7 @@ export const StandaloneRadioButtons: Story = {
       root: "label",
       input: "input",
     },
-    defaultChecked: false,
+    defaultChecked: true,
     sx: undefined,
     value: undefined,
   },
