@@ -131,7 +131,8 @@ const meta = {
     onChange: fn(),
   },
   render: ({ expanded, expandIcon, ...args }) => (
-    <>
+    <div className="w-100 max-w-xs">
+      {/* Render multiple accordions */}
       {Array.from([1, 2, 3], (index) => (
         <Accordion
           {...args}
@@ -153,7 +154,7 @@ const meta = {
           </AccordionDetails>
         </Accordion>
       ))}
-    </>
+    </div>
   ),
 } satisfies Meta<typeof Accordion>;
 
@@ -247,7 +248,7 @@ const ControlledComponent = (
     };
 
   return (
-    <>
+    <div className="w-100 max-w-xs">
       {Array.from([1, 2, 3], (index) => {
         const panel = `panel${index}`;
         return (
@@ -270,7 +271,7 @@ const ControlledComponent = (
           </Accordion>
         );
       })}
-    </>
+    </div>
   );
 };
 

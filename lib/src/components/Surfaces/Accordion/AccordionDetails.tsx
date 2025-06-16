@@ -1,6 +1,6 @@
 import React from "react";
 import { AccordionProps } from "./Accordion.types";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/utils/cn";
 
 export const AccordionDetails = <C extends React.ElementType = "div">({
   children,
@@ -8,8 +8,8 @@ export const AccordionDetails = <C extends React.ElementType = "div">({
   id,
   classes,
 }: AccordionProps<C>) => {
-  const detailsClass = twMerge(
-    "px-4 py-1",
+  const detailsClass = cn(
+    "p-1",
     expanded ? "accordion" : "accordion-up",
     classes?.details,
   );

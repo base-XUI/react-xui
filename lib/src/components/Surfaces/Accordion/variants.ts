@@ -7,7 +7,7 @@ export const accordionVariantsConfig = {
       true: "mb-0",
     },
 
-    square: { true: "rounded-none shadow", false: "border-b-1" },
+    square: { true: "rounded-none shadow px-1", false: "border-b-1" },
     defaultExpanded: { true: "expanded" },
     expanded: { true: "expanded" },
     defaultVariants: {

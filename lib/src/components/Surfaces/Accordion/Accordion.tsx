@@ -2,7 +2,8 @@ import React from "react";
 import { cn } from "@/utils/cn";
 import { AccordionProps } from "./Accordion.types";
 import { accordionVariants } from "./variants";
-import { twMerge } from "tailwind-merge";
+import { useId } from "react";
+
 const Accordion = <C extends React.ElementType = "div">({
   component,
   children,
@@ -13,61 +14,67 @@ const Accordion = <C extends React.ElementType = "div">({
   disableGutters,
   square,
   onChange,
-  id = `accordion-${Math.random().toString(36).substr(2, 9)}`, // Generate a unique id if not provided
   slots,
   ref,
   ...rest
 }: AccordionProps<C>) => {
   const Component = component || "div";
+  const autoId = useId();
+
   //check if state is controlled or uncontrolled
   const isControlled = expanded !== undefined;
+  //get id from props or generate one
+  const id = rest.id || `accordion-${autoId}`;
   //states for expanded or not
-  const [isExpanded, setIsExpanded] = React.useState(defaultExpanded);
-  // Determine initial open state for uncontrolled mode
-  let isOpen: boolean = isExpanded === true || defaultExpanded === true; // Support both boolean and string for expanded
-  if (isControlled) {
-    if (typeof expanded === "boolean") {
-      isOpen = expanded;
-    } else if (typeof expanded === "string") {
-      isOpen = expanded === id;
-    } else {
-      isOpen = false;
-    }
-  }
+  const [uncontrolledOpen, setUncontrolledOpen] =
+    React.useState(defaultExpanded);
+
+  const isOpen = isControlled
+    ? typeof expanded === "string"
+      ? expanded === id
+      : expanded
+    : uncontrolledOpen === true || defaultExpanded === true;
   //handel expansion
-  const handleExpansion = (event: React.SyntheticEvent) => {
-    if (disabled) return;
-    if (isControlled) {
-      if (typeof expanded === "string") {
-        // Pass the next expanded value (panel id or false)
-        onChange?.(event, expanded === id ? false : true);
+  const handleExpansion = React.useCallback(
+    (event: React.SyntheticEvent) => {
+      if (disabled) return;
+      if (isControlled) {
+        if (typeof expanded === "string") {
+          // Pass the next expanded value to onChange callback
+          onChange?.(event, expanded);
+        } else {
+          onChange?.(event, !expanded);
+        }
       } else {
-        onChange?.(event, !expanded);
+        setUncontrolledOpen((prev) => (onChange?.(event, !prev), !prev));
       }
-    } else {
-      setIsExpanded((prev) => (onChange?.(event, !prev), !prev));
-    }
-  };
-  const rootClass = twMerge(
-    "w-100",
+    },
+    [disabled, isControlled, expanded, onChange],
+  );
+  // Define the root class based on the props
+  const rootClass = cn(
+    "w-full",
     !disableGutters && isOpen ? "my-3" : "my-0",
     classes?.root,
   );
 
   const content = (
     <div className={rootClass} id={id}>
-      {React.Children.map(
-        children,
-        (
-          child: any, //eslint-disable-line
-        ) =>
-          React.cloneElement(child, {
-            expanded: isOpen,
-            handelChange: handleExpansion,
-            disabled,
-            id,
-            slots,
-          }),
+      {React.Children.map(children, (child: React.ReactNode) =>
+        React.isValidElement(child)
+          ? React.cloneElement(
+              child as React.ReactElement<any>, //eslint-disable-line
+              {
+                // Pass necessary props to child components
+                expanded: isOpen,
+                onToggle: handleExpansion,
+                disabled,
+                id,
+                slots,
+                classes,
+              },
+            )
+          : child,
       )}
     </div>
   );

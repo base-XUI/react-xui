@@ -1,22 +1,21 @@
 import React from "react";
 import { ChevronDown } from "lucide-react";
 import { AccordionProps } from "./Accordion.types";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/utils/cn";
 export const AccordionSummary = <C extends React.ElementType = "h3">({
   children,
   expanded,
-  handelChange,
+  onToggle,
   disabled,
-  expandIcon = <ChevronDown color="#71717A" size={18} />,
+  expandIcon = <ChevronDown className="stroke-muted-foreground" size={18} />,
   id,
   slots,
   classes,
 }: AccordionProps<C>) => {
   //heading of summary
   const Heading = slots?.heading?.component || "h3";
-  console.log("first", slots?.heading?.component);
-  const summaryClass = twMerge(
-    "flex w-full justify-between px-4 py-3 text-left text-sm font-semibold transition-all",
+  const summaryClass = cn(
+    "flex w-full justify-between px-1 py-3 text-left text-sm font-semibold transition-all",
     disabled ? "cursor-default opacity-50" : "cursor-pointer",
     classes?.summary,
   );
@@ -26,15 +25,13 @@ export const AccordionSummary = <C extends React.ElementType = "h3">({
     <button
       type="button"
       className={summaryClass}
-      onClick={handelChange}
+      onClick={onToggle}
       aria-expanded={expanded}
       aria-controls={`${id}-details`}
       id={`${id}-summary`}
     >
-      {children}
-      <span
-        className={`mr-2 transition-transform ${expanded ? "rotate-180" : ""}`}
-      >
+      <span> {children}</span>
+      <span className={`transition-transform ${expanded ? "rotate-180" : ""}`}>
         {expandIcon}
       </span>
     </button>,
