@@ -1,160 +1,169 @@
-import { forwardRef, isValidElement } from "react";
-import { cn } from "@/utils/cn"; // Utility for conditional class names
-import { radioVariants } from "./variants"; // Tailwind variants based on color/size/state
-import { RadioProps } from "./Radio.types"; // TypeScript interface defining all props
-import { Circle } from "lucide-react"; // Default icon when checked
+import {
+  isValidElement,
+  useEffect,
+  useRef,
+  useId,
+  useState,
+  ReactNode,
+} from "react";
+import { cn } from "@/utils/cn";
+import { radioVariants } from "./variants";
+import { Circle } from "lucide-react";
+import { RadioBaseProps, Primitive } from "./Radio.types";
 
-/**
- * Validates that the provided icon is a valid React element.
- * Logs an error if invalid to help developers catch mistakes early.
- */
-const validateIcon = (name: string, icon: unknown): boolean => {
-  if (icon == null) return true;
-  if (!isValidElement(icon)) {
-    console.error(`Invalid "${name}" - only React elements allowed`, {
-      received: typeof icon,
-    });
-    return false;
+const groupState: Record<string, Primitive> = {};
+const groupListeners: Record<string, Array<() => void>> = {};
+const parentIdMap = new WeakMap<HTMLElement, string>();
+let parentIdCounter = 0;
+
+const findClosestGroup = (element: HTMLElement | null) =>
+  element?.closest("div, fieldset, form, section") ?? null;
+
+function getGroupKey(element: HTMLElement | null, name: string): string {
+  const closestParent = findClosestGroup(element) as HTMLElement;
+  if (!closestParent) return name; // Fallback to name for global scope
+
+  if (!parentIdMap.has(closestParent)) {
+    parentIdMap.set(closestParent, `radio-group-${parentIdCounter++}`);
   }
-  return true;
-};
+  const parentId = parentIdMap.get(closestParent)!;
+  return `${parentId}_${name}`;
+}
 
-/**
- * Generates a unique ID for the radio input if none is provided.
- */
-const generateId = () => `radio-${Math.random().toString(36).slice(2, 9)}`;
-
-/**
- * Determines the visual state of the radio button (checked/unchecked).
- */
-const getState = (checked: boolean) => (checked ? "checked" : "unchecked");
-
-/**
- * A customizable and accessible radio button component.
- *
- * Features:
- * - Fully controlled/uncontrolled behavior via `checked` or `defaultChecked`
- * - Custom styling with variants and slot-based rendering
- * - Supports custom icons and validation
- * - Accessible with aria attributes and keyboard support
- */
-const Radio = forwardRef<HTMLInputElement, RadioProps>((props, ref) => {
+export const Radio = (props: RadioBaseProps) => {
   const {
-    // Core Props
-    id, // Optional ID for accessibility and form handling
-    name, // HTML name attribute
-    value, // Value passed in form submission
-    checked = false, // Controlled checked state
-    defaultChecked = false, // Uncontrolled initial state
-    disabled = false, // Disables interaction
-    required = false, // Makes field mandatory
-    onChange, // Change handler
-
-    // Styling Props
-    className, // Additional root class names
-    color = "primary", // Color variant (e.g., primary, secondary)
-    size = "medium", // Size variant (e.g., small, medium)
-
-    // Icon Props
-    icon = undefined, // Optional un-checked icon
-    checkedIcon = <Circle className="h-full w-full" />, // Checked icon (Lucide)
-
-    // Slot API for customization
-    slots = {}, // Override root/input components
-    slotProps = {}, // Pass additional props to slots
-
-    ...rest // Remaining props passed to input
+    className,
+    sx,
+    color,
+    size,
+    icon,
+    checkedIcon = <Circle className="h-full w-full" color="#fff" />,
+    slots = {},
+    slotProps = {},
+    id,
+    name = "default-radio-name",
+    value,
+    checked: controlledChecked,
+    defaultChecked = false,
+    onChange,
+    disabled,
+    required,
+    ...rest
   } = props;
 
-  // Validate icon inputs
-  const isValid = [
-    validateIcon("icon", icon),
-    validateIcon("checkedIcon", checkedIcon),
-  ].every(Boolean);
+  const rootRef = useRef<HTMLElement>(null);
+  const autoId = useId();
 
-  if (!isValid)
-    return (
-      <div data-testid="icon-error-msg" className="text-red-600">
-        error *
-      </div>
-    );
+  const [internalChecked, setInternalChecked] = useState(defaultChecked);
 
-  // Generate unique ID if not provided
-  const radioId = id || generateId();
+  const { ref: inputSlotRef, ...inputSlotProps } = slotProps.input || {};
+  const { ref: rootSlotRef, ...rootSlotProps } = slotProps.root || {};
 
-  // Determine current state for styling
-  const state = getState(checked || defaultChecked);
+  const isControlled = controlledChecked !== undefined;
+  const finalChecked = isControlled ? controlledChecked : internalChecked;
 
-  // Select appropriate icon based on state
-  const currentIcon = state === "checked" ? checkedIcon : icon;
+  // Effect to handle ref forwarding for the root element via slotProps
+  useEffect(() => {
+    if (rootSlotRef) {
+      if (typeof rootSlotRef === "function") {
+        rootSlotRef(rootRef.current);
+      } else {
+        rootSlotRef.current = rootRef.current;
+      }
+    }
+  }, [rootSlotRef]);
 
-  // Resolve components for slots
+  useEffect(() => {
+    if (value === undefined || isControlled) return;
+
+    const groupKey = getGroupKey(rootRef.current, name);
+
+    const updateState = () => {
+      setInternalChecked(groupState[groupKey] === value);
+    };
+
+    groupListeners[groupKey] = [
+      ...(groupListeners[groupKey] || []),
+      updateState,
+    ];
+
+    if (defaultChecked && groupState[groupKey] === undefined) {
+      groupState[groupKey] = value;
+    }
+    updateState();
+
+    return () => {
+      groupListeners[groupKey] = groupListeners[groupKey]?.filter(
+        (fn) => fn !== updateState,
+      );
+    };
+  }, [name, value, isControlled, defaultChecked]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isControlled) {
+      const groupKey = getGroupKey(rootRef.current, name);
+      groupState[groupKey] = value as Primitive;
+      groupListeners[groupKey]?.forEach((listener) => listener());
+    }
+    onChange?.(e);
+  };
+
+  const validateIcon = (iconName: string, iconElement: ReactNode) => {
+    if (!iconElement || isValidElement(iconElement)) return true;
+    console.error(`Invalid "${iconName}" - only React elements are allowed.`);
+    return false;
+  };
+
+  if (
+    !validateIcon("icon", icon) ||
+    !validateIcon("checkedIcon", checkedIcon)
+  ) {
+    return <div className="text-red-600">Error: Invalid Icon</div>;
+  }
+
+  const state = finalChecked ? "checked" : "unchecked";
   const RootComponent = slots.root || "span";
   const InputComponent = slots.input || "input";
 
-  // Apply merged classes using `cn` utility
-  const rootClasses = {
-    ...slotProps.root,
-    className: cn(
-      "relative inline-flex items-center justify-center rounded-full p-0.5 shrink-0",
-      radioVariants({ color, size, state }),
-      !checked && "border border-gray-300",
-      disabled && "cursor-not-allowed opacity-50",
-      required && !checked && "border-error",
-      className,
-      slotProps.root?.className,
-    ),
-  };
-
-  const inputClasses = {
-    ...slotProps.input,
-    className: cn(
-      "absolute inset-0 opacity-0",
-      disabled ? "pointer-events-none" : "cursor-pointer",
-      slotProps.input?.className,
-    ),
-  };
-
   return (
     <RootComponent
-      {...rootClasses}
-      data-testid="root-component"
+      {...rootSlotProps}
+      ref={rootRef}
+      className={cn(
+        "relative inline-flex shrink-0 items-center justify-center rounded-full p-0.5",
+        radioVariants({ color, size, state }),
+        !finalChecked && "border border-gray-300",
+        disabled && "cursor-not-allowed opacity-50",
+        required && !finalChecked && "border-error",
+        className,
+        rootSlotProps.className,
+      )}
+      style={sx}
       data-state={state}
     >
-      {/* Actual input element */}
       <InputComponent
-        {...inputClasses}
         {...rest}
-        ref={ref}
-        id={radioId}
+        {...inputSlotProps}
+        ref={inputSlotRef}
         type="radio"
-        name={slotProps.input?.name ?? name}
+        id={id ?? autoId}
+        name={name}
         value={value}
-        checked={checked || defaultChecked}
+        checked={finalChecked}
         disabled={disabled}
         required={required}
-        onChange={onChange}
-        aria-checked={checked}
+        onChange={handleChange}
+        className={cn(
+          "absolute inset-0 cursor-pointer opacity-0",
+          disabled && "pointer-events-none",
+          inputSlotProps.className,
+        )}
       />
-
-      {/* Centered icon inside the radio circle */}
       <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        {currentIcon}
+        {finalChecked ? checkedIcon : icon}
       </span>
-
-      {/* Required indicator asterisk shown only if not checked */}
-      {required && !checked && (
-        <span
-          aria-hidden="true"
-          className="absolute inset-x-5 -inset-y-0 text-xs font-bold text-red-500"
-        >
-          *
-        </span>
-      )}
     </RootComponent>
   );
-});
+};
 
 Radio.displayName = "Radio";
-
-export { Radio };
