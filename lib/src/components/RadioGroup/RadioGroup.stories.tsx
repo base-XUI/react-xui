@@ -117,9 +117,9 @@ type Story = StoryObj<typeof RadioGroup>;
 
 export const RadioGroupControlled: Story = {
   args: {
-    value: "",
+    value: undefined,
     children: undefined,
-    defaultValue: "angular",
+    defaultValue: undefined,
     row: false,
     sx: undefined,
     id: undefined,
@@ -128,23 +128,23 @@ export const RadioGroupControlled: Story = {
     onValueChange: undefined,
   },
   render: function Render(args) {
-    const [, updateArgs] = useArgs();
+    const [{ value }, updateArgs] = useArgs();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       updateArgs({ value: e.target.value });
     };
+
     return (
       <RadioGroup
         sx={args.sx}
-        row={args.row}
-        value={args.value}
         defaultValue={args.defaultValue}
-        name={args.name}
-        id={args.id}
+        row={args.row}
+        name="frameworksGroup"
+        value={value}
         onChange={handleChange}
       >
         <div className="my-1 flex items-center gap-4">
-          <Radio value="angular" />
+          <Radio defaultChecked value="angular" />
           <span>Angular</span>
         </div>
         <div className="my-1 flex items-center gap-4">
@@ -195,10 +195,19 @@ export const RadioGroupUncontrolled: Story = {
 export const RadioWithoutRadioGroup: Story = {
   render: () => {
     return (
-      <div className="flex items-center gap-3">
-        <Radio name="options11" value={1} />
-        <Radio name="options11" value="2" />
-        <Radio name="options11" value="3" />
+      <div className="flex flex-col justify-start gap-3">
+        <span className="my-1 flex items-center gap-2">
+          <Radio defaultChecked name="colors" value="Blue" color="primary" />
+          <span>Blue</span>
+        </span>
+        <span className="my-1 flex items-center gap-2">
+          <Radio name="colors" value="green" color="success" />
+          <span>Green</span>
+        </span>
+        <span className="my-1 flex items-center gap-2">
+          <Radio name="colors" value="purple" color="error" />
+          <span>Red</span>
+        </span>
       </div>
     );
   },
