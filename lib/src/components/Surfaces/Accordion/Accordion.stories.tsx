@@ -18,8 +18,10 @@ const meta = {
         title: "Contents",
       },
       description: {
-        component:
-          "A vertically stacked set of interactive headings that each reveal a section of content.",
+        component: `A vertically stacked set of interactive headings that each reveal a section of content.
+        \nAccordion: the wrapper for grouping related components.
+        \nAccordion Summary: the wrapper for the Accordion header, which expands or collapses the content when clicked.
+        \nAccordion Details: the wrapper for the Accordion content.`,
       },
       subComponents: {
         AccordionSummary:
@@ -165,6 +167,12 @@ type Story = StoryObj<typeof Accordion>;
 export const Basic: Story = {
   args: {},
 };
+//expanded Icon variant
+export const ExpandedIcon: Story = {
+  args: {
+    expandIcon: <ArrowDown />,
+  },
+};
 // DefaultExpanded variant
 export const DefaultExpanded: Story = {
   args: {
@@ -178,11 +186,7 @@ export const Disabled: Story = {
     disabled: true,
   },
 };
-export const ExpandedIcon: Story = {
-  args: {
-    expandIcon: <ArrowDown />,
-  },
-};
+
 // DisableGutters variant
 export const DisableGutters: Story = {
   args: {
@@ -257,6 +261,7 @@ const ControlledComponent = (
             key={panel}
             expanded={expanded === panel}
             onChange={handleChange(panel)}
+            {...props} // Spread the props to allow for custom classes, slots, etc.
           >
             <AccordionSummary
               aria-controls={`${panel}-content`}
@@ -280,5 +285,11 @@ const ControlledComponent = (
 export const Squared: Story = {
   args: {
     square: true,
+  },
+};
+// Changing heading of summary from h3 to h4
+export const ChangingHeadingLevel: Story = {
+  args: {
+    slots: { heading: { component: "h4" } },
   },
 };
