@@ -8,8 +8,8 @@ import {
   ReactNode,
   ChangeEvent,
   ReactElement,
-  useCallback,
 } from "react";
+
 import {
   ELEMENT_TYPES,
   ElementType,
@@ -23,20 +23,18 @@ import { cn } from "@/utils/cn";
 const normalize = (val: Primitive): Primitive =>
   typeof val === "string" ? val.toLowerCase() : val;
 
-const isSelected = (selectedValue: Primitive, val: Primitive): boolean => {
-  if (selectedValue == null || val == null) return selectedValue === val;
-  return String(selectedValue) === String(val);
-};
+const isSelected = (selectedValue: Primitive, val: Primitive): boolean =>
+  String(normalize(selectedValue)) === String(normalize(val));
 
-const getElementType = (props: RadioProps): ElementType => {
-  if ("control" in props && isValidElement(props.control)) {
-    return ELEMENT_TYPES.FORM_CONTROL_LABEL;
-  }
-  if ("value" in props && props.value !== undefined) {
-    return ELEMENT_TYPES.RADIO;
-  }
-  return ELEMENT_TYPES.OTHER;
-};
+const getElementType = ({ control, value }: RadioProps): ElementType =>
+  isValidElement(control)
+    ? ELEMENT_TYPES.FORM_CONTROL_LABEL
+    : value !== undefined
+      ? ELEMENT_TYPES.RADIO
+      : ELEMENT_TYPES.OTHER;
+
+const isEmptyPrimitive = (val?: Primitive): boolean =>
+  val == null || val === "";
 
 const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
   (
@@ -45,7 +43,7 @@ const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
       id,
       defaultValue,
       value: externalValue,
-      name: groupName = "default",
+      name: groupName = "default-radio-group",
       row = false,
       sx,
       onChange,
@@ -53,116 +51,146 @@ const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
     },
     ref,
   ) => {
-    const containerClassName = cn(
-      "flex flex-col items-start justify-center",
-      row && "flex-row gap-4",
-    );
-    const normalizedDefaultValue: Primitive | undefined =
-      defaultValue !== undefined ? normalize(defaultValue) : undefined;
+    const getInitialValue = () => {
+      if (!isEmptyPrimitive(defaultValue)) {
+        return normalize(defaultValue!);
+      }
 
-    const isControlled = externalValue !== undefined && externalValue !== "";
-    const [internalValue, setInternalValue] = useState<Primitive | undefined>(
-      normalizedDefaultValue,
-    );
-    const currentValue: Primitive | undefined = isControlled
-      ? externalValue !== undefined
-        ? normalize(externalValue)
-        : undefined
+      let valueFromChildren: Primitive | undefined;
+      const stack: ReactNode[] = Children.toArray(children).reverse();
+
+      while (stack.length > 0) {
+        const child = stack.pop();
+        if (!isValidElement(child)) continue;
+
+        const props = child.props as RadioProps;
+        const elementType = getElementType(props);
+        let foundValue: Primitive | undefined;
+
+        if (
+          elementType === ELEMENT_TYPES.RADIO &&
+          props.defaultChecked &&
+          props.value !== undefined
+        ) {
+          foundValue = props.value;
+        } else if (
+          elementType === ELEMENT_TYPES.FORM_CONTROL_LABEL &&
+          isValidElement(props.control)
+        ) {
+          const controlProps = props.control.props as RadioProps;
+          if (
+            (props.defaultChecked || controlProps.defaultChecked) &&
+            controlProps.value !== undefined
+          ) {
+            foundValue = controlProps.value;
+          }
+        }
+
+        if (foundValue !== undefined) {
+          valueFromChildren = foundValue;
+          break;
+        }
+
+        if (props.children) {
+          Children.toArray(props.children)
+            .reverse()
+            .forEach((nestedChild) => stack.push(nestedChild));
+        }
+      }
+
+      return normalize(valueFromChildren ?? "");
+    };
+
+    const isControlled = !isEmptyPrimitive(externalValue);
+    const [internalValue, setInternalValue] =
+      useState<Primitive>(getInitialValue());
+
+    const currentValue = isControlled
+      ? normalize(externalValue!)
       : internalValue;
 
     useEffect(() => {
       if (!isControlled) {
-        setInternalValue(normalizedDefaultValue);
+        setInternalValue(getInitialValue());
       }
-    }, [isControlled, normalizedDefaultValue]);
+    }, [defaultValue, isControlled]);
 
-    const handleChange = useCallback(
+    const handleChange =
       (val: Primitive) => (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.disabled) return;
 
         const normalizedVal = normalize(val);
-
-        if (!isControlled) {
-          setInternalValue(normalizedVal);
-        }
-
         const metadata: RadioChangeMetadata = {
           id: e.target.id || `radio-${String(normalizedVal)}`,
           value: normalizedVal,
           name: groupName,
           checked: true,
         };
-
+        if (!isControlled) {
+          setInternalValue(normalizedVal);
+        }
         onChange?.(e, normalizedVal, metadata);
         onValueChange?.(normalizedVal, metadata);
-      },
-      [isControlled, groupName, onChange, onValueChange],
-    );
+      };
 
-    const createRadioProps = useCallback(
-      (value: Primitive) => ({
-        name: groupName,
-        value,
-        checked: isSelected(currentValue, value),
-        onChange: handleChange(value),
-        key: `${groupName}-${String(value)}`,
-      }),
-      [groupName, currentValue, handleChange],
-    );
+    const mapChild = (child: ReactNode): ReactNode => {
+      if (!isValidElement(child)) return child;
 
-    const processFormControlLabel = useCallback(
-      (child: ReactElement, props: RadioProps) => {
-        const { control, value: labelValue } = props;
-        if (!isValidElement(control)) return;
+      const props = child.props as RadioProps;
+      const elementType = getElementType(props);
 
-        const value =
-          labelValue ?? (control.props as { value: Primitive }).value;
-        const clonedControl = cloneElement(control, createRadioProps(value));
-        return cloneElement(child as ReactElement<RadioProps>, {
-          ...props,
-          control: clonedControl,
-        });
-      },
-      [createRadioProps],
-    );
+      switch (elementType) {
+        case ELEMENT_TYPES.RADIO:
+          if (props.value !== undefined) {
+            return cloneElement(child as ReactElement<RadioProps>, {
+              name: groupName,
+              checked: isSelected(currentValue, props.value),
+              onChange: handleChange(props.value),
+            });
+          }
+          break;
 
-    const processRadio = useCallback(
-      (child: ReactElement, props: RadioProps): ReactElement => {
-        return cloneElement(child, createRadioProps(props.value));
-      },
-      [createRadioProps],
-    );
+        case ELEMENT_TYPES.FORM_CONTROL_LABEL:
+          if (isValidElement(props.control)) {
+            const controlProps = props.control.props as RadioProps;
+            const controlValue = props.value ?? controlProps.value;
+            if (controlValue !== undefined) {
+              const newControl = cloneElement(
+                props.control as ReactElement<RadioProps>,
+                {
+                  name: groupName,
+                  checked: isSelected(currentValue, controlValue),
+                  onChange: handleChange(controlValue),
+                },
+              );
+              return cloneElement(child as ReactElement<RadioProps>, {
+                control: newControl,
+              });
+            }
+          }
+          break;
 
-    const processChild = useCallback(
-      (child: ReactNode): ReactNode => {
-        if (!isValidElement(child)) return child;
-        const props = child.props as RadioProps;
-        const elementType = getElementType(props);
+        default:
+          if (props.children) {
+            return cloneElement(
+              child,
+              props,
+              Children.map(props.children, mapChild),
+            );
+          }
+      }
 
-        if (props.children) {
-          return cloneElement(
-            child,
-            props,
-            Children.map(props.children, processChild),
-          );
-        }
-        switch (elementType) {
-          case ELEMENT_TYPES.FORM_CONTROL_LABEL:
-            return processFormControlLabel(child, props);
+      return child;
+    };
 
-          case ELEMENT_TYPES.RADIO:
-            return processRadio(child, props);
-
-          default:
-            return child;
-        }
-      },
-      [processFormControlLabel, processRadio],
+    const containerClassName = cn(
+      "flex flex-col items-start justify-center",
+      row && "flex-row gap-x-3",
     );
 
     return (
       <div id={id} ref={ref} style={sx} className={containerClassName}>
-        {Children.map(children, processChild)}
+        {Children.map(children, mapChild)}
       </div>
     );
   },
