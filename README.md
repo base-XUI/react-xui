@@ -46,23 +46,18 @@ For testing the package in another local project without publishing to npm:
 
 2. When you make changes to the library:
 
-   ```bash
+   ````bash
    # In react-xui directory
-   pnpm build:package
-   yalc push
+   pnpm dev:publish  # For first-time publishing to local yalc store
+   # or
+   pnpm dev:link     # For subsequent updates to local yalc store
    ```
-
    Or use watch mode for continuous updates:
 
    ```bash
-   pnpm build:package --watch
-   ```
-
-   And in another terminal:
-
-   ```bash
-   yalc push --watch
-   ```
+   # Automatically rebuilds and pushes to local yalc store on changes
+   pnpm dev:watch
+   ````
 
 3. Link package to local react app:
 
@@ -77,14 +72,13 @@ For testing the package in another local project without publishing to npm:
    ```bash
    # In your test app directory
    yalc remove @base-xui/react-xui
-   npm install # or pnpm install
+   pnpm install # or pnpm install
    ```
-
-## Development
 
 ### Available Scripts
 
 - `pnpm storybook` - Start Storybook for component development
+- `pnpm build:package` - Build Package & generate dist folder
 - `pnpm build:storybook` - Build Storybook for deployment
 - `pnpm test:unit` - Run components test (unit test)
 - `pnpm test:unit:ui` - Open Visualized components test interface
@@ -92,6 +86,9 @@ For testing the package in another local project without publishing to npm:
 - `pnpm test:e2e:ui` - Open Visualized e2e test interface
 - `pnpm lint` - Lint code
 - `pnpm format` - Format code
+- `pnpm dev:publish` - First-time publishing to local yalc store
+- `pnpm dev:link` - Update package in local yalc store
+- `pnpm dev:watch` - Watch for changes and update local yalc store automatically
 
 ### Project Structure
 
