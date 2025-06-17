@@ -1,103 +1,111 @@
-/**
- * Customizable Checkbox Component
- *
- * Features:
- * - Multiple color themes and sizes
- * - Custom icons for all states
- * - Slot-based customization (MUI-style)
- * - Full accessibility support
- * - TypeScript ready
- */
-import { forwardRef, isValidElement } from "react";
+import { forwardRef, isValidElement, useId, useState } from "react";
 import { cn } from "@/utils/cn";
 import { checkboxVariants } from "./variants";
 import { CheckboxProps } from "./Checkbox.types";
 import { Check, Minus } from "lucide-react";
 
-// Validation helper
-const validateIcon = (name: string, icon: unknown): boolean => {
-  if (icon == null) return true;
-  if (!isValidElement(icon)) {
-    console.error(`Invalid "${name}" - only React elements allowed`, {
-      received: typeof icon,
-    });
+const validateReactElement = (propName: string, element: unknown): boolean => {
+  if (element == null) return true;
+  if (!isValidElement(element)) {
+    console.error(
+      `Invalid "${propName}" prop provided to Checkbox. Expected a React element or null/undefined, but received: ${typeof element}.`,
+    );
     return false;
   }
   return true;
 };
 
-// Utility helpers
-const generateId = () => `checkbox-${Math.random().toString(36).slice(2, 9)}`;
-const getState = (checked: boolean, indeterminate: boolean) =>
-  indeterminate ? "indeterminate" : checked ? "checked" : "unchecked";
+const getCheckboxState = (
+  isChecked: boolean,
+  isIndeterminate: boolean,
+): "checked" | "unchecked" | "indeterminate" => {
+  if (isIndeterminate) {
+    return "indeterminate";
+  }
+  return isChecked ? "checked" : "unchecked";
+};
 
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
   const {
-    // Core props
     id,
     name,
     value,
-    checked = false,
+    checked: externalChecked = undefined,
     defaultChecked = false,
     indeterminate = false,
     disabled = false,
     required = false,
-    onChange,
-
-    // Styling
+    onChange: externalOnChange = undefined,
     className,
     color = "primary",
     size = "medium",
-
-    // Icons
-    icon,
+    icon = null,
     checkedIcon = <Check />,
     indeterminateIcon = <Minus />,
-
-    // Customization
     slots = {},
     slotProps = {},
-
     ...rest
   } = props;
 
-  // Validate icons
-  const isValid = [
-    validateIcon("icon", icon),
-    validateIcon("checkedIcon", checkedIcon),
-    validateIcon("indeterminateIcon", indeterminateIcon),
+  const generatedId = useId();
+  const checkboxId = id || generatedId;
+
+  const areIconsValid = [
+    validateReactElement("icon", icon),
+    validateReactElement("checkedIcon", checkedIcon),
+    validateReactElement("indeterminateIcon", indeterminateIcon),
   ].every(Boolean);
 
-  if (!isValid) return <div className="text-red-600">error *</div>;
+  if (!areIconsValid) {
+    return (
+      <div
+        data-testid="icon-error-msg"
+        className="text-sm font-medium text-red-600"
+        role="alert"
+        aria-live="polite"
+      >
+        Invalid Icon
+      </div>
+    );
+  }
 
-  // Component state
-  const checkboxId = id || generateId();
-  const state = getState(checked || defaultChecked, indeterminate);
+  const isControlled =
+    externalChecked !== undefined && externalOnChange !== undefined;
 
-  // Select current icon
-  const currentIcon =
-    state === "indeterminate"
-      ? indeterminateIcon
-      : state === "checked"
-        ? checkedIcon
-        : icon;
+  const [internalChecked, setInternalChecked] = useState(defaultChecked);
 
-  // Resolve slot components
+  const isChecked = isControlled ? externalChecked : internalChecked;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isControlled) {
+      externalOnChange?.(e);
+    } else {
+      setInternalChecked(e.target.checked);
+    }
+  };
+
+  const state = getCheckboxState(isChecked, indeterminate);
+
+  const currentIcon = indeterminate
+    ? indeterminateIcon
+    : isChecked
+      ? checkedIcon
+      : icon;
+
   const RootComponent = slots.root || "label";
   const InputComponent = slots.input || "input";
 
-  const rootClasses = {
-    ...slotProps.root,
-    className: cn(
-      "inline-flex items-center justify-center transition-all relative",
-      checkboxVariants({ color, size, state }), // Apply variant styles
-      !checked && "border border-gray-300", // Default border when unchecked
-      disabled && "cursor-not-allowed opacity-50", // Disabled state styles
-      required && !checked && !indeterminate && "border-error border", // Required validation
-      className, // Custom className from props
-      slotProps.root?.className, // Custom className from slotProps
-    ),
-  };
+  const rootClasses = cn(
+    "inline-flex items-center justify-center transition-all relative",
+    checkboxVariants({ color, size, state }),
+    {
+      "border border-gray-300": !isChecked,
+      "cursor-not-allowed opacity-50": disabled,
+      "border-error border": required && !isChecked && !indeterminate,
+    },
+    className,
+    slotProps.root?.className,
+  );
+
   const inputClasses = cn(
     "absolute inset-0 opacity-0",
     disabled ? "cursor-not-allowed" : "cursor-pointer",
@@ -106,7 +114,8 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
 
   return (
     <RootComponent
-      {...rootClasses}
+      {...slotProps.root}
+      className={rootClasses}
       data-state={state}
       data-disabled={disabled}
       data-testid="checkbox-span-holder"
@@ -119,12 +128,12 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
         type="checkbox"
         name={slotProps.input?.name ?? name}
         value={value}
-        checked={checked || defaultChecked}
+        checked={isChecked}
         disabled={disabled}
         required={required}
-        onChange={onChange}
+        onChange={handleChange}
         className={inputClasses}
-        aria-checked={indeterminate ? "mixed" : checked}
+        aria-checked={indeterminate ? "mixed" : isChecked}
         data-testid="checkbox-input"
       />
       {currentIcon}
