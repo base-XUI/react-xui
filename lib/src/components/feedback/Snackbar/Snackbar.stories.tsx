@@ -152,7 +152,7 @@ const PositionsComponent = (args: SnackbarProps) => {
       </div>
       <Snackbar
         open={open}
-        message={args.message}
+        message={`This is a ${vertical}-${horizontal} positioned snackbar`}
         action={
           <div>
             <Button
@@ -174,7 +174,6 @@ const PositionsComponent = (args: SnackbarProps) => {
 
 export const Positions: Story = {
   args: {
-    message: "This is a top-right positioned snackbar",
     anchorOrigin: { vertical: "top", horizontal: "right" },
     autoHideDuration: 5000,
   },
