@@ -79,7 +79,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   return (
     <div
       className={cn(
-        "border-muted fixed z-50 flex max-w-md min-w-[356px] items-center rounded-md border border-solid bg-white text-black",
+        "fixed z-50 flex max-w-md min-w-[356px] items-center rounded-md bg-white text-black",
         "transition-all duration-300 ease-in-out",
         positionClasses,
         getAnimationClasses(),
