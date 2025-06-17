@@ -259,14 +259,12 @@ describe("Radio Component: Interaction and Accessibility", () => {
 
 describe("Radio Component: Edge Cases", () => {
   it("should render an error message for invalid icon props", () => {
-    // Prevent the test from failing due to a console error, but check for it.
     cy.on("uncaught:exception", (err) => {
       expect(err.message).to.include('Invalid "icon"');
-      // Return false to prevent the test from failing
       return false;
     });
 
-    cy.mount(<Radio icon={"" as any} />); // Pass an invalid icon
+    cy.mount(<Radio icon={"" as string} />);
     cy.get('[data-testid="icon-error-msg"]')
       .should("exist")
       .and("contain.text", "Invalid Icon");
