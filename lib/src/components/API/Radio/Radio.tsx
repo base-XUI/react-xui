@@ -163,22 +163,6 @@ export const Radio = (props: RadioBaseProps) => {
     return { iconValid, checkedIconValid };
   }, [icon, checkedIcon, validateIcon]);
 
-  if (
-    !iconValidationResult.iconValid ||
-    !iconValidationResult.checkedIconValid
-  ) {
-    return (
-      <div
-        data-testid="icon-error-msg"
-        className="text-sm font-medium text-red-600"
-        role="alert"
-        aria-live="polite"
-      >
-        Invalid Icon
-      </div>
-    );
-  }
-
   const state = finalChecked ? "checked" : "unchecked";
   const RootComponent = slots.root || "span";
   const InputComponent = slots.input || "input";
@@ -215,6 +199,22 @@ export const Radio = (props: RadioBaseProps) => {
       ),
     [disabled, inputSlotProps.className],
   );
+
+  if (
+    !iconValidationResult.iconValid ||
+    !iconValidationResult.checkedIconValid
+  ) {
+    return (
+      <div
+        data-testid="icon-error-msg"
+        className="text-sm font-medium text-red-600"
+        role="alert"
+        aria-live="polite"
+      >
+        Invalid Icon
+      </div>
+    );
+  }
 
   return (
     <RootComponent
