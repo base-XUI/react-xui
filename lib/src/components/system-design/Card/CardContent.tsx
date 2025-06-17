@@ -1,9 +1,12 @@
+import { ElementType } from "react";
+
 import { cn } from "@/utils/cn";
 import { CardContentProps } from "./Card.types";
 
-export function CardContent({ className, ...props }: CardContentProps) {
+export function CardContent<E extends ElementType = "div">(props: CardContentProps<E>) {
+  const { component: Component = "div", className } = props;
   return (
-    <div
+    <Component
       data-slot="card-content"
       className={cn("px-6", className)}
       {...props}
