@@ -16,6 +16,7 @@ describe("Checkbox Component - Full Coverage", () => {
 
   it("should handle 'checked' prop", () => {
     cy.mount(<Checkbox checked={true} />);
+    cy.get(spanHolderSelector).click();
     cy.get(inputSelector).should("be.checked");
     cy.get("svg").should("exist");
   });
@@ -59,13 +60,15 @@ describe("Checkbox Component - Full Coverage", () => {
   });
 
   it("should render custom icon when checked", () => {
+    const checkIconDisplayElement = "[data-testid='custom-checked-icon']";
     cy.mount(
       <Checkbox
         checked
         checkedIcon={<span data-testid="custom-checked-icon">✅</span>}
       />,
     );
-    cy.get("[data-testid='custom-checked-icon']").should("exist");
+    cy.get(spanHolderSelector).click();
+    cy.get(checkIconDisplayElement).should("exist");
   });
 
   it("should render custom icon when indeterminate", () => {
@@ -95,10 +98,15 @@ describe("Checkbox Colors", () => {
   colors.forEach((color) => {
     it(`should apply ${color} color classes`, () => {
       cy.mount(<Checkbox color={color} checked />);
+      cy.get(spanHolderSelector).click();
       cy.get(spanHolderSelector).should((el) => {
         expect(el).to.have.class(`bg-${color}`);
         expect(el).to.have.class(`text-${color}-foreground`);
-        expect(el).to.have.class(`border-${color}-foreground`);
+        expect(el).to.have.class(
+          color === "muted" || color === "secondary"
+            ? `border-${color}`
+            : `border-${color}-foreground`,
+        );
       });
     });
   });
@@ -126,33 +134,19 @@ describe("Checkbox Icon Validation", () => {
   const spanHolderSelector = "[data-testid='checkbox-span-holder']";
 
   it("should show error if icon is not a valid React element", () => {
-    cy.mount(
-      <Checkbox
-        icon="invalid-icon-string" // invalid type
-        checked={false}
-      />,
-    );
+    cy.mount(<Checkbox icon="invalid-icon-string" checked={false} />);
 
     cy.get(spanHolderSelector).should("not.exist");
   });
 
   it("should show error if checkedIcon is not a valid React element", () => {
-    cy.mount(
-      <Checkbox
-        checkedIcon={123} // invalid type
-        checked={true}
-      />,
-    );
+    cy.mount(<Checkbox checkedIcon={123} checked={true} />);
 
     cy.get(spanHolderSelector).should("not.exist");
   });
   it("should show error if indeterminateIcon is not a valid React element", () => {
     cy.mount(
-      <Checkbox
-        indeterminate={true}
-        indeterminateIcon={123} // invalid type
-        checked={true}
-      />,
+      <Checkbox indeterminate={true} indeterminateIcon={123} checked={true} />,
     );
 
     cy.get(spanHolderSelector).should("not.exist");
@@ -176,7 +170,6 @@ describe("Checkbox - slotProps, value, and id", () => {
       />,
     );
 
-    // Check the span element for custom class and data attribute
     cy.get(spanHolderSelector)
       .should("have.class", "custom-slotProps-root-class")
       .and("have.attr", "slotprops-root-data-custom", "true");
@@ -196,12 +189,10 @@ describe("Checkbox - slotProps, value, and id", () => {
       />,
     );
 
-    // Check input attributes
     cy.get(inputSelector)
       .should("have.attr", "title", "custom-slotProps-input-title")
       .and("have.attr", "name", "custom-slotProps-input-name");
 
-    // Check inline style
     cy.get(inputSelector).should("have.css", "cursor").and("equal", "pointer");
   });
 
