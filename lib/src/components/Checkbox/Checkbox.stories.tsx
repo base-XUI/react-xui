@@ -191,7 +191,6 @@ input:{
 export default meta;
 type Story = StoryObj<typeof Checkbox>;
 
-// Default Story
 export const Default: Story = {
   args: {
     checked: false,
@@ -231,7 +230,6 @@ export const Default: Story = {
   },
 };
 
-// With Slot and SlotProps Story
 export const slotAndSlotProps: Story = {
   args: {
     id: "my-checkbox",
@@ -266,7 +264,7 @@ export const slotAndSlotProps: Story = {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       const isChecked = e.target.checked;
-      updateArgs({ checked: isChecked }); // Update the args.checked prop
+      updateArgs({ checked: isChecked });
     };
 
     return (
