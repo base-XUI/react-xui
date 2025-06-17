@@ -2,4 +2,6 @@ import "./main.css";
 
 export * from "./components/inputs/Button";
 export * from "./components/system-design/Typography";
+export * from "./components/API/FormControlLabel";
+export * from "./components/Checkbox/Checkbox";
 export * from "./utils/polymorphic";
