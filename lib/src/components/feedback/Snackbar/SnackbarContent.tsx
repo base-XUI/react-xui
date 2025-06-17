@@ -9,7 +9,9 @@ export const SnackbarContent: React.FC<SnackbarContentProps> = ({
 }) => {
   return (
     <div
-      className={cn("flex w-full items-center rounded-md p-4 shadow-lg")}
+      className={cn(
+        "flex min-h-[64px] w-full items-center rounded-md p-[16px] shadow-lg",
+      )}
       role="alert"
       {...restProps}
     >
