@@ -1,11 +1,9 @@
 import { ChangeEvent, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-
-import { Check, Minus } from "lucide-react";
-
+import { useArgs } from "storybook/internal/preview-api";
 import { Checkbox } from "./Checkbox";
 import { CheckboxProps } from "./Checkbox.types";
-import { useArgs } from "storybook/internal/preview-api";
+import { Check, Minus } from "lucide-react";
 
 const meta = {
   title: "Inputs/Checkbox",
@@ -17,7 +15,6 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    // Following MUI Checkbox API documentation ordering
     checked: {
       control: "boolean",
       description: "If true, the checkbox is checked.",
@@ -52,9 +49,7 @@ const meta = {
 
       table: {
         type: {
-          detail:
-            "'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning' | 'muted'",
-          summary: "Determines the visual style and color palette.",
+          summary: "Select",
         },
         defaultValue: { summary: "'primary'" },
       },
@@ -209,6 +204,7 @@ export const Default: Story = {
     id: "my-checkbox",
     value: "Subscribe",
     className: "",
+    name: "controlled checkbox",
     checkedIcon: <Check />,
     indeterminateIcon: <Minus />,
     onChange: () => {},
@@ -218,7 +214,7 @@ export const Default: Story = {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       const isChecked = e.target.checked;
-      updateArgs({ checked: isChecked, defaultChecked: false }); // Update the args.checked prop
+      updateArgs({ checked: isChecked, defaultChecked: false });
     };
 
     return (
@@ -284,9 +280,71 @@ export const slotAndSlotProps: Story = {
   },
 };
 
-export const Colors: Story = {
+export const IndeterminateExample: Story = {
+  args: {
+    id: "my-checkbox",
+    checked: false,
+    color: "primary",
+    size: "medium",
+    required: false,
+    disabled: false,
+    indeterminate: false,
+    checkedIcon: <Check />,
+    indeterminateIcon: <Minus />,
+    onChange: () => {},
+    value: "Subscribe",
+    slots: {
+      root: "label",
+      input: "input",
+    },
+  },
   render: function Render(args) {
-    const [checkedStates, setCheckedStates] = useState({
+    const [checked, setChecked] = useState([true, false]);
+
+    const handleChange1 = (event: ChangeEvent<HTMLInputElement>) => {
+      setChecked([event.target.checked, event.target.checked]);
+    };
+
+    const handleChange2 = (event: ChangeEvent<HTMLInputElement>) => {
+      setChecked([event.target.checked, checked[1]]);
+    };
+
+    const handleChange3 = (event: ChangeEvent<HTMLInputElement>) => {
+      setChecked([checked[0], event.target.checked]);
+    };
+
+    const children = (
+      <div className="m-3 grid items-center gap-3">
+        <div className="flex items-center gap-2">
+          <Checkbox {...args} checked={checked[0]} onChange={handleChange2} />
+          <span>Child 1</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Checkbox {...args} checked={checked[1]} onChange={handleChange3} />
+          <span>Child 2</span>
+        </div>
+      </div>
+    );
+    return (
+      <div>
+        <div className="flex items-center gap-2">
+          <Checkbox
+            {...args}
+            checked={checked[0] && checked[1]}
+            indeterminate={checked[0] !== checked[1]}
+            onChange={handleChange1}
+          />
+          <span>Parent</span>
+        </div>
+        {children}
+      </div>
+    );
+  },
+};
+
+export const Colors: Story = {
+  render: function Render() {
+    const checkedStates = {
       primary: false,
       secondary: false,
       success: false,
@@ -294,17 +352,7 @@ export const Colors: Story = {
       info: false,
       warning: false,
       muted: false,
-    });
-
-    const handleChange =
-      (color: keyof typeof checkedStates) =>
-      (e: ChangeEvent<HTMLInputElement>) => {
-        const isChecked = e.target.checked;
-        setCheckedStates((prev) => ({
-          ...prev,
-          [color]: isChecked,
-        }));
-      };
+    };
 
     return (
       <div className="flex flex-wrap gap-4">
@@ -313,11 +361,10 @@ export const Colors: Story = {
             <Checkbox
               id={`checkbox-${color}`}
               name={`checkbox-${color}`}
-              color={color as any}
-              checked={checkedStates[color as keyof typeof checkedStates]}
-              onChange={handleChange(color as keyof typeof checkedStates)}
+              color={color as "primary"}
               size="medium"
               checkedIcon={<Check />}
+              icon={undefined}
             />
             <span>{color}</span>
           </div>
