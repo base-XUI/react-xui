@@ -4,7 +4,7 @@ import type {
   PolymorphicComponentProp,
   PolymorphicComponent,
 } from "@/utils/polymorphic";
-import { useTabsContext } from "../Tabs/Tabs";
+import { useTabsContext } from "../Tabs";
 
 type TabPanelBaseProps = {
   value: any;
