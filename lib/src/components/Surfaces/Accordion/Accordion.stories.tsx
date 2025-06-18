@@ -4,7 +4,6 @@ import { fn } from "@storybook/test";
 import { Accordion } from "./Accordion";
 import { AccordionSummary } from "./AccordionSummary";
 import { AccordionDetails } from "./AccordionDetails";
-import { Typography } from "@/components/system-design/Typography";
 import { ArrowDown } from "lucide-react";
 
 const meta = {
@@ -200,7 +199,7 @@ export const Controlled: Story = {
     docs: {
       source: {
         code: `
-         const Controlled=(props: typeof args) =>{
+      const Controlled=(props: typeof args) =>{
       const [expanded, setExpanded] = React.useState<string | false>(false);
 
       const handleChange =
@@ -222,15 +221,13 @@ export const Controlled: Story = {
             aria-controls={panel{index}-content}
             id={panel{index}-summary}
           >
-            <Typography component="span" variant="body3">
-              Accordion{index}
-            </Typography>
+            Accordion{index}
           </AccordionSummary>
           <AccordionDetails>
             this is content of accordion {index}
           </AccordionDetails>
         </Accordion>
-      ))
+      ));
     }`,
         language: "tsx",
         type: "code",
@@ -242,8 +239,9 @@ export const Controlled: Story = {
 const ControlledComponent = (
   props: any, // eslint-disable-line @typescript-eslint/no-explicit-any
 ) => {
+  // Controlled component to manage the expanded state
   const [expanded, setExpanded] = React.useState<string | false>(false);
-
+  // Function to handle the change of expanded state
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(() => {
@@ -267,9 +265,7 @@ const ControlledComponent = (
               aria-controls={`${panel}-content`}
               id={`${panel}-summary`}
             >
-              <Typography component="span" variant="body3">
-                Accordion{index}
-              </Typography>
+              Accordion{index}
             </AccordionSummary>
             <AccordionDetails>
               this is content of accordion {index}
