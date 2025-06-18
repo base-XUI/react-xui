@@ -56,6 +56,10 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
   const generatedId = useId();
   const checkboxId = id || generatedId;
 
+  const isControlled = externalChecked !== undefined;
+  const [internalChecked, setInternalChecked] = useState(defaultChecked);
+  const isChecked = isControlled ? externalChecked : internalChecked;
+
   const areIconsValid = [
     validateReactElement("icon", icon),
     validateReactElement("checkedIcon", checkedIcon),
@@ -74,10 +78,6 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
       </div>
     );
   }
-
-  const isControlled = externalChecked !== undefined;
-  const [internalChecked, setInternalChecked] = useState(defaultChecked);
-  const isChecked = isControlled ? externalChecked : internalChecked;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!isControlled) {
