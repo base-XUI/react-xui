@@ -48,8 +48,7 @@
     "test:unit": "cypress run --component",
     "test:unit:ui": "cypress open --component",
     "test:e2e": "cypress run",
-    "test:e2e:ui": "cypress open --e2e",
-    "prepublishOnly": "pnpm lint && pnpm test:unit && pnpm build:package"
+    "test:e2e:ui": "cypress open --e2e"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
