@@ -48,7 +48,8 @@
     "test:unit": "cypress run --component",
     "test:unit:ui": "cypress open --component",
     "test:e2e": "cypress run",
-    "test:e2e:ui": "cypress open --e2e"
+    "test:e2e:ui": "cypress open --e2e",
+    "prepublishOnly": "pnpm lint && pnpm test:unit && pnpm build:package"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
@@ -59,6 +60,7 @@
     "@tailwindcss/vite": "^4.0.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "lucide-react": "^0.511.0",
     "tailwind-merge": "^3.0.1",
     "tailwindcss": "^4.0.6",
     "tailwindcss-animate": "^1.0.7"
@@ -83,7 +85,7 @@
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
-    "cypress": "^14.3.1",
+    "cypress": "^14.4.1",
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
