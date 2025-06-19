@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { cn } from "@/utils/cn";
 import { SnackbarProps } from "./Snackbar.types";
-import { getPositionClasses } from "./variants";
+import { snackbarVariants, getSnackbarVariantProps } from "./variants";
 import { SnackbarContent } from "./SnackbarContent";
 
 export const Snackbar: React.FC<SnackbarProps> = ({
@@ -56,35 +56,12 @@ export const Snackbar: React.FC<SnackbarProps> = ({
 
   if (!shouldRender) return null;
 
-  const positionClasses = getPositionClasses(anchorOrigin);
-
-  // Determine slide direction based on position
-  const getAnimationClasses = () => {
-    const { vertical } = anchorOrigin;
-
-    if (vertical === "top") {
-      return isVisible
-        ? "translate-y-0 opacity-100"
-        : "-translate-y-full opacity-0";
-    } else if (vertical === "bottom") {
-      return isVisible
-        ? "translate-y-0 opacity-100"
-        : "translate-y-full opacity-0";
-    }
-
-    // Fallback for other positions
-    return isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0";
-  };
+  // Get variant props based on anchorOrigin and visibility state
+  const variantProps = getSnackbarVariantProps(anchorOrigin, isVisible);
 
   return (
     <div
-      className={cn(
-        "fixed z-50 flex max-w-md min-w-[356px] items-center rounded-md bg-white text-black",
-        "transition-all duration-300 ease-in-out",
-        positionClasses,
-        getAnimationClasses(),
-        className,
-      )}
+      className={cn(snackbarVariants(variantProps), className)}
       role="alert"
       onTransitionEnd={handleTransitionEnd}
       {...restProps}
