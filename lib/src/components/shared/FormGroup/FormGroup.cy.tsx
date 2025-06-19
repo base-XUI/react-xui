@@ -63,21 +63,13 @@ describe("FormGroup Component - Final Test", () => {
         <Checkbox data-testid="checkbox" />
       </FormGroup>,
     );
-
-    // Ensure the checkbox exists
     cy.get('[data-testid="checkbox"]').should("exist");
-
-    // Click on the checkbox
     cy.get('[data-testid="checkbox"]').click();
-
-    // Re-mount with checked state for verification (optional)
     cy.mount(
       <FormGroup>
         <Checkbox data-testid="checkbox" checked={true} />
       </FormGroup>,
     );
-
-    // Ensure the checkbox is checked
     cy.get('[data-testid="checkbox"]')
       .invoke("prop", "checked")
       .should("eq", true);
@@ -98,14 +90,8 @@ describe("FormGroup Component - Final Test", () => {
     };
 
     cy.mount(<TestComponent />);
-
-    // Confirm default vertical layout
     cy.get('[data-testid="styled-element"]').should("have.class", "flex-col");
-
-    // Click the button to toggle layout
     cy.get("button").click();
-
-    // Confirm horizontal layout after toggle
     cy.get('[data-testid="styled-element"]').should("have.class", "flex-row");
   });
 });
