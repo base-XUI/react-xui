@@ -2,19 +2,6 @@ import { forwardRef } from "react";
 import type { FormGroupProps } from "./FormGroup.types";
 import { cn } from "@/utils/cn";
 
-/**
- * @file
- * Implementation of the FormGroup component.
- * FormGroup is used to wrap form controls like Checkbox and Switch.
- * It provides a consistent layout and supports both vertical and horizontal alignment.
- *
- * @example
- * <FormGroup row>
- *   <Checkbox label="Option 1" />
- *   <Checkbox label="Option 2" />
- * </FormGroup>
- */
-
 const FormGroup = forwardRef<HTMLDivElement, FormGroupProps>(
   ({ children, row = false, className, sx, animation = false }, ref) => {
     return (
@@ -27,7 +14,7 @@ const FormGroup = forwardRef<HTMLDivElement, FormGroupProps>(
           row && "flex-row gap-4",
           className,
         )}
-        style={sx} // Support inline styles via sx prop
+        style={sx}
         data-testid="styled-element"
       >
         {children}
