@@ -51,7 +51,6 @@ export const snackbarVariants = cva(
 
 export type SnackbarVariantsProps = VariantProps<typeof snackbarVariants>;
 
-// Helper function to convert anchorOrigin to variant props
 export const getSnackbarVariantProps = (
   anchorOrigin: SnackbarAnchorOrigin,
   isVisible: boolean,

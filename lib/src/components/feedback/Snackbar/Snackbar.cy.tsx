@@ -75,7 +75,6 @@ describe("Snackbar Component", () => {
     cy.tick(autoHideDuration);
     cy.tick(50);
 
-    // Manually trigger the transitionend event since cy.clock() prevents real CSS transitions
     cy.get('[role="alert"]').then(($el) => {
       const transitionEndEvent = new Event("transitionend", { bubbles: true });
       $el[0].dispatchEvent(transitionEndEvent);

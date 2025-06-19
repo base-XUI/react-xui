@@ -21,12 +21,11 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   useEffect(() => {
     if (open) {
       setShouldRender(true);
-      setIsVisible(false); // Start with hidden state
+      setIsVisible(false);
 
-      // Use setTimeout to ensure the element is rendered with initial state first
       const enterTimer = setTimeout(() => {
         setIsVisible(true);
-      }, 10); // Small delay to ensure DOM update
+      }, 10);
 
       if (autoHideDuration) {
         const hideTimer = setTimeout(() => {
@@ -45,9 +44,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
     }
   }, [open, autoHideDuration]);
 
-  // Handle the end of exit animation
   const handleTransitionEnd = (e: React.TransitionEvent) => {
-    // Only handle our own transition, not child transitions
     if (e.target === e.currentTarget && !isVisible) {
       setShouldRender(false);
       if (onClose) onClose();
@@ -56,7 +53,6 @@ export const Snackbar: React.FC<SnackbarProps> = ({
 
   if (!shouldRender) return null;
 
-  // Get variant props based on anchorOrigin and visibility state
   const variantProps = getSnackbarVariantProps(anchorOrigin, isVisible);
 
   return (

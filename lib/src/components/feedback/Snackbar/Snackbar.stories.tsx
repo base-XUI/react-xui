@@ -187,7 +187,6 @@ export const AutomaticDismiss: Story = {
   },
 };
 
-// Create a proper component for WithAction story
 const WithActionComponent = (args: SnackbarProps) => {
   const [open, setOpen] = useState(false);
   return (
@@ -224,7 +223,6 @@ export const WithAction: Story = {
   render: (args) => <WithActionComponent {...args} />,
 };
 
-// Create a proper component for Positions story
 
 export const WithCustomContent: Story = {
   args: {
