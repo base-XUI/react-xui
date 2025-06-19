@@ -1,10 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Canvas, Controls, Source, Subtitle, Title } from "@storybook/blocks";
+import { Canvas, Controls, Subtitle, Title } from "@storybook/blocks";
 import { useArgs } from "storybook/internal/preview-api";
 import { FormGroup } from "./FormGroup";
 import { Checkbox } from "@/components/Checkbox";
-import { Link } from "storybook/internal/components";
-import { Check } from "lucide-react";
 
 const meta: Meta<typeof FormGroup> = {
   title: "shared/FormGroup",
@@ -16,37 +14,20 @@ const meta: Meta<typeof FormGroup> = {
       page: () => (
         <>
           <Title />
-          <section className="mb-8">
-            <h2 className="mb-3 text-2xl font-semibold">Overview</h2>
-            <p className="text-gray-600">
-              The <code>FormGroup</code> component is used to wrap multiple form
-              controls such as checkboxes or switches. It provides a consistent
-              layout and supports both vertical and horizontal alignment.
+          <Subtitle>
+            <p className="text-sm text-gray-600">
+              The{" "}
+              <strong>
+                <code>FormGroup</code>
+              </strong>{" "}
+              component is used to wrap multiple form controls such as
+              checkboxes or switches. It provides a consistent layout and
+              supports both vertical and horizontal alignment.
             </p>
-          </section>
+          </Subtitle>
 
           <Canvas />
           <Controls />
-          <section className="mb-8">
-            <h2 className="mb-3 text-2xl font-semibold">Accessibility</h2>
-            <ul className="list-disc space-y-1 pl-5 text-gray-700">
-              <li>
-                Labels are correctly associated with inputs using htmlFor.
-              </li>
-              <li>Supports keyboard navigation out of the box.</li>
-              <li>ARIA roles are properly applied for screen readers.</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="mb-3 text-2xl font-semibold">Source Files</h2>
-            <ul className="list-disc pl-5 text-gray-700">
-              <li>FormGroup.tsx</li>
-              <li>FormGroup.types.ts</li>
-              <li>FormGroup.stories.tsx</li>
-              <li>FormGroup.cy.tsx</li>
-            </ul>
-          </section>
         </>
       ),
     },
@@ -78,8 +59,8 @@ const meta: Meta<typeof FormGroup> = {
     },
     sx: {
       control: {
-        type: "object", // Ensure it's treated as an object
-        defaultValue: { background: "red" }, // Default value
+        type: "object",
+        defaultValue: { background: "red" },
       },
       description: "Inline styles for customization.",
       table: {
@@ -119,15 +100,12 @@ export const Default: FormGroupStory = {
   render: function Render(args) {
     const [currentArgs, updateArgs] = useArgs();
 
-    // 🟡 القيم الافتراضية هنا بدل وضعها في args
     const defaultCheckedItems = {
       Apple: false,
       Banana: false,
       Cherry: false,
     };
-
     const checkedItems = currentArgs.checkedItems || defaultCheckedItems;
-
     const options = [
       { id: "opt1", label: "Apple" },
       { id: "opt2", label: "Banana" },
@@ -143,7 +121,6 @@ export const Default: FormGroupStory = {
       updateArgs({ checkedItems: newCheckedItems });
     };
 
-    // Pass checked values via args
     return (
       <FormGroup
         animation={args.animation}
