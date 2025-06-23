@@ -13,10 +13,10 @@ import {
 
 // Default icon mapping based on severity
 const defaultIconMapping = {
-  success: <CheckCircle className="h-5 w-5" />,
-  info: <AlertCircle className="h-5 w-5" />,
-  warning: <AlertTriangle className="h-5 w-5" />,
-  error: <XCircle className="h-5 w-5" />,
+  success: <CheckCircle className="mt-0.5 h-5 w-5" />,
+  info: <AlertCircle className="mt-0.5 h-5 w-5" />,
+  warning: <AlertTriangle className="mt-0.5 h-5 w-5" />,
+  error: <XCircle className="mt-0.5 h-5 w-5" />,
 };
 
 /**

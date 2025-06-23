@@ -164,19 +164,19 @@ export const CustomIcon: Story = {
 export const WithTitle: Story = {
   render: () => (
     <div className="flex w-[500px] flex-col gap-4">
-      <Alert severity="success">
-        <AlertTitle>Success</AlertTitle>
+      <Alert severity="success" onClose={() => {}}>
         This is a success Alert with an encouraging title.
+        <AlertTitle>Success</AlertTitle>
       </Alert>
-      <Alert severity="info">
+      <Alert severity="info" onClose={() => {}}>
         <AlertTitle>Info</AlertTitle>
         This is an info Alert with an informative title.
       </Alert>
-      <Alert severity="warning">
+      <Alert severity="warning" action={<Button size={"small"}>undo</Button>}>
         <AlertTitle>Warning</AlertTitle>
         This is a warning Alert with a cautious title.
       </Alert>
-      <Alert severity="error">
+      <Alert severity="error" action={<button>undo</button>}>
         <AlertTitle>Error</AlertTitle>
         This is an error Alert with a scary title.
       </Alert>
