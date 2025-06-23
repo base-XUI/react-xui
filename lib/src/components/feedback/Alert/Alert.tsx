@@ -3,20 +3,14 @@ import { cn } from "@/utils/cn";
 import { alertVariants, alertTitleStyles } from "./variants";
 import { type AlertProps, type AlertTitleProps } from "./Alert.types";
 import { adaptPropsForA11y } from "@/utils/a11y";
-import {
-  CheckCircle,
-  AlertCircle,
-  AlertTriangle,
-  XCircle,
-  X,
-} from "lucide-react";
+import { CheckCircle, Info, AlertTriangle, CircleAlert, X } from "lucide-react";
 
 // Default icon mapping based on severity
 const defaultIconMapping = {
   success: <CheckCircle className="mt-0.5 h-5 w-5" />,
-  info: <AlertCircle className="mt-0.5 h-5 w-5" />,
+  info: <Info className="mt-0.5 h-5 w-5" />,
   warning: <AlertTriangle className="mt-0.5 h-5 w-5" />,
-  error: <XCircle className="mt-0.5 h-5 w-5" />,
+  error: <CircleAlert className="mt-0.5 h-5 w-5" />,
 };
 
 /**
@@ -29,6 +23,7 @@ const Alert = <C extends React.ElementType = "div">({
   variant = "default",
   color,
   icon,
+  iconMapping,
   action,
   onClose,
   role = "alert",
@@ -42,6 +37,7 @@ const Alert = <C extends React.ElementType = "div">({
   const renderIcon = () => {
     if (icon === false) return null;
     if (icon) return icon;
+    if (iconMapping && iconMapping[severity]) return iconMapping[severity];
     return defaultIconMapping[severity];
   };
 

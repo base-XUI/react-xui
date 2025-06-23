@@ -22,6 +22,13 @@ export type AlertVariant = "filled" | "outlined" | "default";
 export type AlertColor = "success" | "info" | "warning" | "error";
 
 /**
+ * Icon mapping type for Alert component
+ */
+export type AlertIconMapping = {
+  [key in AlertSeverity]?: React.ReactNode;
+};
+
+/**
  * Base props for the Alert component
  */
 export type AlertBaseProps = {
@@ -47,6 +54,11 @@ export type AlertBaseProps = {
    * Unless provided, the icon is mapped to the value of the severity prop.
    */
   icon?: React.ReactNode | false;
+
+  /**
+   * Override the default icons for different severity levels.
+   */
+  iconMapping?: AlertIconMapping;
 
   /**
    * The action to display. It renders after the message, at the end of the alert.

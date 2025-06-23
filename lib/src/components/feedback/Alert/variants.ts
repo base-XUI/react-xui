@@ -33,7 +33,7 @@ export const alertVariantsConfig = {
 };
 
 export const alertVariants = cva(
-  "flex  gap-2 px-4 py-3 rounded-md transition-colors",
+  "flex  gap-3 px-4 py-3 rounded-md transition-colors",
   {
     variants: alertVariantsConfig.variants,
     compoundVariants: [

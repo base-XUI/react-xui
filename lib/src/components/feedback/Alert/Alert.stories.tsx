@@ -125,86 +125,69 @@ export const ColorOverride: Story = {
 };
 
 // Actions stories
-export const WithCloseButton: Story = {
-  args: {
-    severity: "warning",
-    onClose: fn(),
-    children: "This Alert displays the default close icon.",
-  },
-};
-
-export const WithCustomAction: Story = {
-  args: {
-    severity: "success",
-    action: (
-      <Button variant="text" size="small" color="inherit">
-        UNDO
-      </Button>
-    ),
-    children: "This Alert uses a Button component for its action.",
+export const Actions: Story = {
+  render: () => {
+    return (
+      <div className="flex w-[500px] flex-col gap-4">
+        <Alert severity="warning" onClose={() => {}}>
+          This Alert displays the default close icon.
+        </Alert>
+        <Alert
+          severity="success"
+          action={
+            <Button variant="text" size="small" color="inherit">
+              UNDO
+            </Button>
+          }
+        >
+          This Alert uses a Button component for its action.
+        </Alert>
+      </div>
+    );
   },
 };
 
 // Icons stories
-export const NoIcon: Story = {
-  args: {
-    icon: false,
-    children: "This Alert has no icon.",
-  },
-};
-
-export const CustomIcon: Story = {
-  args: {
-    icon: <span className="text-xl">🚀</span>,
-    children: "This Alert has a custom icon.",
-  },
-};
-
-// Title stories
-export const WithTitle: Story = {
+export const Icons: Story = {
   render: () => (
-    <div className="flex w-[500px] flex-col gap-4">
-      <Alert severity="success" onClose={() => {}}>
-        This is a success Alert with an encouraging title.
-        <AlertTitle>Success</AlertTitle>
+    <div className="flex w-[600px] flex-col gap-4">
+      <Alert severity="success" icon={"😎"}>
+        This success Alert has a custom icon
       </Alert>
-      <Alert severity="info" onClose={() => {}}>
-        <AlertTitle>Info</AlertTitle>
-        This is an info Alert with an informative title.
+      <Alert severity="success" icon={false}>
+        This success Alert has no icon.
       </Alert>
-      <Alert severity="warning" action={<Button size={"small"}>undo</Button>}>
-        <AlertTitle>Warning</AlertTitle>
-        This is a warning Alert with a cautious title.
-      </Alert>
-      <Alert severity="error" action={<button>undo</button>}>
-        <AlertTitle>Error</AlertTitle>
-        This is an error Alert with a scary title.
+      <Alert
+        iconMapping={{
+          success: "🤖",
+          error: "👹",
+        }}
+      >
+        This success Alert uses `iconMapping` to override the default icon.
       </Alert>
     </div>
   ),
 };
 
-// Combined features
-export const CombinedFeatures: Story = {
+// Title stories
+export const Titles: Story = {
   render: () => (
     <div className="flex w-[500px] flex-col gap-4">
-      <Alert
-        severity="success"
-        variant="filled"
-        action={
-          <Button variant="text" size="small" color="inherit">
-            DISMISS
-          </Button>
-        }
-      >
+      <Alert severity="success">
         <AlertTitle>Success</AlertTitle>
-        This Alert combines multiple features: filled variant, title, and custom
-        action.
+        This is a success Alert with an encouraging title.
       </Alert>
-      <Alert severity="error" variant="outlined" onClose={fn()}>
+      <Alert severity="info" onClose={() => {}}>
+        <AlertTitle>Info</AlertTitle>
+        This is an info Alert with an informative title.
+      </Alert>
+      <Alert severity="warning">
+        <AlertTitle>Warning</AlertTitle>
+        This is a warning Alert with a cautious title.
+      </Alert>
+      <Alert severity="error">
         <AlertTitle>Error</AlertTitle>
-        This Alert combines multiple features: outlined variant, title, and
-        close button.
+        This is an error Alert with a scary title.
       </Alert>
     </div>
   ),
