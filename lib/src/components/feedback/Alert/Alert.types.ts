@@ -90,12 +90,30 @@ export type AlertProps<C extends React.ElementType = "div"> =
 export type AlertComponent = PolymorphicComponent<AlertBaseProps, "div">;
 
 /**
+ * Base props for the AlertTitle component
+ */
+export type AlertTitleBaseProps = {
+  /**
+   * The content of the component.
+   */
+  children?: React.ReactNode;
+
+  /**
+   * Additional class name for the component.
+   */
+  className?: string;
+};
+
+/**
  * Props for the AlertTitle component
  */
 export type AlertTitleProps<C extends React.ElementType = "div"> =
-  PolymorphicComponentProp<C, {}>;
+  PolymorphicComponentProp<C, AlertTitleBaseProps>;
 
 /**
  * AlertTitle component type
  */
-export type AlertTitleComponent = PolymorphicComponent<{}, "div">;
+export type AlertTitleComponent = PolymorphicComponent<
+  AlertTitleBaseProps,
+  "div"
+>;
