@@ -48,7 +48,7 @@ const Alert = <C extends React.ElementType = "div">({
       return (
         <button
           type="button"
-          className="ml-auto inline-flex h-6 w-6 items-center justify-center rounded-full p-1 hover:bg-black/10 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+          className="ml-auto inline-flex h-6 w-6 items-center justify-center rounded-full p-1 hover:cursor-pointer hover:bg-black/5"
           onClick={onClose}
           aria-label="Close"
         >
@@ -79,7 +79,7 @@ const Alert = <C extends React.ElementType = "div">({
       {...a11yProps}
     >
       {renderIcon()}
-      <div className="flex-1">{children}</div>
+      <div>{children}</div>
       {renderAction()}
     </Component>
   );

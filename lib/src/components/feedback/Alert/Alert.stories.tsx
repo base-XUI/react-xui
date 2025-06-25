@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { fn } from "@storybook/test";
 import { Alert, AlertTitle } from "./Alert";
 import { alertVariantsConfig } from "./variants";
 import { Button } from "@/components/inputs/Button";
+import { Popcorn } from "lucide-react";
 
 // Extract variant options directly from the config
 const variantOptions = Object.keys(alertVariantsConfig.variants.variant);
@@ -188,6 +188,35 @@ export const Titles: Story = {
       <Alert severity="error">
         <AlertTitle>Error</AlertTitle>
         This is an error Alert with a scary title.
+      </Alert>
+    </div>
+  ),
+};
+export const ShadeCNLike: Story = {
+  render: () => (
+    <div className="flex w-[500px] flex-col gap-4">
+      <Alert severity="success" variant="outlined">
+        <AlertTitle>Success! Your changes have been saved</AlertTitle>
+        This is an alert with icon, title and description.
+      </Alert>
+      <Alert
+        severity="success"
+        variant="outlined"
+        icon={<Popcorn className="h-[20px] w-[20px]" />}
+      >
+        <AlertTitle>
+          This Alert has a title and an icon. No description.
+        </AlertTitle>
+      </Alert>
+
+      <Alert severity="error" variant="outlined">
+        <AlertTitle>Unable to process your payment.</AlertTitle>
+        <p>Please verify your billing information and try again.</p>
+        <ul className="mt-1 list-inside list-disc text-sm">
+          <li>Check your card details</li>
+          <li>Ensure sufficient funds</li>
+          <li>Verify billing address</li>
+        </ul>
       </Alert>
     </div>
   ),
