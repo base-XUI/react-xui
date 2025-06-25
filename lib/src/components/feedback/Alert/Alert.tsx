@@ -33,7 +33,6 @@ const Alert = <C extends React.ElementType = "div">({
 }: AlertProps<C>) => {
   const Component = component || "div";
 
-  // Determine which icon to display
   const renderIcon = () => {
     if (icon === false) return null;
     if (icon) return icon;
@@ -41,7 +40,6 @@ const Alert = <C extends React.ElementType = "div">({
     return defaultIconMapping[severity];
   };
 
-  // Render close button if onClose is provided and no action is specified
   const renderAction = () => {
     if (action) return action;
     if (onClose) {
@@ -59,7 +57,6 @@ const Alert = <C extends React.ElementType = "div">({
     return null;
   };
 
-  // Use a11y utility to handle accessibility attributes
   const a11yProps = adaptPropsForA11y(
     { role, ...rest },
     typeof Component === "string" ? Component : "div",
@@ -85,9 +82,7 @@ const Alert = <C extends React.ElementType = "div">({
   );
 };
 
-/**
- * AlertTitle component for adding a title to an Alert
- */
+
 const AlertTitle = <C extends React.ElementType = "div">({
   component,
   className,
@@ -97,7 +92,6 @@ const AlertTitle = <C extends React.ElementType = "div">({
 }: AlertTitleProps<C>) => {
   const Component = component || "div";
 
-  // Use a11y utility to handle accessibility attributes
   const a11yProps = adaptPropsForA11y(
     { ...rest },
     typeof Component === "string" ? Component : "div",

@@ -1,11 +1,9 @@
 import { cva } from "class-variance-authority";
 
-// Define variant types for better type safety
 type AlertVariant = "filled" | "outlined" | "default";
 
 type AlertSeverity = "success" | "info" | "warning" | "error";
 
-// Configuration object that we can export for use in stories
 export const alertVariantsConfig = {
   variants: {
     variant: {
@@ -77,7 +75,6 @@ export const alertVariants = cva(
         severity: "error",
         className: "border-error/50  text-error",
       },
-      // Filled variant with severity colors
       {
         variant: "filled",
         severity: "success",
@@ -98,7 +95,6 @@ export const alertVariants = cva(
         severity: "error",
         className: "bg-error text-error-foreground",
       },
-      // Color overrides for outlined variant
       {
         variant: "outlined",
         color: "success",
@@ -119,7 +115,6 @@ export const alertVariants = cva(
         color: "error",
         className: "border-error/50 bg-error/5 text-error",
       },
-      // Color overrides for filled variant
       {
         variant: "filled",
         color: "success",
@@ -140,7 +135,6 @@ export const alertVariants = cva(
         color: "error",
         className: "bg-error text-error-foreground",
       },
-      // Color overrides for default variant
       {
         variant: "default",
         color: "success",
@@ -169,5 +163,4 @@ export const alertVariants = cva(
   },
 );
 
-// Alert title styles
 export const alertTitleStyles = "font-medium text-base mb-1";
