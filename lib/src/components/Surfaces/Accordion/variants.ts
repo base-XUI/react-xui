@@ -7,15 +7,15 @@ export const accordionVariantsConfig = {
       true: "mb-0",
     },
 
-    square: { true: "rounded-none shadow px-1",false:"border-b-1" },
+    square: { true: "rounded-none shadow px-1", false: "border-b-1" },
     defaultExpanded: { true: "expanded" },
     expanded: { true: "expanded" },
-    defaultVariants: {
-      defaultExpanded: false,
-      expanded: false,
-      disabled: false,
-      disableGutters: false,
-    },
+  },
+  defaultVariants: {
+    defaultExpanded: false,
+    expanded: false,
+    disabled: false,
+    disableGutters: false,
   },
 };
 export const accordionVariants = cva(

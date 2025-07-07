@@ -48,7 +48,11 @@ export type AccordionBaseProps = {
   /**
    * Additional class name(s) for custom styling.
    */
-  classes?: { root?: string; details?: string; summary?: string };
+  classes?: {
+    root?: string;
+    summary?: { btn?: string; expandIcon?: string; content?: string };
+    details?: string;
+  };
   /**
    * The id of the accordion element.
    */

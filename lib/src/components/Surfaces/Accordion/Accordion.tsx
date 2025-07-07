@@ -30,7 +30,7 @@ const Accordion = <C extends React.ElementType = "div">({
     React.useState(defaultExpanded);
 
   const isOpen = isControlled ? expanded : uncontrolledOpen;
-  // Sync uncontrolledOpen with defaultExpanded if it changes
+  // uncontrolledOpen with defaultExpanded if it changes
   React.useEffect(() => {
     setUncontrolledOpen(defaultExpanded);
   }, [defaultExpanded]);
@@ -39,12 +39,7 @@ const Accordion = <C extends React.ElementType = "div">({
     (event: React.SyntheticEvent) => {
       if (disabled) return;
       if (isControlled) {
-        if (typeof expanded === "string") {
-          // Pass the next expanded value to onChange callback
-          onChange?.(event, expanded);
-        } else {
-          onChange?.(event, !expanded);
-        }
+        onChange?.(event, !expanded);
       } else {
         setUncontrolledOpen((prev) => (onChange?.(event, !prev), !prev));
       }

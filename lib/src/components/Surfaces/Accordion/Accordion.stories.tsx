@@ -4,7 +4,7 @@ import { fn } from "@storybook/test";
 import { Accordion } from "./Accordion";
 import { AccordionSummary } from "./AccordionSummary";
 import { AccordionDetails } from "./AccordionDetails";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ChevronRight } from "lucide-react";
 
 const meta = {
   title: "Surfaces/Accordion",
@@ -89,7 +89,7 @@ const meta = {
     expandIcon: {
       description:
         "The icon element to display as the expand/collapse indicator.",
-      control: "object",
+      control: false,
       table: {
         type: { summary: "node" },
       },
@@ -169,7 +169,7 @@ export const Basic: Story = {
 //expanded Icon variant
 export const ExpandedIcon: Story = {
   args: {
-    expandIcon: <ArrowDown />,
+    expandIcon: <ArrowDown className="stroke-muted-foreground" size={18} />,
   },
 };
 // DefaultExpanded variant
@@ -193,6 +193,7 @@ export const DisableGutters: Story = {
     defaultExpanded: true,
   },
 };
+//controlled state
 export const Controlled: Story = {
   args: { expanded: true },
   parameters: {
@@ -200,12 +201,12 @@ export const Controlled: Story = {
       source: {
         code: `
       const Controlled=(props: typeof args) =>{
-      const [expanded, setExpanded] = React.useState<string | false>(false);
+      const [currentExpanded, setCurrentExpanded] = React.useState<string | false>(false);
 
       const handleChange =
         (panel: string) =>
         (event: React.SyntheticEvent, isExpanded: boolean) => {
-          setExpanded(
+          setCurrentExpanded(
             () => (
               props?.onChange?.(event, isExpanded), isExpanded ? panel : false
             ),
@@ -214,7 +215,7 @@ export const Controlled: Story = {
 
       return Array.from([1, 2, 3], (index) => (
         <Accordion
-          expanded={expanded === panel{index}}
+          expanded={currentExpanded === panel{index}}
           onChange={handleChange(panel{index})}
         >
           <AccordionSummary
@@ -236,46 +237,6 @@ export const Controlled: Story = {
   },
   render: () => <ControlledComponent />,
 };
-const ControlledComponent = (
-  props: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-) => {
-  // Controlled component to manage the expanded state
-  const [expanded, setExpanded] = React.useState<string | false>(false);
-  // Function to handle the change of expanded state
-  const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-      setExpanded(() => {
-        props?.onChange?.(event, isExpanded);
-        return isExpanded ? panel : false;
-      });
-    };
-
-  return (
-    <div className="w-100 max-w-xs">
-      {Array.from([1, 2, 3], (index) => {
-        const panel = `panel${index}`;
-        return (
-          <Accordion
-            key={panel}
-            expanded={expanded === panel}
-            onChange={handleChange(panel)}
-            {...props} // Spread the props to allow for custom classes, slots, etc.
-          >
-            <AccordionSummary
-              aria-controls={`${panel}-content`}
-              id={`${panel}-summary`}
-            >
-              Accordion{index}
-            </AccordionSummary>
-            <AccordionDetails>
-              this is content of accordion {index}
-            </AccordionDetails>
-          </Accordion>
-        );
-      })}
-    </div>
-  );
-};
 
 // Squared variant
 export const Squared: Story = {
@@ -288,4 +249,116 @@ export const ChangingHeadingLevel: Story = {
   args: {
     slots: { heading: { component: "h4" } },
   },
+};
+// Customization Accordion
+export const Customization: Story = {
+  args: {
+    expandIcon: <ChevronRight className="stroke-blue-400" size={18} />,
+    classes: {
+      root: "",
+      summary: {
+        btn: "flex-row-reverse hover:bg-gray-50 rounded ",
+        expandIcon: "",
+        content: "text-blue-500",
+      },
+      details: "text-gray-700",
+    },
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+        const args = {
+      expandIcon: <ChevronRight className="stroke-blue-400" size={18} />,
+      classes: {
+        root: "",
+        summary: {
+          btn: "flex-row-reverse hover:bg-gray-50 rounded ",
+          expandIcon: "",
+          content: "text-blue-500",
+        },
+        details: "text-gray-700",
+      },
+    };
+
+  const Controlled=(props: typeof args) =>{
+    const [currentExpanded, setCurrentExpanded] = React.useState<string | false>(false);
+
+    const handleChange =
+      (panel: string) =>
+      (event: React.SyntheticEvent, isExpanded: boolean) => {
+        setCurrentExpanded(
+          () => (
+            props?.onChange?.(event, isExpanded), isExpanded ? panel : false
+          ),
+        );
+      };
+
+    return Array.from([1, 2, 3], (index) => (
+    <Accordion
+      expanded={currentExpanded === panel{index}}
+      onChange={handleChange(panel{index})}
+      classes={props.classes}
+    >
+      <AccordionSummary
+        aria-controls={panel{index}-content}
+        id={panel{index}-summary}
+        expandIcon={props.expandIcon}
+
+      >
+        Accordion{index}
+      </AccordionSummary>
+      <AccordionDetails>
+        this is content of accordion {index}
+      </AccordionDetails>
+    </Accordion>
+  ));
+    }`,
+        language: "tsx",
+        type: "code",
+      },
+    },
+  },
+  render: (args) => <ControlledComponent {...args} />,
+};
+const ControlledComponent = (
+  props: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+) => {
+  // Controlled component to manage the expanded state
+  const [currentExpanded, setCurrentExpanded] = React.useState<string | false>(
+    false,
+  );
+  // Function to handle the change of expanded state
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      props?.onChange?.(event, isExpanded);
+      setCurrentExpanded(isExpanded ? panel : false);
+    };
+
+  return (
+    <div className="w-100 max-w-xs">
+      {Array.from([1, 2, 3], (index) => {
+        const panel = `panel${index}`;
+        return (
+          <Accordion
+            key={panel}
+            expanded={currentExpanded === panel}
+            onChange={handleChange(panel)}
+            classes={props.classes}
+          >
+            <AccordionSummary
+              aria-controls={`${panel}-content`}
+              id={`${panel}-summary`}
+              expandIcon={props.expandIcon}
+            >
+              Accordion{index}
+            </AccordionSummary>
+            <AccordionDetails>
+              this is content of accordion {index}
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
+    </div>
+  );
 };

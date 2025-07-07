@@ -26,8 +26,17 @@ describe("Accordion component", () => {
     );
     cy.contains("Details").should("be.visible");
   });
-  //test when expanded (controlled)
-  it("respects expanded prop (controlled)", () => {
+  //test when expanded (controlled) and custom classes
+  it("respects expanded prop (controlled) and applies custom classes", () => {
+    const classes = {
+      root: "custom-root-class",
+      summary: {
+        btn: "custom-button-class",
+        expandIcon: "custom-icon-class",
+        content: "custom-content-class",
+      },
+      details: "custom-details-class",
+    };
     const ControlledAccordions = () => {
       const [expanded, setExpanded] = React.useState<string | false>(false);
       const handleChange =
@@ -41,6 +50,7 @@ describe("Accordion component", () => {
             id="panel1"
             expanded={expanded === "panel1"}
             onChange={handleChange("panel1")}
+            classes={classes}
           >
             <AccordionSummary id="panel1">Panel 1</AccordionSummary>
             <AccordionDetails id="panel1">Details 1</AccordionDetails>
@@ -61,6 +71,8 @@ describe("Accordion component", () => {
     cy.get("button").contains("Panel 1").click();
     cy.contains("Details 1").should("be.visible");
     cy.contains("Details 2").should("not.be.visible");
+    cy.get("div").should("have.class", "custom-root-class");
+    cy.get("button").should("have.class", "custom-button-class");
   });
   //test disabled
   it("does not open details when disabled", () => {
@@ -74,7 +86,7 @@ describe("Accordion component", () => {
     cy.contains("Details").should("not.be.visible");
   });
   //test when disableGutters and remove margin
-  it("applies disableGutters and square props", () => {
+  it("applies disableGutters and remove margin", () => {
     cy.mount(
       <Accordion id="a5" disableGutters square>
         <AccordionSummary id="a5">Summary</AccordionSummary>
@@ -119,5 +131,20 @@ describe("Accordion component", () => {
       </Accordion>,
     );
     cy.get("h2").contains("Summary").should("exist");
+  });
+  // Test expand icon rotation
+  it("rotates expand icon when expanded", () => {
+    cy.mount(
+      <Accordion id="a8" slots={{ heading: { component: "h2" } }}>
+        <AccordionSummary id="a8">Summary</AccordionSummary>
+        <AccordionDetails id="a8">Details</AccordionDetails>
+      </Accordion>,
+    );
+    // Check initial state (not rotated)
+    cy.get("span").should("not.have.class", "rotate-180");
+    // Click to expand
+    cy.get("button").click();
+    // Check rotated state
+    cy.get("span").should("have.class", "rotate-180");
   });
 });

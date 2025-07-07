@@ -14,11 +14,20 @@ export const AccordionSummary = <C extends React.ElementType = "h3">({
 }: AccordionProps<C>) => {
   //heading of summary
   const Heading = slots?.heading?.component || "h3";
+  // summary btn style
   const summaryClass = cn(
-    "flex w-full justify-between px-1 py-3 text-left text-sm font-semibold transition-all",
+    "flex items-center w-full px-1 py-3 text-left text-sm font-semibold transition-all",
     disabled ? "cursor-default opacity-50" : "cursor-pointer",
-    classes?.summary,
+    classes?.summary?.btn || "",
   );
+  //expand icon style
+  const expandIconClass = cn(
+    "transition-transform",
+    expanded ? "rotate-180" : "",
+    classes?.summary?.expandIcon || "",
+  );
+  //content of summary style
+  const contentClass = cn("flex-1", classes?.summary?.content || "");
   return React.createElement(
     Heading,
     {},
@@ -30,10 +39,8 @@ export const AccordionSummary = <C extends React.ElementType = "h3">({
       aria-controls={`${id}-details`}
       id={`${id}-summary`}
     >
-      <span> {children}</span>
-      <span className={`transition-transform ${expanded ? "rotate-180" : ""}`}>
-        {expandIcon}
-      </span>
+      <span className={contentClass}> {children}</span>
+      <span className={expandIconClass}>{expandIcon}</span>
     </button>,
   );
 };
