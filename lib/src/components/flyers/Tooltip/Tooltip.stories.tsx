@@ -9,7 +9,7 @@ const colorOptions = Object.keys(tooltipVariantsConfig.variants.color);
 type PlacementOption = keyof typeof tooltipVariantsConfig.variants.placement;
 
 const meta: Meta<typeof Tooltip> = {
-  title: "Inputs/Tooltip",
+  title: "Flyers/Tooltip",
   component: Tooltip,
   parameters: {
     layout: "centered",
