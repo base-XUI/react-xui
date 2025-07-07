@@ -95,7 +95,14 @@
     }
   }
 }
-
+.accordion{
+  display: block;
+  animation:  accordion-down;
+}
+.accordion-up{
+  display: none;
+  animation:  accordion-up;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;
