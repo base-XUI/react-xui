@@ -84,10 +84,10 @@ export const tooltipVariants = cva(
       { arrow: true, placement: "top-end", className: "before:bottom-[-4px] before:right-4" },
       { arrow: true, placement: "bottom-start", className: "before:top-[-4px] before:left-4" },
       { arrow: true, placement: "bottom-end", className: "before:top-[-4px] before:right-4" },
-      { arrow: true, placement: "left-start", className: "before:right-[-4px] before:top-4" },
-      { arrow: true, placement: "left-end", className: "before:right-[-4px] before:bottom-4" },
-      { arrow: true, placement: "right-start", className: "before:left-[-4px] before:top-4" },
-      { arrow: true, placement: "right-end", className: "before:left-[-4px] before:bottom-4" },
+      { arrow: true, placement: "left-start", className: "before:right-[-4px] before:bottom-4" },
+      { arrow: true, placement: "left-end", className: "before:right-[-4px] before:top-4" },
+      { arrow: true, placement: "right-start", className: "before:left-[-4px] before:bottom-4" },
+      { arrow: true, placement: "right-end", className: "before:left-[-4px] before:top-4" },
     ],
   }
 );
