@@ -3,7 +3,7 @@ import { TooltipProps, TooltipComponent } from "./Tooltip.types";
 import { tooltipVariants } from "./variants";
 import { cn } from "@/utils/cn";
 
-const TooltipInner = <C extends React.ElementType = "span">(
+const TooltipInner = <C extends React.ElementType = "div">(
   props: TooltipProps<C>,
   ref: React.Ref<Element>
 ) => {
@@ -180,7 +180,7 @@ const TooltipInner = <C extends React.ElementType = "span">(
           data-placement={placement}
           aria-live={disableInteractive ? "polite" : undefined}
           className={cn(
-            "p-[5px] whitespace-nowrap",
+            "p-[5px] ",
             tooltipVariants({ arrow, placement, disableInteractive, color })
           )}
           style={followCursorStyle}

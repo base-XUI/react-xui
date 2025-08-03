@@ -130,9 +130,6 @@ describe("Tooltip Component", () => {
     "left-end",
     "right-start",
     "right-end",
-    "auto",
-    "auto-start",
-    "auto-end",
   ];
 
   placements.forEach((placement) => {

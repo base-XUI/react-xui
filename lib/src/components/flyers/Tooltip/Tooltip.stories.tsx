@@ -165,17 +165,20 @@ export const AllPlacements: Story = {
     disabled: false,
   },
   render: (args) => (
-    <div className="grid grid-cols-3 gap-12">
+    <div className="grid grid-cols-4 gap-8 p-16">
       {placementOptions.map((placeOption) => (
-        <Tooltip
-          {...args}
-          key={placeOption}
-          title={`Placement: ${placeOption}`}
-          placement={placeOption as PlacementOption}
-          component="span"
-        >
-          <span className="rounded border p-2">{placeOption}</span>
-        </Tooltip>
+        <div key={placeOption} className="flex justify-center">
+          <Tooltip
+            {...args}
+            title={`Placement: ${placeOption}`}
+            placement={placeOption as PlacementOption}
+            component="button"
+          >
+            <button className="rounded border border-gray-300 px-3 py-2 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors text-sm min-w-[100px]">
+              {placeOption}
+            </button>
+          </Tooltip>
+        </div>
       ))}
     </div>
   ),

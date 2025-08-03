@@ -1,9 +1,7 @@
 import { cva } from "class-variance-authority";
 
 export type TooltipPlacement =
-  | "auto-end"
-  | "auto-start"
-  | "auto"
+
   | "bottom-end"
   | "bottom-start"
   | "bottom"
@@ -38,24 +36,22 @@ export const tooltipVariantsConfig = {
       info: "bg-info text-info-foreground",
     },
     placement: {
-      auto: "",
-      "auto-start": "",
-      "auto-end": "",
-      top: "-top-3 -translate-y-full left-1/2 -translate-x-1/2",
-      bottom: "top-full mt-2 left-1/2 -translate-x-1/2",
+
+      top: "-top-3 left-1/2 -translate-x-1/2 -translate-y-full   ",
+      bottom: "mt-3 left-1/2 -translate-x-1/2",
       left: "-left-2 -translate-x-full top-1/2 -translate-y-1/2",
       right: "left-full ml-2 top-1/2 -translate-y-1/2",
       "top-start": "-top-3 -translate-y-full left-0",
       "top-end": "-top-3 -translate-y-full right-0",
-      "bottom-start": "top-full mt-2 left-0",
-      "bottom-end": "top-full mt-2 right-0",
-      "left-start": "-left-2 -translate-x-full top-0",
-      "left-end": "-left-2 -translate-x-full bottom-0",
-      "right-start": "left-full ml-2 top-0",
-      "right-end": "left-full ml-2 bottom-0",
+      "bottom-start": "mt-2 left-0",
+      "bottom-end": " mt-2 right-0",
+      "left-start": "-left-2 -translate-x-full bottom-0 -translate-y-1/4",
+      "left-end": "-left-2 -translate-x-full bottom-0 translate-y-1/3",
+      "right-start": "left-full translate-x-2 bottom-1/4",
+      "right-end": "left-full translate-x-2 top-1/4 ",
     },
     arrow: {
-      true: "before:content-[''] before:absolute before:w-2 before:h-2 before:rotate-45 before:bg-inherit",
+      true: "before:content-[''] before:absolute before:w-2 before:h-2 before:rotate-45 before:bg-inherit ",
       false: "",
     },
     disableInteractive: {
@@ -72,7 +68,7 @@ export const tooltipVariantsConfig = {
 };
 
 export const tooltipVariants = cva(
-  "z-50 px-2 text-sm rounded shadow-md absolute transition-opacity duration-200",
+  "z-50 px-2 text-sm rounded shadow-md absolute transition-opacity duration-200 w-max max-h-[calc(50vh-2rem)] max-w-[calc(100vw-2rem)] break-words whitespace-normal ",
   {
     ...tooltipVariantsConfig,
     compoundVariants: [
@@ -85,7 +81,7 @@ export const tooltipVariants = cva(
       { arrow: true, placement: "bottom-start", className: "before:top-[-4px] before:left-4" },
       { arrow: true, placement: "bottom-end", className: "before:top-[-4px] before:right-4" },
       { arrow: true, placement: "left-start", className: "before:right-[-4px] before:bottom-4" },
-      { arrow: true, placement: "left-end", className: "before:right-[-4px] before:top-4" },
+      { arrow: true, placement: "left-end", className: "before:right-[-4px] before:top-3" },
       { arrow: true, placement: "right-start", className: "before:left-[-4px] before:bottom-4" },
       { arrow: true, placement: "right-end", className: "before:left-[-4px] before:top-4" },
     ],
