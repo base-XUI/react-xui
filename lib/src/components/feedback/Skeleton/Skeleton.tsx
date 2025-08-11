@@ -16,13 +16,14 @@ export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
       style,
       ...other
     },
-    ref
+    ref,
   ) => {
     // If children are provided, we can use them to infer dimensions
     const hasChildren = Boolean(children);
 
     // Determine the animation class based on the animation prop
-    const animationClass = animation !== false ? skeletonAnimationVariants[animation] : "";
+    const animationClass =
+      animation !== false ? skeletonAnimationVariants[animation] : "";
 
     // Combine all styles
     const combinedStyles = {
@@ -39,7 +40,7 @@ export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
           className={cn(
             skeletonVariants({ variant }),
             animationClass,
-            className
+            className,
           )}
           style={combinedStyles}
           {...other}
@@ -53,16 +54,12 @@ export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
     return (
       <Component
         ref={ref}
-        className={cn(
-          skeletonVariants({ variant }),
-          animationClass,
-          className
-        )}
+        className={cn(skeletonVariants({ variant }), animationClass, className)}
         style={combinedStyles}
         {...other}
       />
     );
-  }
+  },
 );
 
 Skeleton.displayName = "Skeleton";
